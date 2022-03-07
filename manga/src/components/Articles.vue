@@ -1,14 +1,6 @@
 <template>
-  <div class="container">
-    <div v-for="article in articles" class="article" :key="article">
-      <h4>{{ article.about }}</h4>
-      <p>{{ article.price }} $</p>
-      <v-btn @click="getArticle(article.about, article.price)"
-        >Ajouter au panier</v-btn
-      >
-    </div>
-  </div>
-  <h2 v-if="recapArticle.length > 0">
+  <ArticleChoice @getNewArticle="getArticle" :articles="articles"/>
+  <h2 v-if="recapArticle.length > 0" >
     Article ajouter :
     <strong v-for="article in recapArticle" :key="article"
       >{{ article.about
@@ -40,16 +32,16 @@
     </div>
   </div>
 
-  <div class="createArticle">
-    <h3>Creer un article !</h3>
-    <input type="text" v-model="newName" required />
-    <input type="number" v-model="newPrice" required />
-    <v-btn @click="createArticle()">Creer</v-btn>
-  </div>
+  <CreateArticle @createNewArticle="createArticle" :newArticleName="newName" :newArticlePrice="newPrice" />
 </template>
 
 <script>
+import CreateArticle from "../components/CreateArticle.vue";
+import ArticleChoice from "../components/ArticleChoice.vue";
 export default {
+  components: {
+    CreateArticle, ArticleChoice
+  },
   data() {
     let id = 0;
     return {
@@ -63,7 +55,7 @@ export default {
       recapArticle: [],
       totalPrice: 0,
       newName: "Micro",
-      newPrice: 50,
+      newPrice: 60,
       numberOfArticle: 0,
     };
   },
@@ -89,19 +81,19 @@ export default {
     },
     deleteArticle: function (id, price, numberLeft) {
       if (numberLeft > 1) {
-        const article = this.recapArticle.find(article => article.id == id)
-        article.number--
+        const article = this.recapArticle.find((article) => article.id == id);
+        article.number--;
       } else {
         //removing article from DOM
         this.recapArticle = this.recapArticle.filter((arr) => arr.id != id);
       }
       this.totalPrice -= Number(price);
     },
-    createArticle: function () {
+    createArticle: function (name, price) {
       this.articles.push({
         id: this.secondId++,
-        about: this.newName,
-        price: this.newPrice,
+        about: name,
+        price: price,
         number: 0,
       });
     },
@@ -132,12 +124,7 @@ export default {
   border-radius: 10px;
 }
 
-.createArticle {
-  margin: auto;
-  width: min-content;
-  padding: 10px;
-  border: 2px solid black;
-}
+
 .floatTopRight {
   display: inline-block;
   right: 0;

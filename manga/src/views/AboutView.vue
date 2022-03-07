@@ -1,17 +1,16 @@
 <template>
   <div>
-    <WelcomeItem/>
+    <createArticle />
   </div>
 </template>
 
 <script>
-import WelcomeItem from '../components/WelcomeItem.vue';
+import CreateArticle from '../components/CreateArticle.vue';
 
 export default {
-  name: 'Home',
-  
+  name: 'about',
   components: {
-    WelcomeItem,
+    CreateArticle,
   },
 };
 </script>
