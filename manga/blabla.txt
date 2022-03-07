@@ -1,0 +1,21 @@
+penser UI (inferface utilisateur)
+6 points clé pour avoir une interface utilisateur clean
+Visibilité : nécessiter d’optimiser le référencement en amont du projet de conception
+
+Accessibilité : réaliser un site compatible à l’ensemble des différents supports 
+techniques et terminaux mobiles et tactiles
+
+Attractivité : faire le choix d’un design conforme 
+à une ergonomie agréable, utile, intuitive et pratique
+
+Facilité : l’ergonomie doit faciliter la recherche de l’information
+
+Crédibilité : vitrine de la marque, le site doit rassurer 
+et convaincre les internautes
+
+Efficacité : les internautes doivent sans difficultés 
+et facilement trouver les réponses à leurs questions
+
+rendre compatible sur tout support (mobile, desktop, tablet)
+
+être à jour avec les critères de style (material design friendly)
