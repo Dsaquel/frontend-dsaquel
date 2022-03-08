@@ -9,6 +9,7 @@
 
 <script>
 export default {
+  name:"CreateArticle",
   inheritAttrs: false,
   methods: {
     createNewArticle: function () {

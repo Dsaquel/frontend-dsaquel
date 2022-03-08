@@ -1,46 +1,28 @@
 <template>
-  <ArticleChoice @getNewArticle="getArticle" :articles="articles"/>
-  <h2 v-if="recapArticle.length > 0" >
-    Article ajouter :
-    <strong v-for="article in recapArticle" :key="article"
-      >{{ article.about
-      }}<strong v-if="article.number !== 0">({{ article.number }})</strong>,
-    </strong>
-  </h2>
-  <h1>{{ totalPrice }} e</h1>
-  <div v-if="recapArticle.length > 0" class="container">
-    <div
-      class="article"
-      v-for="articleAdded in recapArticle"
-      :key="articleAdded"
-    >
-      <h4>{{ articleAdded.about }}</h4>
-      <small class="floatTopRight"> quantité : {{ articleAdded.number }}</small>
-      <p>{{ articleAdded.price }} $</p>
-      <small v-show="false">{{ articleAdded.id }}</small>
-      <v-btn
-        @click="
-          deleteArticle(
-            articleAdded.id,
-            articleAdded.price,
-            articleAdded.number
-          )
-        "
-      >
-        Retirer article
-      </v-btn>
-    </div>
-  </div>
-
-  <CreateArticle @createNewArticle="createArticle" :newArticleName="newName" :newArticlePrice="newPrice" />
+  <ArticleChoice @getNewArticle="getArticle" :articles="articles" />
+  <RecapTextArticles :recapArticle="recapArticle" :totalPrice="totalPrice" />
+  <RecapCardArticle
+    :recapArticle="recapArticle"
+    @deleteArticle="deleteArticle"
+  />
+  <CreateArticle
+    @createNewArticle="createArticle"
+    :newArticleName="newName"
+    :newArticlePrice="newPrice"
+  />
 </template>
 
 <script>
 import CreateArticle from "../components/CreateArticle.vue";
 import ArticleChoice from "../components/ArticleChoice.vue";
+import RecapTextArticles from "../components/RecapTextArticles.vue";
+import RecapCardArticle from "../components/RecapCardArticle.vue";
 export default {
   components: {
-    CreateArticle, ArticleChoice
+    CreateArticle,
+    ArticleChoice,
+    RecapTextArticles,
+    RecapCardArticle,
   },
   data() {
     let id = 0;
@@ -123,7 +105,6 @@ export default {
   margin: 5px;
   border-radius: 10px;
 }
-
 
 .floatTopRight {
   display: inline-block;
