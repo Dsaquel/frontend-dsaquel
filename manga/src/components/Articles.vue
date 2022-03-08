@@ -17,12 +17,15 @@ import CreateArticle from "../components/CreateArticle.vue";
 import ArticleChoice from "../components/ArticleChoice.vue";
 import RecapTextArticles from "../components/RecapTextArticles.vue";
 import RecapCardArticle from "../components/RecapCardArticle.vue";
+import store from "../store/index.js";
+import { mapState } from "vuex";
 export default {
   components: {
     CreateArticle,
     ArticleChoice,
     RecapTextArticles,
     RecapCardArticle,
+    store,
   },
   data() {
     let id = 0;
@@ -33,47 +36,37 @@ export default {
         { id: id++, about: "babybel x20", price: 4, number: 1 },
         { id: id++, about: "Ordinateur puissant", price: 1200, number: 1 },
       ],
-      secondId: 0,
-      recapArticle: [],
-      totalPrice: 0,
-      newName: "Micro",
-      newPrice: 60,
-      numberOfArticle: 0,
     };
   },
   watch: {
     "recapArticle.length": function () {},
   },
+  computed: {
+    ...mapState([
+      "secondId",
+      "recapArticle",
+      "totalPrice",
+      "newName",
+      "newPrice",
+      "numberOfArticle",
+    ]),
+  },
   methods: {
     getArticle: function (name, price) {
-      let isNameMatched = this.recapArticle.find(function (article) {
-        return article.about === name;
-      });
-      if (isNameMatched) {
-        isNameMatched.number++;
-      } else {
-        this.recapArticle.push({
-          id: this.secondId++,
-          about: name,
-          price: price,
-          number: 1,
-        });
-      }
-      this.totalPrice += Number(price);
+      store.commit('getArticle', {name, price})
     },
     deleteArticle: function (id, price, numberLeft) {
       if (numberLeft > 1) {
-        const article = this.recapArticle.find((article) => article.id == id);
+        const article = recapArticle.find((article) => article.id == id);
         article.number--;
       } else {
-        //removing article from DOM
-        this.recapArticle = this.recapArticle.filter((arr) => arr.id != id);
+        recapArticle = recapArticle.filter((arr) => arr.id != id);
       }
-      this.totalPrice -= Number(price);
+      totalPrice -= Number(price);
     },
     createArticle: function (name, price) {
       this.articles.push({
-        id: this.secondId++,
+        id: secondId++,
         about: name,
         price: price,
         number: 0,
@@ -105,12 +98,10 @@ export default {
   margin: 5px;
   border-radius: 10px;
 }
-
 .floatTopRight {
   display: inline-block;
   right: 0;
 }
-
 h1 {
   text-align: center;
 }
@@ -120,7 +111,6 @@ input[type="text"] {
   margin: 5px;
   padding: 4px;
 }
-
 input:focus {
   color: #fff;
   background-color: blue;

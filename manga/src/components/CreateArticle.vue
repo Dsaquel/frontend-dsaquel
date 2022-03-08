@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name:"CreateArticle",
+  name: "CreateArticle",
   inheritAttrs: false,
   methods: {
     createNewArticle: function () {
@@ -40,4 +40,3 @@ export default {
   border: 2px solid black;
 }
 </style>
-

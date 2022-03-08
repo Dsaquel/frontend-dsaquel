@@ -1,16 +1,13 @@
 <template>
-  <div>
-    <createArticle />
-  </div>
+  <h2>toi</h2>
 </template>
 
 <script>
-import CreateArticle from '../components/CreateArticle.vue';
 
 export default {
   name: 'about',
   components: {
-    CreateArticle,
+        
   },
 };
 </script>
