@@ -26,8 +26,20 @@ export default createStore({
           number: 1,
         });
       }
-      state.totalPrice += price;
+      state.totalPrice += Number(price);
     },
+    deleteArticle: function (state, {id, price, numberLeft}) {
+      if (numberLeft > 1) {
+        const article = state.recapArticle.find((article) => article.id == id);
+        article.number--;
+      } else {
+        state.recapArticle = state.recapArticle.filter((arr) => arr.id != id);
+      }
+      state.totalPrice -= Number(price);
+    },
+    getLastId : function () {
+      return store.secondId
+    }
   },
   actions: {
   },

@@ -39,7 +39,9 @@ export default {
     };
   },
   watch: {
-    "recapArticle.length": function () {},
+    "recapArticle.length": function () {
+      
+    },
   },
   computed: {
     ...mapState([
@@ -56,17 +58,11 @@ export default {
       store.commit('getArticle', {name, price})
     },
     deleteArticle: function (id, price, numberLeft) {
-      if (numberLeft > 1) {
-        const article = recapArticle.find((article) => article.id == id);
-        article.number--;
-      } else {
-        recapArticle = recapArticle.filter((arr) => arr.id != id);
-      }
-      totalPrice -= Number(price);
+      store.commit('deleteArticle', {id, price, numberLeft})
     },
     createArticle: function (name, price) {
       this.articles.push({
-        id: secondId++,
+        id: function(){store.commit('getLastId')},
         about: name,
         price: price,
         number: 0,
