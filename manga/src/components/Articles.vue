@@ -1,10 +1,7 @@
 <template>
   <ArticleChoice @getNewArticle="getArticle" :articles="articles" />
   <RecapTextArticles :recapArticle="recapArticle" :totalPrice="totalPrice" />
-  <RecapCardArticle
-    :recapArticle="recapArticle"
-    @deleteArticle="deleteArticle"
-  />
+
   <CreateArticle
     @createNewArticle="createArticle"
     :newArticleName="newName"
@@ -16,7 +13,6 @@
 import CreateArticle from "../components/CreateArticle.vue";
 import ArticleChoice from "../components/ArticleChoice.vue";
 import RecapTextArticles from "../components/RecapTextArticles.vue";
-import RecapCardArticle from "../components/RecapCardArticle.vue";
 import store from "../store/index.js";
 import { mapState } from "vuex";
 export default {
@@ -24,7 +20,6 @@ export default {
     CreateArticle,
     ArticleChoice,
     RecapTextArticles,
-    RecapCardArticle,
     store,
   },
   data() {
@@ -39,9 +34,7 @@ export default {
     };
   },
   watch: {
-    "recapArticle.length": function () {
-      
-    },
+    "recapArticle.length": function () {},
   },
   computed: {
     ...mapState([
@@ -55,14 +48,13 @@ export default {
   },
   methods: {
     getArticle: function (name, price) {
-      store.commit('getArticle', {name, price})
-    },
-    deleteArticle: function (id, price, numberLeft) {
-      store.commit('deleteArticle', {id, price, numberLeft})
+      store.commit("getArticle", { name, price });
     },
     createArticle: function (name, price) {
       this.articles.push({
-        id: function(){store.commit('getLastId')},
+        id: function () {
+          store.commit("getLastId");
+        },
         about: name,
         price: price,
         number: 0,

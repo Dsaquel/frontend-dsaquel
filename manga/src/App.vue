@@ -2,7 +2,7 @@
   <v-app>
     <v-main>
       <router-link to="/">Home</router-link> |
-      <router-link to="/about">about</router-link>
+      <router-link to="/panier">mon panier</router-link>
       <router-view />
     </v-main>
   </v-app>
