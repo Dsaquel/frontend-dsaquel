@@ -3,10 +3,10 @@
     :recapArticle="recapArticle"
     @deleteArticle="deleteArticle"
   />
+  
 </template>
 
 <script>
-import RecapTextArticles from "../components/RecapTextArticles.vue";
 import RecapCardArticle from "../components/RecapCardArticle.vue";
 import store from "../store/index.js";
 import { mapState } from "vuex";
@@ -14,13 +14,12 @@ import { mapState } from "vuex";
 export default {
   name: "about",
   components: {
-    RecapTextArticles,
     RecapCardArticle,
   },
   methods: {
-    deleteArticle : function (id, price, number) {
-      store.commit('deleteArticle', {id, price, number})
-    }
+    deleteArticle: function (id, price, numberLeft) {
+      store.commit("deleteArticle", { id, price, numberLeft });
+    },
   },
   computed: {
     ...mapState([

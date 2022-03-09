@@ -1,7 +1,9 @@
-import { createStore } from 'vuex'
+import {
+  createStore
+} from 'vuex'
 
 export default createStore({
-  state: { 
+  state: {
     secondId: 0,
     recapArticle: [],
     totalPrice: 0,
@@ -10,9 +12,15 @@ export default createStore({
     numberOfArticle: 0,
   },
   getters: {
+    getLastId: function () {
+      return store.secondId
+    }
   },
   mutations: {
-    getArticle: function (state ,{name, price}) {
+    getArticle: function (state, {
+      name,
+      price
+    }) {
       let isNameMatched = state.recapArticle.find(function (article) {
         return article.about === name;
       });
@@ -28,7 +36,11 @@ export default createStore({
       }
       state.totalPrice += Number(price);
     },
-    deleteArticle: function (state, {id, price, numberLeft}) {
+    deleteArticle: function (state, {
+      id,
+      price,
+      numberLeft
+    }) {
       if (numberLeft > 1) {
         const article = state.recapArticle.find((article) => article.id == id);
         article.number--;
@@ -37,12 +49,8 @@ export default createStore({
       }
       state.totalPrice -= Number(price);
     },
-    getLastId : function () {
-      return store.secondId
-    }
+    
   },
-  actions: {
-  },
-  modules: {
-  }
+  actions: {},
+  modules: {}
 })

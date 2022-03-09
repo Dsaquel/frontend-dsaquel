@@ -53,7 +53,7 @@ export default {
     createArticle: function (name, price) {
       this.articles.push({
         id: function () {
-          store.commit("getLastId");
+          store.getters("getLastId");
         },
         about: name,
         price: price,
