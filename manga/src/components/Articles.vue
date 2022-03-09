@@ -7,7 +7,7 @@
   <TotalPrice
     ><template :totalPrice="totalPrice" v-if="totalPrice > 0" v-slot:totalPrice>
       <div class="center">
-        <h1>{{ totalPrice }} euro</h1>
+        <h1>montant: {{ totalPrice }} $</h1>
         <router-link to="/panier">Consulter le panier</router-link>
       </div>
     </template>
