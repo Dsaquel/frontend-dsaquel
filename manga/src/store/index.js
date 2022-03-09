@@ -10,31 +10,40 @@ export default createStore({
     newName: "Micro",
     newPrice: 60,
     numberOfArticle: 0,
+    budget: null,
+    error: false,
   },
   getters: {
     getLastId: function () {
       return store.secondId
-    }
+    },
   },
   mutations: {
     getArticle: function (state, {
       name,
       price
     }) {
-      let isNameMatched = state.recapArticle.find(function (article) {
-        return article.about === name;
-      });
-      if (isNameMatched) {
-        isNameMatched.number++;
-      } else {
-        state.recapArticle.push({
-          id: state.secondId++,
-          about: name,
-          price: price,
-          number: 1,
+      if (state.budget - price >= 0) {
+        state.error = false
+        let isNameMatched = state.recapArticle.find(function (article) {
+          return article.about === name;
         });
+        if (isNameMatched) {
+          isNameMatched.number++;
+        } else if (!isNameMatched) {
+          state.recapArticle.push({
+            id: state.secondId++,
+            about: name,
+            price: price,
+            number: 1,
+          });
+        }
+        state.totalPrice += Number(price);
+        state.budget -= Number(price);
+        console.log(state.error)
+      } else {
+        return state.error = true
       }
-      state.totalPrice += Number(price);
     },
     deleteArticle: function (state, {
       id,
@@ -48,9 +57,13 @@ export default createStore({
         state.recapArticle = state.recapArticle.filter((arr) => arr.id != id);
       }
       state.totalPrice -= Number(price);
+      state.budget += Number(price);
     },
-    
+    newBudget: (store, budget) => {
+      store.budget = budget;
+    }
   },
-  actions: {},
+  actions: {
+  },
   modules: {}
 })

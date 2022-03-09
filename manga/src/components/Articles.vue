@@ -1,8 +1,11 @@
 <template>
   <ArticleChoice @getNewArticle="getArticle" :articles="articles" />
   <RecapTextArticles :recapArticle="recapArticle" :totalPrice="totalPrice" />
-  <TotalPrice :totalPrice="totalPrice"
-    ><template v-if="totalPrice > 0" v-slot:totalPrice>
+  <h3 class="error" v-if="error">
+    Erreur de budget, veuillez augmenté votre budget pour ajouter l'article
+  </h3>
+  <TotalPrice
+    ><template :totalPrice="totalPrice" v-if="totalPrice > 0" v-slot:totalPrice>
       <div class="center">
         <h1>{{ totalPrice }} euro</h1>
         <router-link to="/panier">Consulter le panier</router-link>
@@ -19,6 +22,17 @@
     :newArticleName="newName"
     :newArticlePrice="newPrice"
   />
+  <v-container>
+    <v-btn @click="toggleBudget = !toggleBudget"
+      >Ouvrir la modification de budget</v-btn
+    >
+    <v-container v-show="toggleBudget">
+      <Budget :budget="budget" @newBudget="newBudget" />
+    </v-container>
+
+    <h3 v-if="budget !== null">Il vous reste {{ budget }}$</h3>
+    <h3 v-else>Pour ajouter des articles veuillez configurer votre budget</h3>
+  </v-container>
 </template>
 
 <script>
@@ -26,14 +40,16 @@ import CreateArticle from "../components/CreateArticle.vue";
 import ArticleChoice from "../components/ArticleChoice.vue";
 import RecapTextArticles from "../components/RecapTextArticles.vue";
 import TotalPrice from "../components/TotalPrice.vue";
+import Budget from "../components/Budget.vue";
 import store from "../store/index.js";
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 export default {
   components: {
     CreateArticle,
     ArticleChoice,
     RecapTextArticles,
     TotalPrice,
+    Budget,
     store,
   },
   data() {
@@ -45,10 +61,13 @@ export default {
         { id: id++, about: "babybel x20", price: 4, number: 1 },
         { id: id++, about: "Ordinateur puissant", price: 1200, number: 1 },
       ],
+      toggleBudget: false,
     };
   },
   watch: {
-    "recapArticle.length": function () {},
+    // error: function () {
+    //   return true;
+    // },
   },
   computed: {
     ...mapState([
@@ -58,6 +77,8 @@ export default {
       "newName",
       "newPrice",
       "numberOfArticle",
+      "budget",
+      "error",
     ]),
   },
   methods: {
@@ -73,6 +94,9 @@ export default {
         price: price,
         number: 0,
       });
+    },
+    newBudget: (budget) => {
+      store.commit("newBudget", budget);
     },
   },
 };
@@ -107,15 +131,12 @@ export default {
 .center {
   text-align: center;
 }
-input[type="number"],
-input[type="text"] {
-  background-color: #5271ff;
-  margin: 5px;
-  padding: 4px;
-}
-input:focus {
-  color: #fff;
-  background-color: blue;
-  border: 2px solid #fff;
+
+.error {
+  display: flex;
+  justify-content: center;
+  font-family:'Times New Roman', Times, serif ;
+  border: 2px solid red;
+  color: red;
 }
 </style>

@@ -1,8 +1,8 @@
 <template>
   <div class="createArticle">
     <h3>Creer un article !</h3>
-    <input type="text" v-model="newArticleName" />
-    <input type="number" v-model="newArticlePrice" />
+    <input style="padding:5px; " type="text" v-model="newArticleName" />
+    <input style="padding:5px; " type="number" v-model="newArticlePrice" />
     <v-btn @click="createNewArticle">Creer</v-btn>
   </div>
 </template>
