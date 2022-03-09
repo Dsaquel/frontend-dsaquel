@@ -6,7 +6,6 @@
       }}<strong v-if="article.number !== 0">({{ article.number }})</strong>,
     </strong>
   </div>
-  <h1>{{ totalPrice }} e</h1>
   
 </template>
 
@@ -18,11 +17,6 @@ export default {
       type: Array,
       required: true,
     },
-    totalPrice: {
-      type: Number,
-      default: 0,
-      required: true,
-    }
   },
     data(){return{}},
 }

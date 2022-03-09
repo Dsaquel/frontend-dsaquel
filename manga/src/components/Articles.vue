@@ -1,7 +1,19 @@
 <template>
   <ArticleChoice @getNewArticle="getArticle" :articles="articles" />
   <RecapTextArticles :recapArticle="recapArticle" :totalPrice="totalPrice" />
-
+  <TotalPrice :totalPrice="totalPrice"
+    ><template v-if="totalPrice > 0" v-slot:totalPrice>
+      <div class="center">
+        <h1>{{ totalPrice }} euro</h1>
+        <router-link to="/panier">Consulter le panier</router-link>
+      </div>
+    </template>
+    <template v-else v-slot:text>
+      <div class="center">
+        <h1>Aucun article au panier</h1>
+      </div>
+    </template>
+  </TotalPrice>
   <CreateArticle
     @createNewArticle="createArticle"
     :newArticleName="newName"
@@ -13,6 +25,7 @@
 import CreateArticle from "../components/CreateArticle.vue";
 import ArticleChoice from "../components/ArticleChoice.vue";
 import RecapTextArticles from "../components/RecapTextArticles.vue";
+import TotalPrice from "../components/TotalPrice.vue";
 import store from "../store/index.js";
 import { mapState } from "vuex";
 export default {
@@ -20,6 +33,7 @@ export default {
     CreateArticle,
     ArticleChoice,
     RecapTextArticles,
+    TotalPrice,
     store,
   },
   data() {
@@ -90,7 +104,7 @@ export default {
   display: inline-block;
   right: 0;
 }
-h1 {
+.center {
   text-align: center;
 }
 input[type="number"],
