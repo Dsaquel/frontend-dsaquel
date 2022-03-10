@@ -65,9 +65,9 @@ export default {
     };
   },
   watch: {
-    // error: function () {
-    //   return true;
-    // },
+    budget: function () {
+      store.state.error = false;
+    },
   },
   computed: {
     ...mapState([
@@ -80,6 +80,7 @@ export default {
       "budget",
       "error",
     ]),
+    ...mapGetters(["getLastId"]),
   },
   methods: {
     getArticle: function (name, price) {
@@ -88,7 +89,7 @@ export default {
     createArticle: function (name, price) {
       this.articles.push({
         id: function () {
-          store.getters("getLastId");
+          this.getLastId
         },
         about: name,
         price: price,
@@ -135,7 +136,7 @@ export default {
 .error {
   display: flex;
   justify-content: center;
-  font-family:'Times New Roman', Times, serif ;
+  font-family: "Times New Roman", Times, serif;
   border: 2px solid red;
   color: red;
 }

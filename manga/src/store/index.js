@@ -25,9 +25,7 @@ export default createStore({
     }) {
       if (state.budget - price >= 0) {
         state.error = false
-        let isNameMatched = state.recapArticle.find(function (article) {
-          return article.about === name;
-        });
+        const isNameMatched = state.recapArticle.find((article) => article.about === name);
         if (isNameMatched) {
           isNameMatched.number++;
         } else if (!isNameMatched) {
@@ -40,7 +38,6 @@ export default createStore({
         }
         state.totalPrice += Number(price);
         state.budget -= Number(price);
-        console.log(state.error)
       } else {
         return state.error = true
       }
