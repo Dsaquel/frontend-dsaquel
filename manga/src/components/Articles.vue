@@ -1,5 +1,12 @@
 <template>
-  <ArticleChoice @getNewArticle="getArticle" :articles="articles" />
+  <Toolbar :budget="budget" @newBudget="newBudget" />
+  <AllArticle
+    @getNewArticle="getArticle"
+    :articles="articles"
+    @createNewArticle="createArticle"
+    :newArticleName="newName"
+    :newArticlePrice="newPrice"
+  />
   <RecapTextArticles :recapArticle="recapArticle" :totalPrice="totalPrice" />
   <h3 class="error" v-if="error">
     Erreur de budget, veuillez augmenté votre budget pour ajouter l'article
@@ -17,39 +24,21 @@
       </div>
     </template>
   </TotalPrice>
-  <CreateArticle
-    @createNewArticle="createArticle"
-    :newArticleName="newName"
-    :newArticlePrice="newPrice"
-  />
-  <v-container>
-    <v-btn @click="toggleBudget = !toggleBudget"
-      >Ouvrir la modification de budget</v-btn
-    >
-    <v-container v-show="toggleBudget">
-      <Budget :budget="budget" @newBudget="newBudget" />
-    </v-container>
-
-    <h3 v-if="budget !== null">Il vous reste {{ budget }}$</h3>
-    <h3 v-else>Pour ajouter des articles veuillez configurer votre budget</h3>
-  </v-container>
 </template>
 
 <script>
-import CreateArticle from "./articles/CreateNewArticle.vue";
-import ArticleChoice from "./articles/AllArticle.vue";
+import AllArticle from "./articles/AllArticle.vue";
 import RecapTextArticles from "../components/articles/RecapTextArticles.vue";
-import Budget from "./articles/AddBudget.vue";
 import TotalPrice from "../components/TotalPrice.vue";
+import Toolbar from "../components/Toolbar.vue";
 import store from "../store/index.js";
 import { mapGetters, mapState } from "vuex";
 export default {
   components: {
-    CreateArticle,
-    ArticleChoice,
+    AllArticle,
     RecapTextArticles,
     TotalPrice,
-    Budget,
+    Toolbar,
     store,
   },
   data() {
@@ -89,7 +78,7 @@ export default {
     createArticle: function (name, price) {
       this.articles.push({
         id: function () {
-          this.getLastId
+          this.getLastId;
         },
         about: name,
         price: price,
@@ -103,41 +92,9 @@ export default {
 };
 </script>
 
-<style>
-.container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  overflow: unset;
-}
-.article {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-width: 5px;
-  border-style: solid;
-  border-top-color: #5271ff;
-  border-bottom-color: #ffbd59;
-  border-left-color: #5271ff;
-  border-right-color: #ffbd59;
-  text-align: center;
-  margin: 5px;
-  border-radius: 10px;
-}
-.floatTopRight {
-  display: inline-block;
-  right: 0;
-}
-.center {
-  text-align: center;
-}
 
-.error {
-  display: flex;
-  justify-content: center;
-  font-family: "Times New Roman", Times, serif;
-  border: 2px solid red;
-  color: red;
+<style lang="scss">
+.center {
+  align-items: center;
 }
 </style>
