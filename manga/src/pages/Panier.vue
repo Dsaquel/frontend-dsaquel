@@ -3,7 +3,7 @@
     :recapArticle="recapArticle"
     @deleteArticle="deleteArticle"
   />
-  <TotalPrice :totalPrice="totalPrice">
+  <TotalPrice>
     <template v-slot:totalPrice v-if="totalPrice > 0">
       <div class="center">
         <h1>{{ totalPrice }} euro</h1>
@@ -26,7 +26,7 @@ import store from "../store/index.js";
 import { mapState } from "vuex";
 
 export default {
-  name: "about",
+  name: "Panier",
   components: {
     RecapCardArticle,
     TotalPrice,

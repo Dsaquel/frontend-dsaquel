@@ -36,11 +36,11 @@
 </template>
 
 <script>
-import CreateArticle from "../components/CreateArticle.vue";
-import ArticleChoice from "../components/ArticleChoice.vue";
-import RecapTextArticles from "../components/RecapTextArticles.vue";
+import CreateArticle from "./articles/CreateNewArticle.vue";
+import ArticleChoice from "./articles/AllArticle.vue";
+import RecapTextArticles from "../components/articles/RecapTextArticles.vue";
+import Budget from "./articles/AddBudget.vue";
 import TotalPrice from "../components/TotalPrice.vue";
-import Budget from "../components/Budget.vue";
 import store from "../store/index.js";
 import { mapGetters, mapState } from "vuex";
 export default {
