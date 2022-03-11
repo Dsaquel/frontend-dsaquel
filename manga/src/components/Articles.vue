@@ -1,5 +1,5 @@
 <template>
-  <Toolbar :budget="budget" @newBudget="newBudget" />
+  <Toolbar :budget="budget" @newBudget="newBudget" :totalPrice="totalPrice" />
   <AllArticle
     @getNewArticle="getArticle"
     :articles="articles"
@@ -8,22 +8,11 @@
     :newArticlePrice="newPrice"
   />
   <RecapTextArticles :recapArticle="recapArticle" :totalPrice="totalPrice" />
-  <h3 class="error" v-if="error">
+
+  <v-alert type="error" v-if="error">
     Erreur de budget, veuillez augmenté votre budget pour ajouter l'article
-  </h3>
-  <TotalPrice
-    ><template :totalPrice="totalPrice" v-if="totalPrice > 0" v-slot:totalPrice>
-      <div class="center">
-        <h1>montant: {{ totalPrice }} $</h1>
-        <router-link to="/panier">Consulter le panier</router-link>
-      </div>
-    </template>
-    <template v-else v-slot:text>
-      <div class="center">
-        <h1>Aucun article au panier</h1>
-      </div>
-    </template>
-  </TotalPrice>
+  </v-alert>
+  
 </template>
 
 <script>

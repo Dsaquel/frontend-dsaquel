@@ -8,10 +8,26 @@
     <v-btn icon>
       <v-icon>mdi-magnify</v-icon>
     </v-btn>
-
-    <v-btn icon href="/Panier">
-      <v-icon>mdi-cart</v-icon>
-    </v-btn>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn color="primary" dark v-bind="attrs" v-on="on"> Button </v-btn>
+      </template>
+      <span>Tooltip</span>
+    </v-tooltip>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn icon v-on="on" v-bind="attrs">
+          <v-icon>mdi-cart</v-icon>
+        </v-btn>
+      </template>
+      <v-card v-model="group">
+        <v-container>
+          <h1>Aucun article au panier</h1>
+          <v-card-title>montant: {{ totalPrice }} $</v-card-title>
+          <router-link to="/panier">Consulter le panier</router-link>
+        </v-container>
+      </v-card>
+    </v-tooltip>
 
     <v-btn icon>
       <v-icon>mdi-account</v-icon>
@@ -45,7 +61,7 @@ import store from "../store/index.js";
 
 export default {
   emits: ["showAppBar", "newBudget"],
-  components: {store},
+  components: { store },
   data: () => ({
     items: [
       {
@@ -56,17 +72,21 @@ export default {
     ],
     drawer: false,
     group: null,
-    toggleBudget: true,
   }),
   props: {
     budget: {
       required: true,
       default: null,
     },
-    watch: {
-      group() {
-        this.drawer = false;
-      },
+    totalPrice: {
+      type: Number,
+      required: true,
+      default: 0,
+    },
+  },
+  watch: {
+    group() {
+      this.drawer = false;
     },
   },
   computed: {
