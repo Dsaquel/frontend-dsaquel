@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import RegisterComponent from '@/components/Register_component'
+import RegisterComponent from '@/components/RegisterComponent'
 export default {
   name: 'Register',
   components: {

@@ -36,6 +36,21 @@
       </v-menu>
     </v-app-bar>
 
+    <v-navigation-drawer clipped app permanent>
+      <v-list>
+        <v-list-item
+          v-for="(item, i) in this.$store.state.Mangas.filters"
+          :key="i"
+          link
+        >
+          <v-list-item-content>
+            <v-list-item-title>{{ item.name }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+
+    </v-navigation-drawer>
+
     <v-main>
       <router-view />
     </v-main>
@@ -47,8 +62,12 @@ export default {
   name: 'app',
   data () {
     return {
+      genre: 1,
       selectedItem: 1
     }
+  },
+  beforeMount () {
+    this.$store.dispatch('Mangas/getGenreMangas')
   },
   computed: {
     menus () {
@@ -64,11 +83,12 @@ export default {
         menus.length = 0
         menus.push(
           { title: 'Se conncter', icon: 'mdi-login', to: '/login' },
-          { title: 'S\'inscrire', icon: 'mdi-account-plus', to: '/register' }
+          { title: "S'inscrire", icon: 'mdi-account-plus', to: '/register' }
         )
       }
       return menus
     }
   }
+
 }
 </script>
