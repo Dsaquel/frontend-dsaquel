@@ -39,11 +39,12 @@ const actions = {
     commit('setMangas', data.data)
   },
   async setGenreMangas ({
-    commit,
-    state
+    commit
   }) {
-    const res = await fetch(`${baseUrl}/genres/anime`)
+    const res = await fetch(`${baseUrl}/genres/anime?filter=genres`)
+    console.log(res)
     const data = await res.json()
+    console.log(data)
     const arrayData = await data.data.filter((v, i, a) => a.findIndex(t => (t.name === v.name)) === i)
     commit('setFilters', arrayData)
   },
