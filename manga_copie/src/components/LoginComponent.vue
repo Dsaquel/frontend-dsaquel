@@ -22,6 +22,11 @@ export default {
   name: 'LoginComponent',
   components: {
     EmailPasswordForm
+  },
+  data () {
+    return {
+
+    }
   }
 }
 </script>

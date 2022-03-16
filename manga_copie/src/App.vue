@@ -55,7 +55,7 @@ export default {
   computed: {
     menus () {
       const menus = []
-      if (this.$store.state.isUserConnected) {
+      if (this.$store.getters.isUserConnected) {
         menus.length = 0
         menus.push(
           { title: 'Profile', icon: 'mdi-account', to: '/' },
