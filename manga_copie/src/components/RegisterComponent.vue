@@ -15,6 +15,7 @@
 <script>
 import EmailPasswordForm from '@/components/EmailPasswordForm.vue'
 export default {
+  watch: {},
   name: 'RegisterComponent',
   components: {
     EmailPasswordForm

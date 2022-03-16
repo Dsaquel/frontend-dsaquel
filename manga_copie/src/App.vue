@@ -42,13 +42,13 @@
           v-for="(item, i) in this.$store.state.Mangas.filters"
           :key="i"
           link
+          @click="getGenreMangas(item.mal_id)"
         >
           <v-list-item-content>
             <v-list-item-title>{{ item.name }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list>
-
     </v-navigation-drawer>
 
     <v-main>
@@ -66,8 +66,13 @@ export default {
       selectedItem: 1
     }
   },
+  methods: {
+    getGenreMangas: function (idGenre) {
+      this.$store.dispatch('Mangas/getGenreMangas', idGenre)
+    }
+  },
   beforeMount () {
-    this.$store.dispatch('Mangas/getGenreMangas')
+    this.$store.dispatch('Mangas/setGenreMangas')
   },
   computed: {
     menus () {
@@ -89,6 +94,5 @@ export default {
       return menus
     }
   }
-
 }
 </script>
