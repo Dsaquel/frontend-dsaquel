@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-navigation-drawer clipped app permanent>
+    <v-navigation-drawer v-model="$store.state.isNavigationDrawerOpened" clipped app>
       <v-list>
         <v-list-item
           v-for="(item, i) in this.$store.state.Mangas.filters"
@@ -25,6 +25,11 @@ export default {
 
   components: {
     Mangas
+  },
+  data () {
+    return {
+      isOpened: false
+    }
   },
   methods: {
     getGenreMangas: function (idGenre) {

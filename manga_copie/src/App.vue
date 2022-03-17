@@ -1,7 +1,7 @@
 <template>
   <v-app id="app">
     <v-app-bar clipped-left app>
-      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="$store.state.isNavigationDrawerOpened = !$store.state.isNavigationDrawerOpened" />
 
       <v-toolbar-title>Manga</v-toolbar-title>
 
@@ -48,10 +48,16 @@ export default {
   data () {
     return {
       genre: 1,
-      selectedItem: 1
+      selectedItem: 1,
+      isOpened: true
     }
   },
-
+  methods: {
+    test () {
+      console.log(this.$store.state.isNavigationDrawerOpened = !this.$store.state.isNavigationDrawerOpened)
+      this.$store.state.isNavigationDrawerOpened = !this.$store.state.isNavigationDrawerOpened
+    }
+  },
   computed: {
     menus () {
       const menus = []

@@ -6,9 +6,20 @@
       label="Recherche..."
       placeholder="One piece"
     />
-    <v-progress-linear v-if="this.$store.state.Mangas.isLoading" indeterminate color="green"></v-progress-linear>
 
-    <Manga v-else :mangas="mangas" />
+    <v-progress-linear
+      v-if="this.$store.state.Mangas.isLoading"
+      indeterminate
+      color="green"
+    ></v-progress-linear>
+
+    <v-row class="d-flex justify-center" v-else>
+      <Manga v-for="(manga, index) in mangas" :key="index" :manga="manga">
+        <template v-slot:library>
+          <v-btn href="#"> Ajouter à la bibliothèque </v-btn>
+        </template>
+      </Manga>
+    </v-row>
   </v-container>
 </template>
 

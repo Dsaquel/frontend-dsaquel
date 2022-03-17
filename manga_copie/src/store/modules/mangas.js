@@ -15,25 +15,24 @@ const mutations = {
   },
   setFilters (state, filters) {
     state.filters = filters
-    state.isLoading = false
+  },
+  // TODO: make it work
+  setLoading (state, isLoading) {
+    state.isLoading = isLoading
   }
 }
 
 const actions = {
   async getDefautMangas ({
-    commit,
-    state
+    commit
   }) {
-    state.isLoading = true
+    commit('setLoading', true)
     const res = await fetch(`${baseUrl}/top/anime`)
     const data = await res.json()
     commit('setMangas', data.data)
   },
-  async getSearchMangas ({
-    commit,
-    state
-  }, searchQuery) {
-    state.isLoading = true
+  async getSearchMangas ({ commit }, searchQuery) {
+    commit('setLoading', true)
     const res = await fetch(`${baseUrl}/anime?q=${searchQuery}&order_by=title&letter=${searchQuery}&sfw`)
     const data = await res.json()
     commit('setMangas', data.data)
@@ -47,10 +46,9 @@ const actions = {
     commit('setFilters', arrayData)
   },
   async getGenreMangas ({
-    commit,
-    state
+    commit
   }, idGenre) {
-    state.isLoading = true
+    commit('setLoading', true)
     const res = await fetch(`${baseUrl}/anime?genres=${idGenre}?&order_by=score&sort=desc&sfw`)
     const data = await res.json()
     commit('setMangas', data.data)
