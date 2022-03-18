@@ -43,10 +43,13 @@ export default {
         console.log(element.itemList.arrayData)
       })
       this.$store.dispatch('Mangas/getSearchMangas', this.searchQuery)
+    },
+    getDefaultMangas () {
+      this.$store.dispatch('Mangas/getDefautMangas')
     }
   },
   mounted () {
-    this.$store.dispatch('Mangas/getDefautMangas')
+    setTimeout(this.getDefaultMangas, 4000)
   },
   computed: {
     mangas () {

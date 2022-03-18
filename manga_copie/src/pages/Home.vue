@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-navigation-drawer
-      v-model="$store.state.isNavigationDrawerOpened"
+      v-model="isNavigationDrawerOpened"
       clipped
       app
     >
@@ -32,13 +32,20 @@
       </v-list>
     </v-navigation-drawer>
     <Mangas />
+    <div class="text-center">
+      <v-pagination
+        v-model="page"
+        :length="lastPageVisible"
+        :total-visible="7"
+        @input="getMangasPage(currentPage)"
+      ></v-pagination>
+    </div>
   </div>
 </template>
 
 <script>
 import Mangas from '@/components/Mangas'
-import { createNamespacedHelpers } from 'vuex'
-const { mapState } = createNamespacedHelpers('Navigation')
+import { mapState } from 'vuex'
 export default {
   name: 'Home',
 
@@ -47,21 +54,28 @@ export default {
   },
   data () {
     return {
-      action: 'mdi-format-list-bulleted',
-      isOpened: false
+      page: 1,
+      action: 'mdi-format-list-bulleted'
     }
   },
   methods: {
     getGenreMangas: function (idGenre) {
       this.$store.dispatch('Mangas/getGenreMangas', idGenre)
+    },
+    getMangasPage () {
+      // const payload = { url: this.url, page: this.page }
+      // this.$store.dispatch('Mangas/getMangasPage', payload)
     }
   },
   computed: {
     ...mapState({
-      items: (state) => state.itemNavigationDrawer
+      items: state => state.Navigation.itemNavigationDrawer,
+      url: state => state.Mangas.url,
+      isNavigationDrawerOpened: (state) => state.isNavigationDrawerOpened,
+      lastPageVisible: (state) => state.Mangas.lastPageVisible
     })
   },
-  beforeMount () {
+  mounted () {
     this.$store.dispatch('Navigation/setGenreMangas')
   }
 }

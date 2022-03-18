@@ -9,6 +9,7 @@ const getters = {}
 const mutations = {
   setFilters (state, itemList) {
     state.itemNavigationDrawer.push(itemList)
+    state.itemNavigationDrawer.filter(item => item.name !== itemList.name)
   }
 }
 

@@ -59,9 +59,6 @@ export default {
     ]
   }),
   methods: {
-    // sendFormData (payload) {
-    //   this.dispatch('insertUser', payload)
-    // }
     validate () {
       this.$refs.form.validate()
       const payload = { email: this.email, password: this.password, pseudo: this.pseudo }
