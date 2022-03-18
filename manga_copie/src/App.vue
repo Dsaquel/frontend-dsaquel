@@ -54,7 +54,6 @@ export default {
   },
   methods: {
     test () {
-      console.log(this.$store.state.isNavigationDrawerOpened = !this.$store.state.isNavigationDrawerOpened)
       this.$store.state.isNavigationDrawerOpened = !this.$store.state.isNavigationDrawerOpened
     }
   },

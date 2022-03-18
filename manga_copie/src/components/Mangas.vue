@@ -14,11 +14,13 @@
     ></v-progress-linear>
 
     <v-row class="d-flex justify-center" v-else>
-      <Manga v-for="(manga, index) in mangas" :key="index" :manga="manga">
-        <template v-slot:library>
-          <v-btn href="#"> Ajouter à la bibliothèque </v-btn>
-        </template>
-      </Manga>
+      <v-col v-for="(manga, index) in mangas" :key="index" >
+        <Manga :manga="manga">
+          <template v-slot:library>
+            <v-btn href="#"> Ajouter à la bibliothèque </v-btn>
+          </template>
+        </Manga>
+      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -37,10 +39,13 @@ export default {
   },
   methods: {
     getAnimes () {
+      this.$store.state.Mangas.filters.forEach(element => {
+        console.log(element.itemList.arrayData)
+      })
       this.$store.dispatch('Mangas/getSearchMangas', this.searchQuery)
     }
   },
-  beforeMount () {
+  mounted () {
     this.$store.dispatch('Mangas/getDefautMangas')
   },
   computed: {

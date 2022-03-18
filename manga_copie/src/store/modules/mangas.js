@@ -1,7 +1,6 @@
 const baseUrl = 'https://api.jikan.moe/v4'
 const state = {
   mangas: [],
-  filters: [],
   isLoading: false
 }
 
@@ -12,9 +11,6 @@ const mutations = {
   setMangas (state, mangas) {
     state.mangas = mangas
     state.isLoading = false
-  },
-  setFilters (state, filters) {
-    state.filters = filters
   },
   // TODO: make it work
   setLoading (state, isLoading) {
@@ -36,14 +32,6 @@ const actions = {
     const res = await fetch(`${baseUrl}/anime?q=${searchQuery}&order_by=title&letter=${searchQuery}&sfw`)
     const data = await res.json()
     commit('setMangas', data.data)
-  },
-  async setGenreMangas ({
-    commit
-  }) {
-    const res = await fetch(`${baseUrl}/genres/anime?filter=genres`)
-    const data = await res.json()
-    const arrayData = await data.data.filter((v, i, a) => a.findIndex(t => (t.name === v.name)) === i)
-    commit('setFilters', arrayData)
   },
   async getGenreMangas ({
     commit

@@ -1,17 +1,34 @@
 <template>
   <div>
-    <v-navigation-drawer v-model="$store.state.isNavigationDrawerOpened" clipped app>
+    <v-navigation-drawer
+      v-model="$store.state.isNavigationDrawerOpened"
+      clipped
+      app
+    >
       <v-list>
-        <v-list-item
-          v-for="(item, i) in this.$store.state.Mangas.filters"
-          :key="i"
-          link
-          @click="getGenreMangas(item.mal_id)"
+        <v-list-group
+          v-for="item in items"
+          :key="item.title"
+          :prepend-icon="action"
+          no-action
         >
-          <v-list-item-content>
-            <v-list-item-title>{{ item.name }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
+          <template v-slot:activator>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.title"></v-list-item-title>
+            </v-list-item-content>
+          </template>
+
+          <v-list-item
+            v-for="child in item.items"
+            :key="child.mal_id"
+            @click="getGenreMangas(child.mal_id)"
+            link
+          >
+            <v-list-item-content>
+              <v-list-item-title v-text="child.name"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
       </v-list>
     </v-navigation-drawer>
     <Mangas />
@@ -20,6 +37,8 @@
 
 <script>
 import Mangas from '@/components/Mangas'
+import { createNamespacedHelpers } from 'vuex'
+const { mapState } = createNamespacedHelpers('Navigation')
 export default {
   name: 'Home',
 
@@ -28,6 +47,7 @@ export default {
   },
   data () {
     return {
+      action: 'mdi-format-list-bulleted',
       isOpened: false
     }
   },
@@ -36,8 +56,13 @@ export default {
       this.$store.dispatch('Mangas/getGenreMangas', idGenre)
     }
   },
+  computed: {
+    ...mapState({
+      items: (state) => state.itemNavigationDrawer
+    })
+  },
   beforeMount () {
-    this.$store.dispatch('Mangas/setGenreMangas')
+    this.$store.dispatch('Navigation/setGenreMangas')
   }
 }
 </script>
