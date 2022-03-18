@@ -12,11 +12,11 @@ export default new Vuex.Store({
       email: null,
       password: null
     },
-    fakeDatabaseOfUser: {
+    fakeDatabaseOfUser: [{
       id: 1,
       email: 'root@root.com',
       password: 'root'
-    },
+    }],
     isNavigationDrawerOpened: false
   },
   getters: {
@@ -34,6 +34,9 @@ export default new Vuex.Store({
       state.user.id = 1
       state.user.email = payload.email
       state.user.password = payload.password
+    },
+    insertUser (state, payload) {
+      state.fakeDatabaseOfUser.push(payload)
     }
   },
   actions: {
@@ -42,10 +45,16 @@ export default new Vuex.Store({
       commit,
       state
     }, payload) {
-      if (state.fakeDatabaseOfUser.email === payload.email && state.fakeDatabaseOfUser.password === payload.password) {
+      if (state.fakeDatabaseOfUser.find(record => record.email === payload.email)) {
         commit('setUserConnected', payload)
       }
+    },
+    async insertUser ({
+      commit
+    }, payload) {
+      commit('insertUser', payload)
     }
+
   },
   modules: {
     Mangas,
