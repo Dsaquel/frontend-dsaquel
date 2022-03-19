@@ -37,7 +37,7 @@
         v-model="page"
         :length="lastPageVisible"
         :total-visible="7"
-        @input="getMangasPage(currentPage)"
+        @input="getMangasPage"
       ></v-pagination>
     </div>
   </div>
@@ -60,11 +60,11 @@ export default {
   },
   methods: {
     getGenreMangas: function (idGenre) {
+      this.page = 1
       this.$store.dispatch('Mangas/getGenreMangas', idGenre)
     },
     getMangasPage () {
-      // const payload = { url: this.url, page: this.page }
-      // this.$store.dispatch('Mangas/getMangasPage', payload)
+      this.$store.dispatch('Mangas/getMangasPage', this.page)
     }
   },
   computed: {

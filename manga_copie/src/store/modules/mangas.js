@@ -2,9 +2,7 @@ const baseUrl = 'https://api.jikan.moe/v4'
 const state = {
   mangas: [],
   isLoading: false,
-  lastPageVisible: null,
-  currentPage: 1,
-  lastApiCall: ''
+  lastPageVisible: null
 }
 
 const getters = {}
@@ -18,13 +16,6 @@ const mutations = {
   // TODO: make it work
   setLoading (state, isLoading) {
     state.isLoading = isLoading
-  },
-  setLastApiCall (url) {
-    state.lastApiCall = url
-  },
-  updateMangas (state, mangas) {
-    state.mangas = mangas.data
-    state.isLoading = false
   }
 }
 
@@ -33,6 +24,8 @@ const actions = {
     commit
   }) {
     commit('setLoading', true)
+    const url = new URL(`${baseUrl}/top/anime`)
+    localStorage.setItem('url', url)
     const res = await fetch(`${baseUrl}/top/anime`)
     const data = await res.json()
     commit('setMangas', data)
@@ -41,6 +34,8 @@ const actions = {
     commit
   }, searchQuery) {
     commit('setLoading', true)
+    const url = new URL(`${baseUrl}/anime?q=${searchQuery}&order_by=title&letter=${searchQuery}&sfw`)
+    localStorage.setItem('url', url)
     const res = await fetch(`${baseUrl}/anime?q=${searchQuery}&order_by=title&letter=${searchQuery}&sfw`)
     const data = await res.json()
     commit('setMangas', data)
@@ -49,15 +44,18 @@ const actions = {
     commit
   }, idGenre) {
     commit('setLoading', true)
+    const url = new URL(`${baseUrl}/anime?genres=${idGenre}?&order_by=score&sort=desc&sfw`)
+    localStorage.setItem('url', url)
     const res = await fetch(`${baseUrl}/anime?genres=${idGenre}?&order_by=score&sort=desc&sfw`)
     const data = await res.json()
     commit('setMangas', data)
   },
-  async getMangasPage ({ commit }, payload) {
+  async getMangasPage ({ commit }, page) {
     commit('setLoading', true)
-    const res = await fetch(`${payload.url}?page=${payload.page}`)
-    const data = res.json()
-    commit('updateMangas', data)
+    const url = localStorage.getItem('url')
+    const res = await fetch(`${url}?&page=${page}`)
+    const data = await res.json()
+    commit('setMangas', data)
   }
 }
 
