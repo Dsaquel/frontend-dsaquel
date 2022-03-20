@@ -44,13 +44,14 @@
 </template>
 
 <script>
-import Mangas from '@/components/Mangas'
+import Mangas from '../components/Mangas'
 import { mapState } from 'vuex'
 export default {
   name: 'Home',
 
   components: {
     Mangas
+
   },
   data () {
     return {
@@ -70,13 +71,13 @@ export default {
   computed: {
     ...mapState({
       items: state => state.Navigation.itemNavigationDrawer,
-      url: state => state.Mangas.url,
       isNavigationDrawerOpened: (state) => state.isNavigationDrawerOpened,
       lastPageVisible: (state) => state.Mangas.lastPageVisible
     })
   },
   mounted () {
-    this.$store.dispatch('Navigation/setGenreMangas')
+    // setTimeout(this.$store.dispatch('Navigation/setGenreMangas'), 10000)
+    // this.$store.dispatch('Mangas/test')
   }
 }
 </script>

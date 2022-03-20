@@ -1,6 +1,6 @@
 const baseUrl = 'https://api.jikan.moe/v4'
 const state = {
-  mangas: [],
+  homeContent: [],
   isLoading: false,
   lastPageVisible: null
 }
@@ -8,9 +8,11 @@ const state = {
 const getters = {}
 
 const mutations = {
-  setMangas (state, mangas) {
-    state.mangas = mangas.data
-    state.lastPageVisible = mangas.pagination.last_visible_page
+  setMangas (state, data) {
+    state.homeContent.push({
+      name: data.name,
+      data: data.data
+    })
     state.isLoading = false
   },
   // TODO: make it work
@@ -23,12 +25,28 @@ const actions = {
   async getDefautMangas ({
     commit
   }) {
-    commit('setLoading', true)
-    const url = new URL(`${baseUrl}/top/anime`)
-    localStorage.setItem('url', url)
-    const res = await fetch(`${baseUrl}/top/anime`)
-    const data = await res.json()
-    commit('setMangas', data)
+    const promises = [{
+      promise: 'top/manga',
+      name: 'Top manga'
+    }, {
+      promise: 'top/anime',
+      name: 'Top anime'
+    }, {
+      promise: 'top/characters',
+      name: 'Meilleurs personnages'
+    }]
+
+    await Promise.all(
+      promises.map(async (promise) => {
+        const res = await fetch(`${baseUrl}/${promise.promise}`)
+        const data = await res.json()
+        const expansion = {
+          name: promise.name,
+          data: data.data
+        }
+        commit('setMangas', expansion)
+      })
+    )
   },
   async getSearchMangas ({
     commit
@@ -50,7 +68,9 @@ const actions = {
     const data = await res.json()
     commit('setMangas', data)
   },
-  async getMangasPage ({ commit }, page) {
+  async getMangasPage ({
+    commit
+  }, page) {
     commit('setLoading', true)
     const url = localStorage.getItem('url')
     const res = await fetch(`${url}?&page=${page}`)
