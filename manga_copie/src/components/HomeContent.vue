@@ -15,17 +15,17 @@
       ></v-progress-linear>
       <div v-for="(mangas, i) in homeContent" :key="i">
         <router-link :to="mangas.name">{{ mangas.name }}</router-link>
-        <Manga :mangas="mangas" />
+        <SlideCard :mangas="mangas" />
       </div>
     </v-container>
   </div>
 </template>
 
 <script>
-import Manga from './Manga.vue'
+import SlideCard from './SlideCard.vue'
 export default {
-  name: 'Mangas',
-  components: { Manga },
+  name: 'HomeContent',
+  components: { SlideCard },
   data () {
     return {
       searchQuery: '',

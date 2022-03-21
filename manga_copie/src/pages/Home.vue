@@ -31,7 +31,7 @@
         </v-list-group>
       </v-list>
     </v-navigation-drawer>
-    <Mangas />
+    <HomeContent />
     <div class="text-center">
       <v-pagination
         v-model="page"
@@ -44,13 +44,13 @@
 </template>
 
 <script>
-import Mangas from '../components/Mangas'
+import HomeContent from '../components/HomeContent'
 import { mapState } from 'vuex'
 export default {
   name: 'Home',
 
   components: {
-    Mangas
+    HomeContent
 
   },
   data () {

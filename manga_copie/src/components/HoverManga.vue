@@ -30,11 +30,12 @@
           style="height: 100%"
         >
           <v-card-text class="pb-0">
-            <p class="text-h4 text--primary">
+            <p class="text-h5 text--primary">
               <slot name="secondTitle" />
             </p>
             <slot name="textContent" />
           </v-card-text>
+          <v-btn>Detail</v-btn>
         </v-card>
       </v-expand-transition>
     </v-card>
@@ -43,7 +44,7 @@
 
 <script>
 export default {
-  name: 'MangaSingle',
+  name: 'HoverManga',
   props: {
     manga: {
       type: Object
@@ -63,7 +64,7 @@ export default {
 }
 
 .v-card:not(.on-hover) {
-  opacity: 0.6;
+  opacity: 0.4;
 }
 
 .show-btns {
