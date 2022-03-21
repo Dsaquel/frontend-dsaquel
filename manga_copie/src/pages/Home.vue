@@ -32,14 +32,6 @@
       </v-list>
     </v-navigation-drawer>
     <HomeContent />
-    <div class="text-center">
-      <v-pagination
-        v-model="page"
-        :length="lastPageVisible"
-        :total-visible="7"
-        @input="getMangasPage"
-      ></v-pagination>
-    </div>
   </div>
 </template>
 
@@ -63,9 +55,6 @@ export default {
     getGenreMangas: function (idGenre) {
       this.page = 1
       this.$store.dispatch('Mangas/getGenreMangas', idGenre)
-    },
-    getMangasPage () {
-      this.$store.dispatch('Mangas/getMangasPage', this.page)
     }
   },
   computed: {

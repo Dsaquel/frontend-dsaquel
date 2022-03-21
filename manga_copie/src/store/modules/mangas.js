@@ -1,8 +1,10 @@
 const baseUrl = 'https://api.jikan.moe/v4'
 const state = {
   homeContent: [],
+  mangasListContent: null,
   isLoading: false,
-  lastPageVisible: null
+  lastPageVisible: null,
+  mangaList: ''
 }
 
 const getters = {}
@@ -11,13 +13,20 @@ const mutations = {
   setMangas (state, data) {
     state.homeContent.push({
       name: data.name,
-      data: data.data
+      data: data.data,
+      promise: data.promise
     })
     state.isLoading = false
   },
   // TODO: make it work
   setLoading (state, isLoading) {
     state.isLoading = isLoading
+  },
+  setListContent (state, data) {
+    state.mangasListContent = data.data
+    console.log(data)
+    console.log(data.data)
+    state.lastPageVisible = data.pagination.last_visible_page
   }
 }
 
@@ -42,7 +51,8 @@ const actions = {
         const data = await res.json()
         const expansion = {
           name: promise.name,
-          data: data.data
+          data: data.data,
+          promise: promise.promise
         }
         commit('setMangas', expansion)
       })
@@ -68,6 +78,13 @@ const actions = {
     const data = await res.json()
     commit('setMangas', data)
   },
+  async getMangaList ({ commit }, path) {
+    const url = new URL(`${baseUrl}/${path}`)
+    localStorage.setItem('url', url)
+    const res = await fetch(`${baseUrl}/${path}`)
+    const data = await res.json()
+    commit('setListContent', data)
+  },
   async getMangasPage ({
     commit
   }, page) {
@@ -75,7 +92,7 @@ const actions = {
     const url = localStorage.getItem('url')
     const res = await fetch(`${url}?&page=${page}`)
     const data = await res.json()
-    commit('setMangas', data)
+    commit('setListContent', data)
   }
 }
 

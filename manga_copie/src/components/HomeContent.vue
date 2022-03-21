@@ -14,7 +14,7 @@
         color="green"
       ></v-progress-linear>
       <div v-for="(mangas, i) in homeContent" :key="i">
-        <router-link :to="mangas.name">{{ mangas.name }}</router-link>
+        <router-link @click.native="sendAPIPath(mangas.promise)" :to="{path: 'manga-list/'+mangas.promise}">{{ mangas.name }}</router-link>
         <SlideCard :mangas="mangas" />
       </div>
     </v-container>
@@ -36,6 +36,9 @@ export default {
   methods: {
     getAnimes () {
       this.$store.dispatch('Mangas/getSearchMangas', this.searchQuery)
+    },
+    sendAPIPath (path) {
+      this.$store.state.Mangas.mangaList = path
     }
   },
   mounted () {
