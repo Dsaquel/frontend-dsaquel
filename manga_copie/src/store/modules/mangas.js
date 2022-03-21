@@ -23,10 +23,11 @@ const mutations = {
     state.isLoading = isLoading
   },
   setListContent (state, data) {
-    state.mangasListContent = data.data
-    console.log(data)
-    console.log(data.data)
-    state.lastPageVisible = data.pagination.last_visible_page
+    state.mangasListContent = {
+      data: data.data.data,
+      name: data.name
+    }
+    state.lastPageVisible = data.data.pagination.last_visible_page
   }
 }
 
@@ -78,12 +79,18 @@ const actions = {
     const data = await res.json()
     commit('setMangas', data)
   },
-  async getMangaList ({ commit }, path) {
+  async getMangaList ({
+    commit
+  }, path) {
     const url = new URL(`${baseUrl}/${path}`)
     localStorage.setItem('url', url)
     const res = await fetch(`${baseUrl}/${path}`)
     const data = await res.json()
-    commit('setListContent', data)
+    const expansion = {
+      data: data,
+      name: path
+    }
+    commit('setListContent', expansion)
   },
   async getMangasPage ({
     commit
