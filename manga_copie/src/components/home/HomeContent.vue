@@ -41,7 +41,7 @@ export default {
     }
   },
   mounted () {
-    this.$store.dispatch('Mangas/getDefautMangas')
+    this.$store.dispatch('Mangas/getDefautMangas', this.homeContent.length)
   },
   computed: {
     homeContent () {

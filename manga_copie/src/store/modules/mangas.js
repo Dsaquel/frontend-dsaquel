@@ -33,8 +33,9 @@ const mutations = {
 
 const actions = {
   async getDefautMangas ({
-    commit
+    commit, state
   }) {
+    if (state.homeContent.length > 0) return
     const promises = [{
       promise: 'top/manga',
       name: 'Top manga'

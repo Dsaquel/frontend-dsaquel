@@ -1,21 +1,38 @@
 <template>
   <v-app id="app">
-    <v-app-bar clipped-left app>
-      <v-app-bar-nav-icon @click="show = !show" />
+    <v-card>
+      <v-toolbar flat>
+        <v-app-bar-nav-icon></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Manga</v-toolbar-title>
+        <v-toolbar-title>Mangas</v-toolbar-title>
 
-      <v-spacer></v-spacer>
+        <v-spacer></v-spacer>
 
-      <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>
+        <v-btn icon>
+          <v-icon>mdi-magnify</v-icon>
+        </v-btn>
 
-      <v-btn icon>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
+        <v-btn icon>
+          <v-icon>mdi-dots-vertical</v-icon>
+        </v-btn>
 
-      <v-menu left bottom>
+        <template v-slot:extension>
+          <v-tabs v-model="tab" align-with-title>
+            <v-tabs-slider color="green"></v-tabs-slider>
+            <v-tab v-for="item in items" :key="item.name" :to="item.to">
+              {{ item.name }}
+            </v-tab>
+          </v-tabs>
+        </template>
+      </v-toolbar>
+    </v-card>
+
+    <v-main>
+      <router-view />
+    </v-main>
+  </v-app>
+  <!-- menu -->
+  <!-- <v-menu bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
             <v-icon>mdi-account</v-icon>
@@ -33,42 +50,7 @@
             </v-list-item>
           </v-list-item-group>
         </v-list>
-      </v-menu>
-    </v-app-bar>
-
-    <v-navigation-drawer ref="navigationDrawer" v-model="show" clipped app>
-      <v-list>
-        <v-list-group
-          v-for="item in items"
-          :key="item.title"
-          :prepend-icon="action"
-          no-action
-        >
-          <template v-slot:activator>
-            <v-list-item-content>
-              <v-list-item-title v-text="item.title"></v-list-item-title>
-            </v-list-item-content>
-          </template>
-
-          <v-list-item
-            v-for="child in item.items"
-            :key="child.mal_id"
-            @click="getMangaList(child.mal_id)"
-            link
-            :to="{ path: 'manga-list/genre/' + child.name }"
-          >
-            <v-list-item-content>
-              <v-list-item-title v-text="child.name"></v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-group>
-      </v-list>
-    </v-navigation-drawer>
-
-    <v-main>
-      <router-view />
-    </v-main>
-  </v-app>
+      </v-menu> -->
 </template>
 
 <script>
@@ -80,24 +62,29 @@ export default {
     return {
       genre: 1,
       selectedItem: 1,
-      isOpened: true,
+      items: [
+        { name: 'Home', to: '/' },
+        { name: 'Anime', to: '/anime' },
+        { name: 'Manga', to: '/manga' },
+        { name: 'Genres', to: '/genre' },
+        { name: 'animes du moment', to: '/recommendations' },
+        { name: 'saisons', to: '/seasons' }
+      ],
+      tab: null,
+      text: 'toto',
+      // navigation drawer deleted
       action: 'mdi-format-list-bulleted',
       show: false
     }
   },
   methods: {
-    getMangaList: function (idGenre) {
-      const path = `anime?genres=${idGenre}?&order_by=score&sort=desc&sfw`
-      this.$store.dispatch('Mangas/getMangaList', path)
-    }
-
-  },
-  watch: {
-    show () {
-      if (this.show) {
-        // this.$store.dispatch('Navigation/setGenreMangas')
-      }
-    }
+    // TODO: onclick get gender manga
+    // getMangaList: function (idGenre) {
+    //   const path = `anime?genres=${idGenre}?&order_by=score&sort=desc&sfw`
+    //   this.$store.dispatch('Mangas/getMangaList', path)
+    // }
+    // TODO: get all genders mangas
+    // this.$store.dispatch('Navigation/setGenreMangas')
   },
   computed: {
     ...mapState({
