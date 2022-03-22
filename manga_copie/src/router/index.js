@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+const Detail = () => import(/* webpackChunkName: "Detail" */ '../pages/Detail.vue')
 const Home = () => import(/* webpackChunkName: "Home" */ '../pages/Home.vue')
 const Login = () => import(/* webpackChunkName: "Login" */ '../pages/Login.vue')
 const PageNotFound = () => import(/* webpackChunkName: "PageNotFound" */ '../pages/PageNotFound.vue')
@@ -12,6 +13,11 @@ const Search = () => import(/* webpackChunkName: "Search" */ '../pages/Search.vu
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/detail',
+    name: 'detail',
+    component: Detail
+  },
   {
     path: '/',
     name: 'home',

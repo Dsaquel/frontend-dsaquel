@@ -14,6 +14,7 @@ const mutations = {
 }
 
 const actions = {
+
   async setGenreMangas ({
     commit
   }) {

@@ -29,8 +29,7 @@ export default {
   data () {
     return {
       searchQuery: '',
-      model: null,
-      show: false
+      model: null
     }
   },
   methods: {

@@ -16,8 +16,7 @@ export default new Vuex.Store({
       id: 1,
       email: 'root@root.com',
       password: 'root'
-    }],
-    isNavigationDrawerOpened: false
+    }]
   },
   getters: {
     isUserConnected (state) {

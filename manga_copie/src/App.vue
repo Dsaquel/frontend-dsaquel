@@ -1,7 +1,7 @@
 <template>
   <v-app id="app">
     <v-app-bar clipped-left app>
-      <v-app-bar-nav-icon @click="$store.state.isNavigationDrawerOpened = !$store.state.isNavigationDrawerOpened" />
+      <v-app-bar-nav-icon @click="show = !show" />
 
       <v-toolbar-title>Manga</v-toolbar-title>
 
@@ -36,6 +36,35 @@
       </v-menu>
     </v-app-bar>
 
+    <v-navigation-drawer ref="navigationDrawer" v-model="show" clipped app>
+      <v-list>
+        <v-list-group
+          v-for="item in items"
+          :key="item.title"
+          :prepend-icon="action"
+          no-action
+        >
+          <template v-slot:activator>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.title"></v-list-item-title>
+            </v-list-item-content>
+          </template>
+
+          <v-list-item
+            v-for="child in item.items"
+            :key="child.mal_id"
+            @click="getMangaList(child.mal_id)"
+            link
+            :to="{ path: 'manga-list/genre/' + child.name }"
+          >
+            <v-list-item-content>
+              <v-list-item-title v-text="child.name"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-group>
+      </v-list>
+    </v-navigation-drawer>
+
     <v-main>
       <router-view />
     </v-main>
@@ -43,21 +72,37 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: 'app',
   data () {
     return {
       genre: 1,
       selectedItem: 1,
-      isOpened: true
+      isOpened: true,
+      action: 'mdi-format-list-bulleted',
+      show: false
     }
   },
   methods: {
-    test () {
-      this.$store.state.isNavigationDrawerOpened = !this.$store.state.isNavigationDrawerOpened
+    getMangaList: function (idGenre) {
+      const path = `anime?genres=${idGenre}?&order_by=score&sort=desc&sfw`
+      this.$store.dispatch('Mangas/getMangaList', path)
+    }
+
+  },
+  watch: {
+    show () {
+      if (this.show) {
+        // this.$store.dispatch('Navigation/setGenreMangas')
+      }
     }
   },
   computed: {
+    ...mapState({
+      items: (state) => state.Navigation.itemNavigationDrawer
+    }),
     menus () {
       const menus = []
       if (this.$store.getters.isUserConnected) {

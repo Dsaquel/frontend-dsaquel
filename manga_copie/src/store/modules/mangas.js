@@ -69,21 +69,9 @@ const actions = {
     const data = await res.json()
     commit('setMangas', data)
   },
-  async getGenreMangas ({
-    commit
-  }, idGenre) {
-    commit('setLoading', true)
-    const url = new URL(`${baseUrl}/anime?genres=${idGenre}?&order_by=score&sort=desc&sfw`)
-    localStorage.setItem('url', url)
-    const res = await fetch(`${baseUrl}/anime?genres=${idGenre}?&order_by=score&sort=desc&sfw`)
-    const data = await res.json()
-    commit('setMangas', data)
-  },
   async getMangaList ({
     commit
   }, path) {
-    const url = new URL(`${baseUrl}/${path}`)
-    localStorage.setItem('url', url)
     const res = await fetch(`${baseUrl}/${path}`)
     const data = await res.json()
     const expansion = {
@@ -91,6 +79,8 @@ const actions = {
       name: path
     }
     commit('setListContent', expansion)
+    const url = new URL(`${baseUrl}/${path}`)
+    localStorage.setItem('url', url)
   },
   async getMangasPage ({
     commit
@@ -99,7 +89,7 @@ const actions = {
     const url = localStorage.getItem('url')
     const res = await fetch(`${url}?&page=${page}`)
     const data = await res.json()
-    commit('setListContent', data)
+    commit('setListContent', { data: data })
   }
 }
 
