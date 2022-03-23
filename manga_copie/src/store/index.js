@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Anime from './modules/anime'
+import Character from './modules/character'
+import Home from './modules/home'
 import Mangas from './modules/mangas'
 import Navigation from './modules/navigation'
 
@@ -39,7 +42,6 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    // TODO: check db if user exist
     async checkUserExist ({
       commit,
       state
@@ -53,9 +55,11 @@ export default new Vuex.Store({
     }, payload) {
       commit('insertUser', payload)
     }
-
   },
   modules: {
+    Anime,
+    Character,
+    Home,
     Mangas,
     Navigation
   }

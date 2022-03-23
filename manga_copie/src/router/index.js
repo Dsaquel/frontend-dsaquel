@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-const Detail = () => import(/* webpackChunkName: "Detail" */ '../pages/Detail.vue')
+const DetailsAnime = () => import(/* webpackChunkName: "DetailAnime" */ '../components/detail/DetailsAnime.vue')
+const DetailsCharacter = () => import(/* webpackChunkName: "DetailCharacter" */ '../components/detail/DetailsCharacter.vue')
+const DetailsManga = () => import(/* webpackChunkName: "DetailManga" */ '../components/detail/DetailsManga.vue')
 const Home = () => import(/* webpackChunkName: "Home" */ '../pages/Home.vue')
 const Login = () => import(/* webpackChunkName: "Login" */ '../pages/Login.vue')
 const PageNotFound = () => import(/* webpackChunkName: "PageNotFound" */ '../pages/PageNotFound.vue')
@@ -14,14 +16,24 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/detail',
-    name: 'detail',
-    component: Detail
-  },
-  {
     path: '/',
     name: 'home',
     component: Home
+  },
+  {
+    path: '/detail-manga/:id',
+    name: 'detailManga',
+    component: DetailsManga
+  },
+  {
+    path: '/detail-anime/:id',
+    name: 'detailAnime',
+    component: DetailsAnime
+  },
+  {
+    path: '/detail-character/:id',
+    name: 'detailCharacter',
+    component: DetailsCharacter
   },
   {
     path: '/login',

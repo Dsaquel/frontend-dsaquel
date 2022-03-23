@@ -35,7 +35,7 @@
             </p>
             <slot name="textContent" />
           </v-card-text>
-          <v-btn>Detail</v-btn>
+          <slot name="btnTo" />
         </v-card>
       </v-expand-transition>
     </v-card>

@@ -1,97 +1,53 @@
 const baseUrl = 'https://api.jikan.moe/v4'
 const state = {
-  homeContent: [],
+  mangas: [],
+  manga: null,
   mangasListContent: null,
-  isLoading: false,
-  lastPageVisible: null,
-  mangaList: ''
+  lastPageVisible: null
 }
 
 const getters = {}
 
 const mutations = {
-  setMangas (state, data) {
-    state.homeContent.push({
-      name: data.name,
-      data: data.data,
-      promise: data.promise
-    })
-    state.isLoading = false
-  },
-  // TODO: make it work
-  setLoading (state, isLoading) {
-    state.isLoading = isLoading
-  },
-  setListContent (state, data) {
-    state.mangasListContent = {
-      data: data.data.data,
-      name: data.name
-    }
-    state.lastPageVisible = data.data.pagination.last_visible_page
+  // setListContent (state, data) {
+  //   state.mangasListContent = {
+  //     data: data.data.data,
+  //     name: data.name
+  //   }
+  //   state.lastPageVisible = data.data.pagination.last_visible_page
+  // }
+  setManga (state, manga) {
+    state.manga = manga
   }
 }
 
 const actions = {
-  async getDefautMangas ({
-    commit, state
-  }) {
-    if (state.homeContent.length > 0) return
-    const promises = [{
-      promise: 'top/manga',
-      name: 'Top manga'
-    }, {
-      promise: 'top/anime',
-      name: 'Top anime'
-    }, {
-      promise: 'top/characters',
-      name: 'Meilleurs personnages'
-    }]
-
-    await Promise.all(
-      promises.map(async (promise) => {
-        const res = await fetch(`${baseUrl}/${promise.promise}`)
-        const data = await res.json()
-        const expansion = {
-          name: promise.name,
-          data: data.data,
-          promise: promise.promise
-        }
-        commit('setMangas', expansion)
-      })
-    )
-  },
-  async getSearchMangas ({
-    commit
-  }, searchQuery) {
-    commit('setLoading', true)
-    const url = new URL(`${baseUrl}/anime?q=${searchQuery}&order_by=title&letter=${searchQuery}&sfw`)
-    localStorage.setItem('url', url)
-    const res = await fetch(`${baseUrl}/anime?q=${searchQuery}&order_by=title&letter=${searchQuery}&sfw`)
+  async getManga ({ commit }, id) {
+    const res = await fetch(`${baseUrl}/manga/${id}`)
     const data = await res.json()
-    commit('setMangas', data)
-  },
-  async getMangaList ({
-    commit
-  }, path) {
-    const res = await fetch(`${baseUrl}/${path}`)
-    const data = await res.json()
-    const expansion = {
-      data: data,
-      name: path
-    }
-    commit('setListContent', expansion)
-    const url = new URL(`${baseUrl}/${path}`)
-    localStorage.setItem('url', url)
-  },
-  async getMangasPage ({
-    commit
-  }, page) {
-    commit('setLoading', true)
-    const url = localStorage.getItem('url')
-    const res = await fetch(`${url}?&page=${page}`)
-    const data = await res.json()
-    commit('setListContent', { data: data })
+    commit('setManga', data.data)
   }
+  // async getMangaList ({
+  //   commit
+  // }, path) {
+  //   const res = await fetch(`${baseUrl}/${path}`)
+  //   const data = await res.json()
+  //   const expansion = {
+  //     data: data,
+  //     name: path
+  //   }
+  //   commit('setListContent', expansion)
+  //   const url = new URL(`${baseUrl}/${path}`)
+  //   localStorage.setItem('url', url)
+  // },
+  // async getMangasPage ({
+  //   commit
+  // }, page) {
+  //   const url = localStorage.getItem('url')
+  //   const res = await fetch(`${url}?&page=${page}`)
+  //   const data = await res.json()
+  //   commit('setListContent', { data: data })
+  // }
 }
 
 export default {

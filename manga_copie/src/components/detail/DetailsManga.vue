@@ -1,14 +1,23 @@
 <template>
-    <h2>Coucou tu es sur une page de détails concernant {{ manga.title }}</h2>
+  <div>
+    <h1>DetailManga.vue です</h1>
+    <h1>Il s'agit de {{manga.title }}</h1>
+  </div>
 </template>
 
 <script>
 export default {
   name: 'DetailsManga',
-  props: {
-    manga: {
-      type: Object,
-      Requried: true
+  beforeMount () {
+    console.log(this.$route.params.id)
+    this.$store.dispatch('Mangas/getManga', this.$route.params.id)
+  },
+  beforeDestroy () {
+    this.$store.commit('Mangas/setManga', null)
+  },
+  computed: {
+    manga () {
+      return this.$store.state.Mangas.manga
     }
   }
 }

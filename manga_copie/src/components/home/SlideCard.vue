@@ -29,6 +29,15 @@
                 Nombre d'épisodes: {{ manga.episodes }}
               </p>
             </template>
+            <template v-slot:btnTo>
+              <v-btn
+                :to="{
+                  name: 'detailAnime',
+                  params: { id: manga.mal_id },
+                }"
+                >Detail</v-btn
+              >
+            </template>
           </HoverManga>
         </v-slide-item>
       </v-slide-group>
@@ -60,15 +69,20 @@
                   {{ theme.name }}
                 </template>
               </p>
-              <p class="font-weight-medium">
-                volumes: {{ manga.volumes }}
-              </p>
-              <p class="font-weight-medium">
-                Chapitres: {{ manga.chapters }}
-              </p>
+              <p class="font-weight-medium">volumes: {{ manga.volumes }}</p>
+              <p class="font-weight-medium">Chapitres: {{ manga.chapters }}</p>
               <p class="font-weight-medium">
                 Nombres de favoris: {{ manga.favorites }}
               </p>
+            </template>
+            <template v-slot:btnTo>
+              <v-btn
+                :to="{
+                  name: 'detailManga',
+                  params: { id: manga.mal_id },
+                }"
+                >Detail</v-btn
+              >
             </template>
           </HoverManga>
         </v-slide-item>
@@ -103,6 +117,15 @@
               <p class="font-weight-medium">
                 Nombre de favoris: {{ manga.favorites }}
               </p>
+            </template>
+            <template v-slot:btnTo>
+              <v-btn
+                :to="{
+                  name: 'detailCharacter',
+                  params: { id: manga.mal_id },
+                }"
+                >Detail</v-btn
+              >
             </template>
           </HoverManga>
         </v-slide-item>
