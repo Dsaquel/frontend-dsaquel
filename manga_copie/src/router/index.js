@@ -8,6 +8,8 @@ const Home = () => import(/* webpackChunkName: "Home" */ '../pages/Home.vue')
 const Login = () => import(/* webpackChunkName: "Login" */ '../pages/Login.vue')
 const PageNotFound = () => import(/* webpackChunkName: "PageNotFound" */ '../pages/PageNotFound.vue')
 const MangaList = () => import(/* webpackChunkName: "MangaList" */ '../pages/MangaList.vue')
+const Manga = () => import(/* webpackChunkName: "Manga" */ '../pages/Manga.vue')
+const Anime = () => import(/* webpackChunkName: "Anime" */ '../pages/Anime.vue')
 const Register = () => import(/* webpackChunkName: "Register" */ '../pages/Register.vue')
 const ResetPassword = () => import(/* webpackChunkName: "ResetPassword" */ '../pages/ResetPassword.vue')
 const Search = () => import(/* webpackChunkName: "Search" */ '../pages/Search.vue')
@@ -43,6 +45,16 @@ const routes = [
   {
     path: '/manga-list/:style/:filter',
     component: MangaList
+  },
+  {
+    path: '/manga/',
+    name: 'Manga',
+    component: Manga
+  },
+  {
+    path: '/anime/',
+    name: 'Anime',
+    component: Anime
   },
   {
     path: '/page-not-found',

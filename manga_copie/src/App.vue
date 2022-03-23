@@ -65,10 +65,7 @@ export default {
       items: [
         { name: 'Home', to: '/' },
         { name: 'Anime', to: '/anime' },
-        { name: 'Manga', to: '/manga' },
-        { name: 'Genres', to: '/genre' },
-        { name: 'animes du moment', to: '/recommendations' },
-        { name: 'saisons', to: '/seasons' }
+        { name: 'Manga', to: '/manga' }
       ],
       tab: null,
       text: 'toto',
