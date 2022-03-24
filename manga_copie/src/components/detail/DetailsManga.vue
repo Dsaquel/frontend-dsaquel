@@ -9,7 +9,6 @@
 export default {
   name: 'DetailsManga',
   beforeMount () {
-    console.log(this.$route.params.id)
     this.$store.dispatch('Mangas/getManga', this.$route.params.id)
   },
   beforeDestroy () {

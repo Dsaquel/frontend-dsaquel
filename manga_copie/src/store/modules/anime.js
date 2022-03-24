@@ -12,7 +12,10 @@ const getters = {}
 
 const mutations = {
   setAnimes (state, animes) {
-    state.animes.push({ data: animes.data, name: animes.name })
+    state.animes.push({
+      data: animes.data,
+      name: animes.name
+    })
     state.lastPageVisible = animes.pagination.last_visible_page
   },
   setDifferentsAnime (state, animes) {
@@ -24,6 +27,7 @@ const mutations = {
     }
     if (animes.name === 'genres') {
       state.animeGenres = animes.data
+      state.lastPageVisible = animes.pagination.last_visible_page
     }
   },
 
@@ -33,13 +37,16 @@ const mutations = {
 }
 
 const actions = {
-  async getAnime ({ commit }, id) {
+  async getAnime ({
+    commit
+  }, id) {
     const res = await fetch(`${baseUrl}/anime/${id}`)
     const data = await res.json()
     commit('setAnime', data)
   },
   async getAnimeSchedules ({
-    commit, state
+    commit,
+    state
   }, filter) {
     if (state.animeSchedules !== null && filter === undefined) return
     const res = await fetch(`${baseUrl}/schedules`)
@@ -47,15 +54,31 @@ const actions = {
     data.name = 'schedules'
     commit('setDifferentsAnime', data)
   },
-  async getAnimeSeasonNow ({ commit, state }, filter) {
+  async getAnimeSeasonNow ({
+    commit,
+    state
+  }, filter) {
     if (state.animeSeasonNow !== null && filter === undefined) return
     const res = await fetch(`${baseUrl}/seasons/now`)
     const data = await res.json()
     data.name = 'seasonNow'
     commit('setDifferentsAnime', data)
   },
-  async getAnimeGenres ({ commit }, filter) {
-    const res = await fetch(`${baseUrl}/${filter}`)
+  async getAnimeGenres ({
+    commit
+  }, id) {
+    const url = new URL(`${baseUrl}/anime?genres=${id}`)
+    localStorage.setItem('url', url)
+    const res = await fetch(`${baseUrl}/anime?genres=${id}`)
+    const data = await res.json()
+    data.name = 'genres'
+    commit('setDifferentsAnime', data)
+  },
+  async getPagination ({
+    commit
+  }, page) {
+    const url = localStorage.getItem('url')
+    const res = await fetch(`${url}?&page=${page}`)
     const data = await res.json()
     data.name = 'genres'
     commit('setDifferentsAnime', data)

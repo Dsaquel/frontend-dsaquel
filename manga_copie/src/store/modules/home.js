@@ -10,7 +10,6 @@ const getters = {
 
 const mutations = {
   setHomePageContent (state, data) {
-    console.log(data)
     state.homeContent.push({
       name: data.name,
       data: data.data
@@ -45,7 +44,6 @@ const actions = {
           name: promise.name,
           data: data.data
         }
-        console.log(expansion)
         commit('setHomePageContent', expansion)
       })
     )

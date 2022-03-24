@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 const DetailsAnime = () => import(/* webpackChunkName: "DetailAnime" */ '../components/detail/DetailsAnime.vue')
 const DetailsCharacter = () => import(/* webpackChunkName: "DetailCharacter" */ '../components/detail/DetailsCharacter.vue')
 const DetailsManga = () => import(/* webpackChunkName: "DetailManga" */ '../components/detail/DetailsManga.vue')
+const AnimeGenre = () => import(/* webpackChunkName: "AnimeGenre" */ '../components/anime/AnimeGenre.vue')
 const Home = () => import(/* webpackChunkName: "Home" */ '../pages/Home.vue')
 const Login = () => import(/* webpackChunkName: "Login" */ '../pages/Login.vue')
 const PageNotFound = () => import(/* webpackChunkName: "PageNotFound" */ '../pages/PageNotFound.vue')
@@ -38,6 +39,11 @@ const routes = [
     component: DetailsCharacter
   },
   {
+    path: '/anime/genre/:genreId',
+    name: 'animeGenre',
+    component: AnimeGenre
+  },
+  {
     path: '/login',
     name: 'login',
     component: Login
@@ -53,7 +59,7 @@ const routes = [
   },
   {
     path: '/anime/',
-    name: 'Anime',
+    name: 'anime',
     component: Anime
   },
   {

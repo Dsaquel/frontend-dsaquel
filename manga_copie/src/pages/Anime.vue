@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h1>Im Anime.vue</h1>
+    <AnimeContent />
     <!-- TODO: take animes in home -->
     <!-- <div v-for="animes in homeContent" :key="animes">
       <v-row v-if="animes.name === 'Top anime'">
@@ -19,8 +19,13 @@
 
 <script>
 import { mapState } from 'vuex'
+import AnimeContent from '../components/anime/AnimeContent'
 export default {
   name: 'Anime',
+  components: {
+    AnimeContent
+  },
+
   beforeMount () {
     this.$store.dispatch('Anime/getAnimeSchedules')
     this.$store.dispatch('Anime/getAnimeSeasonNow')

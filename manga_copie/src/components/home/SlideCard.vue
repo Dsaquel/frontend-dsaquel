@@ -7,7 +7,7 @@
         v-if="mangas.name === 'Top anime'"
       >
         <v-slide-item v-for="(manga, i) in mangas.data" :key="i">
-          <HoverManga :manga="manga">
+          <HoverComponent :manga="manga">
             <template v-slot:title> {{ manga.title }} </template>
             <template v-slot:text> {{ manga.type }} </template>
             <template v-slot:subTitle></template>
@@ -38,7 +38,7 @@
                 >Detail</v-btn
               >
             </template>
-          </HoverManga>
+          </HoverComponent>
         </v-slide-item>
       </v-slide-group>
 
@@ -48,7 +48,7 @@
         v-if="mangas.name === 'Top manga'"
       >
         <v-slide-item v-for="(manga, i) in mangas.data" :key="i">
-          <HoverManga :manga="manga">
+          <HoverComponent :manga="manga">
             <template v-slot:title> {{ manga.title }} </template>
             <template v-slot:text> {{ manga.scored }}/10 </template>
             <template v-slot:subTitle></template>
@@ -84,7 +84,7 @@
                 >Detail</v-btn
               >
             </template>
-          </HoverManga>
+          </HoverComponent>
         </v-slide-item>
       </v-slide-group>
 
@@ -94,7 +94,7 @@
         v-if="mangas.name === 'Meilleurs personnages'"
       >
         <v-slide-item v-for="(manga, i) in mangas.data" :key="i">
-          <HoverManga :manga="manga">
+          <HoverComponent :manga="manga">
             <template v-slot:title> {{ manga.name }} </template>
             <template v-slot:text> </template>
             <template v-slot:subTitle
@@ -127,7 +127,7 @@
                 >Detail</v-btn
               >
             </template>
-          </HoverManga>
+          </HoverComponent>
         </v-slide-item>
       </v-slide-group>
     </template>
@@ -135,11 +135,11 @@
 </template>
 
 <script>
-import HoverManga from './HoverManga'
+import HoverComponent from '../utilities/HoverComponent'
 export default {
   name: 'SlideCard',
   components: {
-    HoverManga
+    HoverComponent
   },
   props: {
     mangas: Object

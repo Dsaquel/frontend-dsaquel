@@ -7,7 +7,7 @@
       max-width="100%"
       @click="reveal = !reveal"
     >
-      <v-img :src="manga.images.jpg.image_url" width="100%" height="340">
+      <v-img :src="item.images.jpg.image_url" width="100%" height="340">
         <v-card-title class="text-h6 white--text">
           <v-row class="fill-height flex-column" justify="space-between">
             <p class="mt-4 subheading text-left">
@@ -44,9 +44,9 @@
 
 <script>
 export default {
-  name: 'HoverManga',
+  name: 'HoverComponent',
   props: {
-    manga: {
+    item: {
       type: Object
     }
   },

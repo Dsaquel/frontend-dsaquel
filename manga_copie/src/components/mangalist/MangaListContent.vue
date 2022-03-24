@@ -118,14 +118,6 @@
       </v-row>
     </v-container>
 
-    <div class="text-center">
-      <v-pagination
-        v-model="page"
-        :length="lastPageVisible"
-        :total-visible="7"
-        @input="getMangasPage"
-      ></v-pagination>
-    </div>
   </v-container>
 </template>
 
@@ -148,11 +140,6 @@ export default {
       'Mangas/getMangaList',
       this.$store.state.Mangas.mangaList
     )
-  },
-  methods: {
-    getMangasPage () {
-      this.$store.dispatch('Mangas/getMangasPage', this.page)
-    }
   },
 
   computed: {
