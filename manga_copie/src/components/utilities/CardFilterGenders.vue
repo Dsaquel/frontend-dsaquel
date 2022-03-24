@@ -82,7 +82,12 @@ export default {
     score: true,
     hints: true
   }),
-  methods: {},
+
+  methods: {
+    test () {
+      console.log('je clique ouais')
+    }
+  },
   computed: {
     ...mapState({
       tags: (state) => state.Anime.tags

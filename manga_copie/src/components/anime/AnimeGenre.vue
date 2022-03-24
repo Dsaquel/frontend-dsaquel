@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <!-- <CardFilterGenders /> -->
+      <CardFilterGenders />
       <v-col cols="10">
         <v-row>
           <v-col cols="4" v-for="(item, index) in animes" :key="index">
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-// import CardFilterGenders from '../utilities/CardFilterGenders'
+import CardFilterGenders from '../utilities/CardFilterGenders'
 import CardComponent from '../utilities/CardComponent'
 import Pagination from '../utilities/Pagination'
 import { mapState } from 'vuex'
@@ -32,8 +32,8 @@ export default {
   name: 'AnimeGenre',
   components: {
     CardComponent,
-    Pagination
-    // CardFilterGenders
+    Pagination,
+    CardFilterGenders
   },
   beforeMount () {
     const genre = this.tags.find(
