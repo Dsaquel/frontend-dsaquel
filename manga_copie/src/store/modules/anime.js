@@ -6,7 +6,25 @@ const state = {
   animeSeasonNow: null,
   animeGenres: null,
   lastPageVisible: null,
-  anime: null
+  anime: null,
+  tags: [
+    { name: 'action', id: 1 },
+    { name: 'aventure', id: 2 },
+    { name: 'comedy', id: 4 },
+    { name: 'drama', id: 8 },
+    { name: 'fantasy', id: 10 },
+    { name: 'girls love', id: 26 },
+    { name: 'gourmet', id: 47 },
+    { name: 'horreur', id: 14 },
+    { name: 'mystery', id: 7 },
+    { name: 'romance', id: 22 },
+    { name: 'sci-fi', id: 24 },
+    { name: 'slice-of-life', id: 36 },
+    { name: 'sports', id: 30 },
+    { name: 'supernatural', id: 37 },
+    { name: 'suspense', id: 41 }
+  ],
+  selectedGenre: ''
 }
 const getters = {}
 
@@ -25,12 +43,11 @@ const mutations = {
     if (animes.name === 'seasonNow') {
       state.animeSeasonNow = animes.data
     }
-    if (animes.name === 'genres') {
-      state.animeGenres = animes.data
-      state.lastPageVisible = animes.pagination.last_visible_page
-    }
   },
-
+  setGenreAnime (state, animes) {
+    state.animeGenres = animes.data
+    state.lastPageVisible = animes.pagination.last_visible_page
+  },
   setAnime (state, anime) {
     state.anime = anime.data
   }
@@ -71,8 +88,7 @@ const actions = {
     localStorage.setItem('url', url)
     const res = await fetch(`${baseUrl}/anime?genres=${id}`)
     const data = await res.json()
-    data.name = 'genres'
-    commit('setDifferentsAnime', data)
+    commit('setGenreAnime', data)
   },
   async getPagination ({
     commit

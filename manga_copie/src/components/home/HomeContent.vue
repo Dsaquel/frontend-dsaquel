@@ -1,9 +1,9 @@
 <template>
   <div>
     <v-container>
-      <div v-for="(mangas, i) in homeContent" :key="i">
-        <router-link :to="{name: 'detail', params: {id: mangas.name} }">{{ mangas.name }}</router-link>
-        <SlideCard :mangas="mangas" />
+      <div v-for="(data, i) in homeContent" :key="i">
+        <a>{{ data.name }}</a>
+        <SlideCard :data="data" />
       </div>
     </v-container>
   </div>
@@ -25,8 +25,8 @@ export default {
     this.$store.dispatch('Home/getHomePageContent')
   },
   computed: {
-    ...mapState('Home', {
-      homeContent: state => state.homeContent
+    ...mapState({
+      homeContent: (state) => state.Home.homeContent
     })
   }
 }

@@ -4,36 +4,36 @@
       <v-slide-group
         class="pa-4"
         show-arrows
-        v-if="mangas.name === 'Top anime'"
+        v-if="data.name === 'Top anime'"
       >
-        <v-slide-item v-for="(manga, i) in mangas.data" :key="i">
-          <HoverComponent :manga="manga">
-            <template v-slot:title> {{ manga.title }} </template>
-            <template v-slot:text> {{ manga.type }} </template>
+        <v-slide-item v-for="(anime, i) in data.data" :key="i">
+          <HoverComponent :item="anime">
+            <template v-slot:title> {{ anime.title }} </template>
+            <template v-slot:text> {{ anime.type }} </template>
             <template v-slot:subTitle></template>
             <template v-slot:secondTitle> Quelques informations </template>
             <template v-slot:textContent>
               <p class="font-weight-black body-1">
-                {{ manga.title }}
+                {{ anime.title }}
               </p>
 
-              <p class="font-weight-medium">Score: {{ manga.score }}/10</p>
-              <p class="font-weight-medium">Date de sortie: {{ manga.year }}</p>
+              <p class="font-weight-medium">Score: {{ anime.score }}/10</p>
+              <p class="font-weight-medium">Date de sortie: {{ anime.year }}</p>
               <p class="font-weight-medium">
                 Genres:
-                <template v-for="genre in manga.genres">
+                <template v-for="genre in anime.genres">
                   {{ genre.name }}
                 </template>
               </p>
               <p class="font-weight-medium">
-                Nombre d'épisodes: {{ manga.episodes }}
+                Nombre d'épisodes: {{ anime.episodes }}
               </p>
             </template>
             <template v-slot:btnTo>
               <v-btn
                 :to="{
                   name: 'detailAnime',
-                  params: { id: manga.mal_id },
+                  params: { id: anime.mal_id },
                 }"
                 >Detail</v-btn
               >
@@ -45,10 +45,10 @@
       <v-slide-group
         class="pa-4"
         show-arrows
-        v-if="mangas.name === 'Top manga'"
+        v-if="data.name === 'Top manga'"
       >
-        <v-slide-item v-for="(manga, i) in mangas.data" :key="i">
-          <HoverComponent :manga="manga">
+        <v-slide-item v-for="(manga, i) in data.data" :key="i">
+          <HoverComponent :item="manga">
             <template v-slot:title> {{ manga.title }} </template>
             <template v-slot:text> {{ manga.scored }}/10 </template>
             <template v-slot:subTitle></template>
@@ -91,38 +91,38 @@
       <v-slide-group
         class="pa-4"
         show-arrows
-        v-if="mangas.name === 'Meilleurs personnages'"
+        v-if="data.name === 'Meilleurs personnages'"
       >
-        <v-slide-item v-for="(manga, i) in mangas.data" :key="i">
-          <HoverComponent :manga="manga">
-            <template v-slot:title> {{ manga.name }} </template>
+        <v-slide-item v-for="(character, i) in data.data" :key="i">
+          <HoverComponent :item="character">
+            <template v-slot:title> {{ character.name }} </template>
             <template v-slot:text> </template>
             <template v-slot:subTitle
-              >Nombre de favoris: {{ manga.favorites }}
+              >Nombre de favoris: {{ character.favorites }}
             </template>
             <template v-slot:secondTitle> A propos </template>
             <template v-slot:textContent>
               <p class="font-weight-black body-1">
-                {{ manga.title }}
+                {{ character.title }}
               </p>
               <p class="font-weight-medium">
-                Nom Japonais: {{ manga.name_kanji }}
+                Nom Japonais: {{ character.name_kanji }}
               </p>
-              <div class="font-weight-medium" v-if="manga.nicknames.length > 0">
+              <div class="font-weight-medium" v-if="character.nicknames.length > 0">
                 Surnoms:
-                <p v-for="(nickname, i) in manga.nicknames" :key="i">
+                <p v-for="(nickname, i) in character.nicknames" :key="i">
                   {{ nickname }}
                 </p>
               </div>
               <p class="font-weight-medium">
-                Nombre de favoris: {{ manga.favorites }}
+                Nombre de favoris: {{ character.favorites }}
               </p>
             </template>
             <template v-slot:btnTo>
               <v-btn
                 :to="{
                   name: 'detailCharacter',
-                  params: { id: manga.mal_id },
+                  params: { id: character.mal_id },
                 }"
                 >Detail</v-btn
               >
@@ -142,7 +142,7 @@ export default {
     HoverComponent
   },
   props: {
-    mangas: Object
+    data: Object
   }
 }
 </script>
