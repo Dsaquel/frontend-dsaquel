@@ -5,6 +5,7 @@ const DetailsAnime = () => import(/* webpackChunkName: "DetailAnime" */ '../comp
 const DetailsCharacter = () => import(/* webpackChunkName: "DetailCharacter" */ '../components/detail/DetailsCharacter.vue')
 const DetailsManga = () => import(/* webpackChunkName: "DetailManga" */ '../components/detail/DetailsManga.vue')
 const AnimeGenre = () => import(/* webpackChunkName: "AnimeGenre" */ '../components/anime/AnimeGenre.vue')
+const MangaGenre = () => import(/* webpackChunkName: "MangaGenre" */ '../components/manga/MangaGenre.vue')
 const Home = () => import(/* webpackChunkName: "Home" */ '../pages/Home.vue')
 const Login = () => import(/* webpackChunkName: "Login" */ '../pages/Login.vue')
 const PageNotFound = () => import(/* webpackChunkName: "PageNotFound" */ '../pages/PageNotFound.vue')
@@ -44,6 +45,11 @@ const routes = [
     name: 'animeGenre'
   },
   {
+    path: '/manga/genre/:genreId',
+    component: MangaGenre,
+    name: 'mangaGenre'
+  },
+  {
     path: '/login',
     name: 'login',
     component: Login
@@ -54,7 +60,7 @@ const routes = [
   },
   {
     path: '/manga/',
-    name: 'Manga',
+    name: 'manga',
     component: Manga
   },
   {

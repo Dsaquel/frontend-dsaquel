@@ -24,7 +24,7 @@
                       <v-chip
                         v-for="tag in tags"
                         :key="tag.id"
-                        @click="selected = tag.name"
+                        @click="affectTag(tag.name)"
                       >
                         {{ tag.name }}
                       </v-chip>
@@ -56,13 +56,8 @@
               <v-spacer></v-spacer>
 
               <v-btn text @click="menu = false"> Cancel </v-btn>
-              <v-btn
-                color="primary"
-                text
-                :to="{ name: 'animeGenre', params: { genreId: selected } }"
-              >
-                Save
-              </v-btn>
+              <slot v-if="this.$route.name === 'anime' || this.$route.name === 'animeGenre'" name="toAnime" />
+              <slot v-if="this.$route.name === 'manga' || this.$route.name === 'mangaGenre' " name="toManga" />
             </v-card-actions>
           </v-card>
         </v-menu>
@@ -82,10 +77,11 @@ export default {
     score: true,
     hints: true
   }),
+  props: {},
 
   methods: {
-    test () {
-      console.log('je clique ouais')
+    affectTag (tag) {
+      this.$emit('affectTag', tag)
     }
   },
   computed: {

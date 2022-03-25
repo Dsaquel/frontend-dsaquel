@@ -1,8 +1,7 @@
 <template>
-  <v-container>
-    <AnimeContent />
-    <!-- TODO: take animes in home -->
-    <!-- <div v-for="animes in homeContent" :key="animes">
+  <AnimeContent />
+  <!-- TODO: take animes in home -->
+  <!-- <div v-for="animes in homeContent" :key="animes">
       <v-row v-if="animes.name === 'Top anime'">
         <v-col v-for="anime in animes.data" :key="anime">
           <v-card>
@@ -14,7 +13,6 @@
         </v-col>
       </v-row>
     </div> -->
-  </v-container>
 </template>
 
 <script>

@@ -2,7 +2,7 @@
   <v-container>
     <DataContent>
       <template v-slot:searchData>
-        <v-text-field type="text" placeholder="Rechercher un anime" />
+        <input type="text" placeholder="Rechercher un manga" />
       </template>
     </DataContent>
   </v-container>
@@ -10,16 +10,10 @@
 
 <script>
 import DataContent from '../utilities/DataContent'
-import { mapState } from 'vuex'
 export default {
-  name: 'AnimeContent',
+  name: 'MangaContent',
   components: {
     DataContent
-  },
-  data: () => ({}),
-  methods: {},
-  computed: {
-    ...mapState({})
   }
 }
 </script>

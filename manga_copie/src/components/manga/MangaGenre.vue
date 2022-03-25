@@ -2,12 +2,11 @@
   <v-container>
     <v-row>
       <CardFilterGenders @affectTag="affectTag">
-        <template v-slot:toAnime>
+        <template v-slot:toManga>
           <v-btn
             color="primary"
             text
-
-            :to="{ name: 'animeGenre', params: { genreId: selected } }"
+            :to="{ name: 'mangaGenre', params: { genreId: selected } }"
           >
             Save
           </v-btn>
@@ -15,7 +14,7 @@
       </CardFilterGenders>
       <v-col cols="10">
         <v-row>
-          <v-col cols="4" v-for="(item, index) in animes" :key="index">
+          <v-col cols="4" v-for="(item, index) in mangas" :key="index">
             <CardComponent :item="item">
               <template v-slot:title>
                 <h1>
@@ -40,7 +39,7 @@ import CardComponent from '../utilities/CardComponent'
 import Pagination from '../utilities/Pagination'
 import { mapState } from 'vuex'
 export default {
-  name: 'AnimeGenre',
+  name: 'MangaGenre',
   components: {
     CardComponent,
     Pagination,
@@ -53,11 +52,11 @@ export default {
     const genre = this.tags.find(
       (genre) => genre.name === this.$route.params.genreId
     )
-    this.$store.dispatch('Anime/getAnimeGenres', genre.id)
+    this.$store.dispatch('Mangas/getMangaGenres', genre.id)
   },
   methods: {
     getPagination (page) {
-      this.$store.dispatch('Anime/getPagination', page)
+      this.$store.dispatch('Mangas/getPagination', page)
     },
     affectTag (tag) {
       this.selected = tag
@@ -65,10 +64,9 @@ export default {
   },
   computed: {
     ...mapState({
-      selectedGenre: (state) => state.Anime.selectedGenre,
-      animes: (state) => state.Anime.animeGenres,
-      tags: (state) => state.Anime.tags,
-      lastPageVisible: (state) => state.Anime.lastPageVisible
+      mangas: (state) => state.Mangas.mangaGenres,
+      tags: (state) => state.Mangas.tags,
+      lastPageVisible: (state) => state.Mangas.lastPageVisible
     })
   }
 }
