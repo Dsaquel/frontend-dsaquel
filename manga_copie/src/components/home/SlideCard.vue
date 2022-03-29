@@ -1,12 +1,8 @@
 <template>
   <v-container class="pa-4 text-center">
     <template>
-      <v-slide-group
-        class="pa-4"
-        show-arrows
-        v-if="data.name === 'Top anime'"
-      >
-        <v-slide-item v-for="(anime, i) in data.data" :key="i">
+      <v-slide-group class="pa-4" show-arrows>
+        <v-slide-item v-for="(anime, i) in animeUpcoming" :key="i">
           <HoverComponent :item="anime">
             <template v-slot:title> {{ anime.title }} </template>
             <template v-slot:text> {{ anime.type }} </template>
@@ -42,12 +38,8 @@
         </v-slide-item>
       </v-slide-group>
 
-      <v-slide-group
-        class="pa-4"
-        show-arrows
-        v-if="data.name === 'Top manga'"
-      >
-        <v-slide-item v-for="(manga, i) in data.data" :key="i">
+      <v-slide-group class="pa-4" show-arrows>
+        <v-slide-item v-for="(manga, i) in topManga" :key="i">
           <HoverComponent :item="manga">
             <template v-slot:title> {{ manga.title }} </template>
             <template v-slot:text> {{ manga.scored }}/10 </template>
@@ -88,12 +80,8 @@
         </v-slide-item>
       </v-slide-group>
 
-      <v-slide-group
-        class="pa-4"
-        show-arrows
-        v-if="data.name === 'Meilleurs personnages'"
-      >
-        <v-slide-item v-for="(character, i) in data.data" :key="i">
+      <v-slide-group class="pa-4" show-arrows>
+        <v-slide-item v-for="(character, i) in topCharacters" :key="i">
           <HoverComponent :item="character">
             <template v-slot:title> {{ character.name }} </template>
             <template v-slot:text> </template>
@@ -108,7 +96,10 @@
               <p class="font-weight-medium">
                 Nom Japonais: {{ character.name_kanji }}
               </p>
-              <div class="font-weight-medium" v-if="character.nicknames.length > 0">
+              <div
+                class="font-weight-medium"
+                v-if="character.nicknames.length > 0"
+              >
                 Surnoms:
                 <p v-for="(nickname, i) in character.nicknames" :key="i">
                   {{ nickname }}
@@ -136,13 +127,22 @@
 
 <script>
 import HoverComponent from '../utilities/HoverComponent'
+import { mapState } from 'vuex'
 export default {
+  props: {},
   name: 'SlideCard',
   components: {
     HoverComponent
   },
-  props: {
-    data: Object
+  data: () => ({
+
+  }),
+  computed: {
+    ...mapState({
+      topManga: (state) => state.Home.topManga,
+      animeUpcoming: (state) => state.Home.animeUpcoming,
+      topCharacters: (state) => state.Home.topCharacters
+    })
   }
 }
 </script>

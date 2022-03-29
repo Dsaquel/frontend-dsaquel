@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 import Anime from './modules/anime'
 import Character from './modules/character'
 import Home from './modules/home'
-import Mangas from './modules/mangas'
+import Manga from './modules/manga'
 import Navigation from './modules/navigation'
 
 Vue.use(Vuex)
@@ -60,7 +60,7 @@ export default new Vuex.Store({
     Anime,
     Character,
     Home,
-    Mangas,
+    Manga,
     Navigation
   }
 })

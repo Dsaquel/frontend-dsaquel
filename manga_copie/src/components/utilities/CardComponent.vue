@@ -19,9 +19,7 @@
       >
         <v-card-text class="pb-0">
           <p class="text-h4 text--primary">Quelques informations</p>
-          <p>
-            <slot name="textContent" />
-          </p>
+          <slot name="textContent" />
         </v-card-text>
         <v-card-actions>
           <v-btn text color="teal accent-4" @click="reveal = false">

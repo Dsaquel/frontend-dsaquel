@@ -9,7 +9,6 @@ const MangaGenre = () => import(/* webpackChunkName: "MangaGenre" */ '../compone
 const Home = () => import(/* webpackChunkName: "Home" */ '../pages/Home.vue')
 const Login = () => import(/* webpackChunkName: "Login" */ '../pages/Login.vue')
 const PageNotFound = () => import(/* webpackChunkName: "PageNotFound" */ '../pages/PageNotFound.vue')
-const MangaList = () => import(/* webpackChunkName: "MangaList" */ '../pages/MangaList.vue')
 const Manga = () => import(/* webpackChunkName: "Manga" */ '../pages/Manga.vue')
 const Anime = () => import(/* webpackChunkName: "Anime" */ '../pages/Anime.vue')
 const Register = () => import(/* webpackChunkName: "Register" */ '../pages/Register.vue')
@@ -53,10 +52,6 @@ const routes = [
     path: '/login',
     name: 'login',
     component: Login
-  },
-  {
-    path: '/manga-list/:style/:filter',
-    component: MangaList
   },
   {
     path: '/manga/',

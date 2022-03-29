@@ -1,10 +1,7 @@
 <template>
   <div>
     <v-container>
-      <div v-for="(data, i) in homeContent" :key="i">
-        <a>{{ data.name }}</a>
-        <SlideCard :data="data" />
-      </div>
+      <SlideCard />
     </v-container>
   </div>
 </template>
@@ -17,6 +14,7 @@ export default {
   components: { SlideCard },
   data () {
     return {
+      loader: false
     }
   },
   methods: {
@@ -25,9 +23,7 @@ export default {
     this.$store.dispatch('Home/getHomePageContent')
   },
   computed: {
-    ...mapState({
-      homeContent: (state) => state.Home.homeContent
-    })
+    ...mapState({})
   }
 }
 </script>

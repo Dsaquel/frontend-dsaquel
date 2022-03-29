@@ -76,7 +76,8 @@ const actions = {
     state
   }, filter) {
     if (state.animeSchedules !== null && filter === undefined) return
-    const res = await fetch(`${baseUrl}/schedules`)
+    const day = new Date().toLocaleString('en-GB', { weekday: 'long' })
+    const res = await fetch(`${baseUrl}/schedules/${day}`)
     const data = await res.json()
     data.name = 'schedules'
     commit('setDifferentsAnime', data)

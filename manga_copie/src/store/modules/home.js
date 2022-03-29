@@ -1,7 +1,9 @@
 const baseUrl = 'https://api.jikan.moe/v4'
 
 const state = {
-  homeContent: []
+  animeUpcoming: null,
+  topManga: null,
+  topCharacters: null
 }
 
 const getters = {
@@ -10,41 +12,42 @@ const getters = {
 
 const mutations = {
   setHomePageContent (state, data) {
-    state.homeContent.push({
-      name: data.name,
-      data: data.data
-    })
+    if (data.name === 'topManga') {
+      state.topManga = data.data
+    }
+    if (data.name === 'animeUpcoming') {
+      state.animeUpcoming = data.data
+    }
+    if (data.name === 'topCharacters') {
+      state.topCharacters = data.data
+    }
   }
 }
 
 const actions = {
   async getHomePageContent ({
-    commit, state
+    commit,
+    state
   }) {
-    if (state.homeContent.length > 0) return
+    if (state.animeUpcoming !== null) return
     const promises = [{
       promise: 'top/manga',
-      name: 'Top manga',
-      tag: 'manga'
+      name: 'topManga'
     }, {
-      promise: 'top/anime',
-      name: 'Top anime',
-      tag: 'anime'
+      promise: 'seasons/upcoming',
+      name: 'animeUpcoming'
     }, {
       promise: 'top/characters',
-      name: 'Meilleurs personnages',
-      tag: 'characters'
+      name: 'topCharacters'
     }]
 
     await Promise.all(
       promises.map(async (promise) => {
         const res = await fetch(`${baseUrl}/${promise.promise}`)
         const data = await res.json()
-        const expansion = {
-          name: promise.name,
-          data: data.data
-        }
-        commit('setHomePageContent', expansion)
+        console.log(data)
+        data.name = promise.name
+        commit('setHomePageContent', data)
       })
     )
   }

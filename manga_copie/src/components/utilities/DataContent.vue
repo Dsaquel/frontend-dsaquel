@@ -23,14 +23,8 @@
         </template>
       </CardFilterGenders>
       <v-col cols="10">
-        <v-sheet min-height="70vh" rounded="lg">
-          <v-row>
-            <v-col cols="4" v-for="n in 15" :key="n">
-              <!-- TODO: put anime content -->
-              <v-sheet elevation="10">sheet numéro {{ n }}</v-sheet>
-            </v-col>
-          </v-row>
-        </v-sheet>
+        <slot name="animeContent" />
+        <slot name="mangaContent" />
       </v-col>
     </v-row>
   </v-container>
