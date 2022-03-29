@@ -22,7 +22,7 @@
           </v-btn>
         </template>
       </CardFilterGenders>
-      <v-col cols="10">
+      <v-col cols="2">
         <slot name="animeContent" />
         <slot name="mangaContent" />
       </v-col>
