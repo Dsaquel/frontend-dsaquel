@@ -1,10 +1,18 @@
 <template>
   <v-container>
-    <DataContent>
-      <template v-slot:searchData>
-        <v-text-field type="text" placeholder="Rechercher un anime" />
-      </template>
-      <template v-slot:animeContent>
+    <v-row>
+      <CardFilterGenders @affectTag="affectTag">
+        <template v-slot:toAnime>
+          <v-btn
+            color="primary"
+            text
+            :to="{ name: 'animeGenre', params: { genreId: selected } }"
+          >
+            Save
+          </v-btn>
+        </template>
+      </CardFilterGenders>
+      <v-col>
         <v-slide-group>
           <v-slide-item v-for="item in animeUpcoming" :key="item.title">
             <CardComponent :item="item" />
@@ -24,24 +32,30 @@
         <v-btn fab icon @click="getMoreAnime">
           <v-icon>mdi-eye-plus-outline</v-icon>
         </v-btn>
-      </template>
-    </DataContent>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
 <script>
-import DataContent from '../utilities/DataContent'
 import { mapState } from 'vuex'
 import CardComponent from '../utilities/CardComponent'
+import CardFilterGenders from '../utilities/CardFilterGenders'
 export default {
   name: 'AnimeContent',
   components: {
-    DataContent,
-    CardComponent
+    CardComponent,
+    CardFilterGenders
   },
+  data: () => ({
+    selected: ''
+  }),
   methods: {
     getMoreAnime () {
       this.$store.dispatch('Anime/getAnimeSeasonNow')
+    },
+    affectTag (tag) {
+      this.selected = tag
     }
   },
   computed: {

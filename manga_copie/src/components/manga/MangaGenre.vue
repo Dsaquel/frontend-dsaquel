@@ -34,15 +34,15 @@
 </template>
 
 <script>
-import CardFilterGenders from '../utilities/CardFilterGenders'
-import CardComponent from '../utilities/CardComponent'
-import Pagination from '../utilities/Pagination'
 import { mapState } from 'vuex'
+import Pagination from '../utilities/Pagination'
+import CardComponent from '../utilities/CardComponent'
+import CardFilterGenders from '../utilities/CardFilterGenders'
 export default {
   name: 'MangaGenre',
   components: {
-    CardComponent,
     Pagination,
+    CardComponent,
     CardFilterGenders
   },
   data: () => ({
@@ -52,11 +52,11 @@ export default {
     const genre = this.tags.find(
       (genre) => genre.name === this.$route.params.genreId
     )
-    this.$store.dispatch('Mangas/getMangaGenres', genre.id)
+    this.$store.dispatch('Manga/getMangaGenres', genre.id)
   },
   methods: {
     getPagination (page) {
-      this.$store.dispatch('Mangas/getPagination', page)
+      this.$store.dispatch('Manga/getPagination', page)
     },
     affectTag (tag) {
       this.selected = tag
@@ -64,9 +64,9 @@ export default {
   },
   computed: {
     ...mapState({
-      mangas: (state) => state.Mangas.mangaGenres,
-      tags: (state) => state.Mangas.tags,
-      lastPageVisible: (state) => state.Mangas.lastPageVisible
+      tags: (state) => state.Manga.tags,
+      mangas: (state) => state.Manga.mangaGenres,
+      lastPageVisible: (state) => state.Manga.lastPageVisible
     })
   }
 }

@@ -1,38 +1,65 @@
 <template>
-  <v-container>
-    <DataContent>
-      <template v-slot:searchData>
-        <input type="text" placeholder="Rechercher un manga" />
-      </template>
-      <template v-slot:mangaContent>
+  <v-row class="mx-auto">
+    <v-col mx-auto cols="12">
+      <CardFilterGenders @affectTag="affectTag">
+        <template v-slot:toManga>
+          <v-btn
+            color="primary"
+            text
+            :to="{ name: 'mangaGenre', params: { genreId: selected } }"
+          >
+            Save
+          </v-btn>
+        </template>
+      </CardFilterGenders>
+    </v-col>
+    <v-col cols="12" lg="8">
+      <v-sheet color="#FF9800" min-height="70vh" rounded="lg">
         <v-slide-group>
           <v-slide-item v-for="(item, i) in topManga" :key="i">
             <CardComponent :item="item" />
           </v-slide-item>
         </v-slide-group>
-        <Reviews :item="mangaReviewsManga[27]" />
-      </template>
-    </DataContent>
-  </v-container>
+      </v-sheet>
+    </v-col>
+    <v-col cols="12" lg="4">
+      <Reviews
+        :item.sync="mangaReviewsManga[Number(page)]"
+        @sendPagination="sendPagination"
+      />
+    </v-col>
+  </v-row>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import CardComponent from '../utilities/CardComponent.vue'
-import DataContent from '../utilities/DataContent'
 import Reviews from '../utilities/Reviews'
+import CardComponent from '../utilities/CardComponent'
+import CardFilterGenders from '../utilities/CardFilterGenders'
 export default {
   name: 'MangaContent',
   components: {
-    DataContent,
+    Reviews,
     CardComponent,
-    Reviews
+    CardFilterGenders
+  },
+  data: () => ({
+    page: 1,
+    selected: ''
+  }),
+  methods: {
+    affectTag (tag) {
+      this.selected = tag
+    },
+    sendPagination (page) {
+      this.page = page
+    }
   },
   computed: {
     ...mapState({
-      mangaRecommendations: (state) => state.Manga.mangaRecommendations,
       topManga: (state) => state.Home.topManga,
-      mangaReviewsManga: (state) => state.Manga.mangaReviewsManga
+      mangaReviewsManga: (state) => state.Manga.mangaReviewsManga,
+      mangaRecommendations: (state) => state.Manga.mangaRecommendations
     })
   }
 }

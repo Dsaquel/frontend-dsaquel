@@ -35,15 +35,15 @@
 </template>
 
 <script>
-import CardFilterGenders from '../utilities/CardFilterGenders'
-import CardComponent from '../utilities/CardComponent'
-import Pagination from '../utilities/Pagination'
 import { mapState } from 'vuex'
+import Pagination from '../utilities/Pagination'
+import CardComponent from '../utilities/CardComponent'
+import CardFilterGenders from '../utilities/CardFilterGenders'
 export default {
   name: 'AnimeGenre',
   components: {
-    CardComponent,
     Pagination,
+    CardComponent,
     CardFilterGenders
   },
   data: () => ({
