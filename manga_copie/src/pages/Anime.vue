@@ -1,18 +1,5 @@
 <template>
   <AnimeContent />
-  <!-- TODO: take animes in home -->
-  <!-- <div v-for="animes in homeContent" :key="animes">
-      <v-row v-if="animes.name === 'Top anime'">
-        <v-col v-for="anime in animes.data" :key="anime">
-          <v-card>
-            <v-card-title>
-              {{ anime.title }}
-            </v-card-title>
-            <v-img :src="anime.images.jpg.image_url"></v-img>
-          </v-card>
-        </v-col>
-      </v-row>
-    </div> -->
 </template>
 
 <script>
@@ -26,6 +13,7 @@ export default {
 
   beforeMount () {
     this.$store.dispatch('Anime/getAnimeSchedules')
+    this.$store.dispatch('Anime/getTopReviewsAnime')
   },
   computed: {
     ...mapState({

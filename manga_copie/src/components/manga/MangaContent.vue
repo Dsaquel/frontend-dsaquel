@@ -1,6 +1,6 @@
 <template>
   <v-row class="mx-auto">
-    <v-col mx-auto cols="12">
+    <v-col cols="12">
       <CardFilterGenders @affectTag="affectTag">
         <template v-slot:toManga>
           <v-btn
@@ -24,7 +24,7 @@
     </v-col>
     <v-col cols="12" lg="4">
       <Reviews
-        :item.sync="mangaReviewsManga[Number(page)]"
+        :item.sync="mangaReviewsManga[page]"
         @sendPagination="sendPagination"
       />
     </v-col>

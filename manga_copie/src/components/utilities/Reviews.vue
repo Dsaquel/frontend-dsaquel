@@ -97,7 +97,7 @@
               <v-pagination
                 v-model="page"
                 @input="sendPagination"
-                :length="pageMangaReview"
+                :length="topReviewsAnime"
                 circle
               />
             </v-row>
@@ -109,12 +109,15 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 export default {
   name: 'Reviews',
   props: {
     item: {
       type: Object
+    },
+    topReviewsAnime: {
+      type: Number,
+      require: true
     }
   },
   data: () => ({
@@ -123,30 +126,11 @@ export default {
     description: false,
     btnDescription: { up: 'mdi-chevron-up', down: 'mdi-chevron-down' }
   }),
-  beforeDestroy () {
-    if (typeof window === 'undefined') return
-
-    window.removeEventListener('resize', this.onResize, { passive: true })
-  },
-
-  mounted () {
-    this.onResize()
-
-    window.addEventListener('resize', this.onResize, { passive: true })
-  },
 
   methods: {
-    onResize () {
-      this.description = window.innerWidth < 960
-    },
     sendPagination () {
       this.$emit('sendPagination', this.page)
     }
-  },
-  computed: {
-    ...mapState({
-      pageMangaReview: (state) => state.Manga.mangaReviewsManga.length
-    })
   }
 }
 </script>

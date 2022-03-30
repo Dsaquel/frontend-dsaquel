@@ -24,6 +24,7 @@ const state = {
   animeGenres: null,
   animeSchedules: null,
   animeSeasonNow: null,
+  topReviewsAnime: null,
   lastPageVisible: null
 }
 const getters = {}
@@ -49,6 +50,9 @@ const mutations = {
     }
     if (animes.name === 'seasonNow') {
       state.animeSeasonNow = animes.data
+    }
+    if (animes.name === 'topReviewsAnime') {
+      state.topReviewsAnime = animes.data
     }
   }
 }
@@ -90,6 +94,15 @@ const actions = {
     const res = await fetch(`${baseUrl}/seasons/now`)
     const data = await res.json()
     data.name = 'seasonNow'
+    commit('setDifferentsAnime', data)
+  },
+  async getTopReviewsAnime ({
+    commit
+  }) {
+    const res = await fetch(`${baseUrl}/top/reviews`)
+    const data = await res.json()
+    data.name = 'topReviewsAnime'
+    console.log(data)
     commit('setDifferentsAnime', data)
   },
   async getPagination ({
