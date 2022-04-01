@@ -67,7 +67,13 @@ const state = {
   ],
   manga: null,
   mangas: [],
-  mangaGenres: null,
+  filters: {
+    type: [],
+    genres: [],
+    status: [],
+    orderBy: []
+  },
+  mangaFiltered: null,
   mangaRecommendations: null,
   mangaReviewsManga: null,
   lastPageVisible: null
@@ -81,8 +87,8 @@ const mutations = {
     state.manga = manga
   },
   setDifferentsManga (state, mangas) {
-    if (mangas.name === 'genres') {
-      state.mangaGenres = mangas.data
+    if (mangas.name === 'filter') {
+      state.mangaFiltered = mangas.data
       state.lastPageVisible = mangas.pagination.last_visible_page
     }
     if (mangas.name === 'recommendations') {
@@ -102,14 +108,14 @@ const actions = {
     const data = await res.json()
     commit('setManga', data.data)
   },
-  async getMangaGenres ({
+  async getMangaFiltered ({
     commit
-  }, id) {
-    const url = new URL(`${baseUrl}/manga?genres=${id}`)
+  }, query) {
+    const url = new URL(`${baseUrl}/anime?${query}&sfw`)
     localStorage.setItem('url', url)
-    const res = await fetch(`${baseUrl}/manga?genres=${id}`)
+    const res = await fetch(`${baseUrl}/anime?${query}&sfw`)
     const data = await res.json()
-    data.name = 'genres'
+    data.name = 'filter'
     commit('setDifferentsManga', data)
   },
   async getMangaRecommendations ({
@@ -135,7 +141,7 @@ const actions = {
     const res = await fetch(`${url}?&page=${page}`)
     const data = await res.json()
     // TODO: make it reactive
-    data.name = 'genres'
+    data.name = 'filter'
     commit('setDifferentsManga', data)
   }
 }

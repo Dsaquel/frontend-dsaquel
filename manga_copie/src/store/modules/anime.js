@@ -47,7 +47,7 @@ const mutations = {
     state.lastPageVisible = animes.pagination.last_visible_page
   },
   setDifferentsAnime (state, animes) {
-    if (animes.name === 'filters') {
+    if (animes.name === 'filter') {
       state.animeFiltered = animes.data
       state.lastPageVisible = animes.pagination.last_visible_page
     }
@@ -74,12 +74,11 @@ const actions = {
   async getAnimeFiltered ({
     commit
   }, query) {
-    console.log(query)
     const url = new URL(`${baseUrl}/anime?${query}&sfw`)
     localStorage.setItem('url', url)
     const res = await fetch(`${baseUrl}/anime?${query}&sfw`)
     const data = await res.json()
-    data.name = 'filters'
+    data.name = 'filter'
     commit('setDifferentsAnime', data)
   },
   async getAnimeSchedules ({

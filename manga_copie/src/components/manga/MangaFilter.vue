@@ -1,17 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <CardFilterManga @affectTag="affectTag">
-        <template v-slot:toManga>
-          <v-btn
-            color="primary"
-            text
-            :to="{ name: 'mangaGenre', params: { genreId: selected } }"
-          >
-            Save
-          </v-btn>
-        </template>
-      </CardFilterManga>
+      <CardFilterManga />
       <v-col cols="10">
         <v-row>
           <v-col cols="4" v-for="(item, index) in mangas" :key="index">
@@ -39,7 +29,7 @@ import Pagination from '../utilities/Pagination'
 import CardComponent from '../utilities/CardComponent'
 import CardFilterManga from '../utilities/CardFilterManga'
 export default {
-  name: 'MangaGenre',
+  name: 'MangaFilter',
   components: {
     Pagination,
     CardComponent,
@@ -49,10 +39,8 @@ export default {
     selected: ''
   }),
   beforeMount () {
-    const genre = this.tags.find(
-      (genre) => genre.name === this.$route.params.genreId
-    )
-    this.$store.dispatch('Manga/getMangaGenres', genre.id)
+    const query = this.$route.query.filter
+    this.$store.dispatch('Manga/getMangaFiltered', query)
   },
   methods: {
     getPagination (page) {

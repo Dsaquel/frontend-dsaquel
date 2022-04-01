@@ -69,11 +69,11 @@
             <v-list-item-title>status</v-list-item-title>
             <v-chip-group v-model="status" active-class="primary--text">
               <v-chip
-                v-for="statu in animeStatus"
-                :value="statu"
+                v-for="animeStatus in animesStatus"
+                :value="animeStatus"
                 outlined
-                :key="statu"
-                >{{ statu }}</v-chip
+                :key="animeStatus"
+                >{{ animeStatus }}</v-chip
               >
             </v-chip-group>
           </v-list-item-action>
@@ -131,17 +131,17 @@ export default {
       'members',
       'favorites'
     ],
-    animeStatus: ['upcoming', 'airing', 'complete']
+    animesStatus: ['upcoming', 'airing', 'complete']
   }),
   props: {},
   methods: {
     sendRequest () {
-      const status = 'status=' + this.status
-      const type = 'type=' + this.type.join('&')
-      const genres = 'genres=' + this.genres.join('&')
-      const orderBy = 'order_by=' + this.orderBy.join('&')
+      const status = 'status=' + this.statusStore
+      const type = 'type=' + this.typeStore.join('&')
+      const genres = 'genres=' + this.genresStore.join('&')
+      const orderBy = 'order_by=' + this.orderByStore.join('&')
       const query = [genres, type, orderBy, status].join('&')
-      this.$router.replace({ name: 'AnimeFilter', query: { filter: query } })
+      this.$router.replace({ name: 'animeFilter', query: { filter: query } })
     }
   },
   watch: {},
