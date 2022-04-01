@@ -99,6 +99,7 @@
                 @input="sendPagination"
                 :length="topReviewsAnime"
                 circle
+                id="review"
               />
             </v-row>
           </v-card-actions>
@@ -135,7 +136,7 @@ export default {
 }
 </script>
 
-<style scooped lang="scss">
+<style scoped>
 .truncate {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -144,11 +145,10 @@ export default {
   -webkit-line-clamp: 4;
   white-space: normal;
 }
-
-.v-pagination__item {
+#review >>> .v-pagination__item {
   display: none;
 }
-.v-pagination__more {
+#review >>> .v-pagination__more {
   display: none;
 }
 

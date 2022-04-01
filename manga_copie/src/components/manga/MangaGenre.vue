@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <CardFilterGenders @affectTag="affectTag">
+      <CardFilterManga @affectTag="affectTag">
         <template v-slot:toManga>
           <v-btn
             color="primary"
@@ -11,7 +11,7 @@
             Save
           </v-btn>
         </template>
-      </CardFilterGenders>
+      </CardFilterManga>
       <v-col cols="10">
         <v-row>
           <v-col cols="4" v-for="(item, index) in mangas" :key="index">
@@ -37,13 +37,13 @@
 import { mapState } from 'vuex'
 import Pagination from '../utilities/Pagination'
 import CardComponent from '../utilities/CardComponent'
-import CardFilterGenders from '../utilities/CardFilterGenders'
+import CardFilterManga from '../utilities/CardFilterManga'
 export default {
   name: 'MangaGenre',
   components: {
     Pagination,
     CardComponent,
-    CardFilterGenders
+    CardFilterManga
   },
   data: () => ({
     selected: ''

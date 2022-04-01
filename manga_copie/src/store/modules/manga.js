@@ -115,7 +115,7 @@ const actions = {
   async getMangaRecommendations ({
     commit
   }) {
-    const res = await fetch(`${baseUrl}/recommendations/manga`)
+    const res = await fetch(`${baseUrl}/manga/2`)
     const data = await res.json()
     data.name = 'recommendations'
     commit('setDifferentsManga', data)

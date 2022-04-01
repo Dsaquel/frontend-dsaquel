@@ -11,7 +11,6 @@ export default {
   },
   beforeMount () {
     this.$store.dispatch('Manga/getMangaReviewsManga')
-    this.$store.dispatch('Manga/getMangaRecommendations')
   }
 }
 </script>

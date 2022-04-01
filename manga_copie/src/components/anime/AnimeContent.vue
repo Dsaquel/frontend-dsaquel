@@ -1,17 +1,7 @@
 <template>
   <v-row class="mx-auto">
     <v-col cols="12">
-      <CardFilterGenders @affectTag="affectTag">
-        <template v-slot:toAnime>
-          <v-btn
-            color="primary"
-            text
-            :to="{ name: 'animeGenre', params: { genreId: selected } }"
-          >
-            Save
-          </v-btn>
-        </template>
-      </CardFilterGenders>
+      <CardFilterAnime />
     </v-col>
     <v-col cols="12" lg="8">
       <v-slide-group>
@@ -48,24 +38,27 @@
 import { mapState } from 'vuex'
 import Reviews from '../utilities/Reviews'
 import CardComponent from '../utilities/CardComponent'
-import CardFilterGenders from '../utilities/CardFilterGenders'
+import CardFilterAnime from '../utilities/CardFilterAnime'
 export default {
   name: 'AnimeContent',
   components: {
     Reviews,
     CardComponent,
-    CardFilterGenders
+    CardFilterAnime
   },
   data: () => ({
     page: 1,
-    selected: ''
+    genres: null
   }),
+  watch: {
+    genres () {}
+  },
   methods: {
     getMoreAnime () {
       this.$store.dispatch('Anime/getAnimeSeasonNow')
     },
     affectTag (tag) {
-      this.selected = tag
+      this.genres = tag
     },
     sendPagination (page) {
       this.page = page

@@ -1,9 +1,9 @@
 <template>
-  <v-menu max-width="max-content">
+  <v-menu :close-on-content-click="menu"  max-width="max-content">
     <template v-slot:activator="{ on, attrs }">
       <v-btn icon color="primary" dark v-bind="attrs" v-on="on"> <v-icon>mdi-filter-variant</v-icon> </v-btn>
     </template>
-    <v-card min-width="max-content">
+    <v-card min-width="250">
       <v-list>
         <v-list-item>
           <v-list-item-content>
@@ -28,16 +28,16 @@
       <v-list>
         <v-list-item>
           <v-list-item-action>
-            <v-switch disabled v-model="score" color="purple"></v-switch>
+            <v-switch v-model="score" color="purple"></v-switch>
           </v-list-item-action>
-          <v-list-item-title>Meilleur score en premier</v-list-item-title>
+          <v-list-item-title>score</v-list-item-title>
         </v-list-item>
 
         <v-list-item>
           <v-list-item-action>
-            <v-switch disabled v-model="hints" color="purple"></v-switch>
+            <v-switch v-model="sort" color="purple"></v-switch>
           </v-list-item-action>
-          <v-list-item-title>Trié les animes haram</v-list-item-title>
+          <v-list-item-title>sort</v-list-item-title>
         </v-list-item>
       </v-list>
 
@@ -66,12 +66,12 @@
 import { mapState } from 'vuex'
 
 export default {
-  name: 'CardFilterGenders',
+  name: 'CardFilterManga',
   data: () => ({
-    selected: '',
     menu: false,
+    sort: true,
     score: true,
-    hints: true
+    selected: ''
   }),
   props: {},
 

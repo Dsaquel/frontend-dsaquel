@@ -4,7 +4,7 @@ import VueRouter from 'vue-router'
 const DetailsAnime = () => import(/* webpackChunkName: "DetailAnime" */ '../components/detail/DetailsAnime.vue')
 const DetailsCharacter = () => import(/* webpackChunkName: "DetailCharacter" */ '../components/detail/DetailsCharacter.vue')
 const DetailsManga = () => import(/* webpackChunkName: "DetailManga" */ '../components/detail/DetailsManga.vue')
-const AnimeGenre = () => import(/* webpackChunkName: "AnimeGenre" */ '../components/anime/AnimeGenre.vue')
+const AnimeFilter = () => import(/* webpackChunkName: "AnimeFilter" */ '../components/anime/AnimeFilter.vue')
 const MangaGenre = () => import(/* webpackChunkName: "MangaGenre" */ '../components/manga/MangaGenre.vue')
 const Home = () => import(/* webpackChunkName: "Home" */ '../pages/Home.vue')
 const Login = () => import(/* webpackChunkName: "Login" */ '../pages/Login.vue')
@@ -39,14 +39,14 @@ const routes = [
     component: DetailsCharacter
   },
   {
-    path: '/anime/genre/:genreId',
-    component: AnimeGenre,
-    name: 'animeGenre'
+    path: '/anime/filters/',
+    component: AnimeFilter,
+    name: 'AnimeFilter'
   },
   {
     path: '/manga/genre/:genreId',
     component: MangaGenre,
-    name: 'mangaGenre'
+    name: 'MangaGenre'
   },
   {
     path: '/login',

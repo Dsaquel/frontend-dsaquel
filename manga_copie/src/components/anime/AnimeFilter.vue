@@ -1,18 +1,7 @@
 <template>
   <v-container>
     <v-row>
-      <CardFilterGenders @affectTag="affectTag">
-        <template v-slot:toAnime>
-          <v-btn
-            color="primary"
-            text
-
-            :to="{ name: 'animeGenre', params: { genreId: selected } }"
-          >
-            Save
-          </v-btn>
-        </template>
-      </CardFilterGenders>
+      <CardFilterAnime />
       <v-col cols="10">
         <v-row>
           <v-col cols="4" v-for="(item, index) in animes" :key="index">
@@ -38,22 +27,20 @@
 import { mapState } from 'vuex'
 import Pagination from '../utilities/Pagination'
 import CardComponent from '../utilities/CardComponent'
-import CardFilterGenders from '../utilities/CardFilterGenders'
+import CardFilterAnime from '../utilities/CardFilterAnime'
 export default {
   name: 'AnimeGenre',
   components: {
     Pagination,
     CardComponent,
-    CardFilterGenders
+    CardFilterAnime
   },
   data: () => ({
     selected: ''
   }),
-  beforeMount () {
-    const genre = this.tags.find(
-      (genre) => genre.name === this.$route.params.genreId
-    )
-    this.$store.dispatch('Anime/getAnimeGenres', genre.id)
+  mounted () {
+    const query = this.$route.query.filter
+    this.$store.dispatch('Anime/getAnimeFiltered', query)
   },
   methods: {
     getPagination (page) {

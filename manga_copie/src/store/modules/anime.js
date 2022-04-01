@@ -21,7 +21,13 @@ const state = {
   ],
   anime: null,
   animes: null,
-  animeGenres: null,
+  filters: {
+    type: [],
+    genres: [],
+    status: [],
+    orderBy: []
+  },
+  animeFiltered: null,
   animeSchedules: null,
   animeSeasonNow: null,
   topReviewsAnime: null,
@@ -41,8 +47,8 @@ const mutations = {
     state.lastPageVisible = animes.pagination.last_visible_page
   },
   setDifferentsAnime (state, animes) {
-    if (animes.name === 'genres') {
-      state.animeGenres = animes.data
+    if (animes.name === 'filters') {
+      state.animeFiltered = animes.data
       state.lastPageVisible = animes.pagination.last_visible_page
     }
     if (animes.name === 'schedules') {
@@ -65,14 +71,15 @@ const actions = {
     const data = await res.json()
     commit('setAnime', data)
   },
-  async getAnimeGenres ({
+  async getAnimeFiltered ({
     commit
-  }, id) {
-    const url = new URL(`${baseUrl}/anime?genres=${id}`)
+  }, query) {
+    console.log(query)
+    const url = new URL(`${baseUrl}/anime?${query}&sfw`)
     localStorage.setItem('url', url)
-    const res = await fetch(`${baseUrl}/anime?genres=${id}`)
+    const res = await fetch(`${baseUrl}/anime?${query}&sfw`)
     const data = await res.json()
-    data.name = 'genres'
+    data.name = 'filters'
     commit('setDifferentsAnime', data)
   },
   async getAnimeSchedules ({
@@ -102,7 +109,6 @@ const actions = {
     const res = await fetch(`${baseUrl}/top/reviews`)
     const data = await res.json()
     data.name = 'topReviewsAnime'
-    console.log(data)
     commit('setDifferentsAnime', data)
   },
   async getPagination ({
@@ -112,7 +118,7 @@ const actions = {
     const res = await fetch(`${url}?&page=${page}`)
     const data = await res.json()
     // TODO: make it reactive
-    data.name = 'genres'
+    data.name = 'filters'
     commit('setDifferentsAnime', data)
   }
 }

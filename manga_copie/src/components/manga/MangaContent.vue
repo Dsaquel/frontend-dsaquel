@@ -1,7 +1,7 @@
 <template>
   <v-row class="mx-auto">
     <v-col cols="12">
-      <CardFilterGenders @affectTag="affectTag">
+      <CardFilterManga @affectTag="affectTag">
         <template v-slot:toManga>
           <v-btn
             color="primary"
@@ -11,7 +11,7 @@
             Save
           </v-btn>
         </template>
-      </CardFilterGenders>
+      </CardFilterManga>
     </v-col>
     <v-col cols="12" lg="8">
       <v-sheet color="#FF9800" min-height="70vh" rounded="lg">
@@ -23,25 +23,24 @@
       </v-sheet>
     </v-col>
     <v-col cols="12" lg="4">
-      <Reviews
-        :item.sync="mangaReviewsManga[page]"
-        @sendPagination="sendPagination"
-      />
+      <v-sheet min-height="70vh" rounded="lg">
+        <PreferenceUser />
+      </v-sheet>
     </v-col>
   </v-row>
 </template>
 
 <script>
 import { mapState } from 'vuex'
-import Reviews from '../utilities/Reviews'
 import CardComponent from '../utilities/CardComponent'
-import CardFilterGenders from '../utilities/CardFilterGenders'
+import PreferenceUser from '../utilities/PreferenceUser'
+import CardFilterManga from '../utilities/CardFilterManga'
 export default {
   name: 'MangaContent',
   components: {
-    Reviews,
     CardComponent,
-    CardFilterGenders
+    PreferenceUser,
+    CardFilterManga
   },
   data: () => ({
     page: 1,

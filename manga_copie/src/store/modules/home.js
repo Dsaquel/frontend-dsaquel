@@ -45,7 +45,6 @@ const actions = {
       promises.map(async (promise) => {
         const res = await fetch(`${baseUrl}/${promise.promise}`)
         const data = await res.json()
-        console.log(data)
         data.name = promise.name
         commit('setHomePageContent', data)
       })
