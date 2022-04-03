@@ -75,7 +75,7 @@ const state = {
   },
   mangaFiltered: null,
   mangaRecommendations: null,
-  mangaReviewsManga: null,
+  mangaPreferenceUser: null,
   lastPageVisible: null
 
 }
@@ -94,8 +94,8 @@ const mutations = {
     if (mangas.name === 'recommendations') {
       state.mangaRecommendations = mangas.data
     }
-    if (mangas.name === 'ReviewsManga') {
-      state.mangaReviewsManga = mangas.data
+    if (mangas.name === 'preferenceManga') {
+      state.mangaPreferenceUser = mangas.data
     }
   }
 }
@@ -126,12 +126,12 @@ const actions = {
     data.name = 'recommendations'
     commit('setDifferentsManga', data)
   },
-  async getMangaReviewsManga ({
+  async getMangaPreferenceUser ({
     commit
-  }) {
-    const res = await fetch(`${baseUrl}/reviews/manga`)
+  }, idManga) {
+    const res = await fetch(`${baseUrl}/manga/${idManga}/recommendations`)
     const data = await res.json()
-    data.name = 'ReviewsManga'
+    data.name = 'preferenceManga'
     commit('setDifferentsManga', data)
   },
   async getPagination ({

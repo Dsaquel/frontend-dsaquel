@@ -8,9 +8,6 @@ export default {
   name: 'Manga',
   components: {
     MangaContent
-  },
-  beforeMount () {
-    this.$store.dispatch('Manga/getMangaReviewsManga')
   }
 }
 </script>
