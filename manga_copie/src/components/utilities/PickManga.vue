@@ -12,9 +12,9 @@
               class="blur"
               v-bind="attrs"
               :src="manga.image"
-              @click="sendPreferenceUser(manga.id)"
+              @click="sendPicking(manga.id, manga.title)"
               style="cursor: pointer"
-              />
+            />
           </template>
           <v-card>
             <v-card-title>Information {{ manga.title }}</v-card-title>
@@ -40,7 +40,7 @@
 
 <script>
 export default {
-  name: 'PreferenceUser',
+  name: 'PickManga',
   data: () => ({
     isBlur: false,
     mangas: [
@@ -119,8 +119,9 @@ export default {
     ]
   }),
   methods: {
-    sendPreferenceUser (idManga) {
-      this.$emit('preferenceUser', idManga)
+    sendPicking (idManga, title) {
+      this.$store.state.Manga.currentRecommendationTitle = title
+      this.$emit('sendPicking', idManga)
     }
   }
 }

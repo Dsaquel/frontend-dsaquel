@@ -9,14 +9,14 @@
 export default {
   name: 'DetailsManga',
   beforeMount () {
-    this.$store.dispatch('Mangas/getManga', this.$route.params.id)
+    this.$store.dispatch('Manga/getManga', this.$route.params.id)
   },
   beforeDestroy () {
-    this.$store.commit('Mangas/setManga', null)
+    this.$store.commit('Manga/setManga', null)
   },
   computed: {
     manga () {
-      return this.$store.state.Mangas.manga
+      return this.$store.state.Manga.manga
     }
   }
 }

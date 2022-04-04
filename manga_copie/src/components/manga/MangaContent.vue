@@ -13,38 +13,37 @@
       </v-sheet>
     </v-col>
     <v-col cols="12" lg="4">
-      <div v-if="userSelectedManga">
-        <div v-for="manga in mangaPreferenceUser" :key="manga.id">
-          {{ manga.entry.title }}
-        </div>
+      <div v-if="mangaPicking === null">
+        <PickManga @sendPicking="sendPicking" />
       </div>
-      <PreferenceUser @preferenceUser="preferenceUser" v-else />
+      <!-- TODO: auto slide ? -->
+      <div v-else>
+        <v-btn @click="resetPick">reset les preferences ?</v-btn>
+        <h2>Recommendation concernant {{ currentRecommendationTitle }}</h2>
+        <Recommendation @sendPagination="sendPagination" :item="mangaPicking[page]" :recommendation="mangaPicking.length" />
+      </div>
     </v-col>
   </v-row>
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import PickManga from '../utilities/PickManga'
 import CardComponent from '../utilities/CardComponent'
-import PreferenceUser from '../utilities/PreferenceUser'
+import Recommendation from '../utilities/Recommendation'
 import CardFilterManga from '../utilities/CardFilterManga'
 export default {
   name: 'MangaContent',
   components: {
+    PickManga,
     CardComponent,
-    PreferenceUser,
+    Recommendation,
     CardFilterManga
   },
   data: () => ({
     page: 1,
-    userSelectedManga: false,
     selected: ''
   }),
-  watch: {
-    mangaPreferenceUser () {
-      this.userSelectedManga = true
-    }
-  },
   methods: {
     affectTag (tag) {
       this.selected = tag
@@ -52,16 +51,20 @@ export default {
     sendPagination (page) {
       this.page = page
     },
-    preferenceUser (idManga) {
-      this.$store.dispatch('Manga/getMangaPreferenceUser', idManga)
+    sendPicking (idManga) {
+      this.$store.dispatch('Manga/getMangaPicking', idManga)
+    },
+    resetPick () {
+      this.$store.state.Manga.mangaPicking = null
     }
   },
   computed: {
     ...mapState({
       topManga: (state) => state.Home.topManga,
-      mangaPreferenceUser: (state) => state.Manga.mangaPreferenceUser,
+      mangaPicking: (state) => state.Manga.mangaPicking,
       mangaReviewsManga: (state) => state.Manga.mangaReviewsManga,
-      mangaRecommendations: (state) => state.Manga.mangaRecommendations
+      mangaRecommendations: (state) => state.Manga.mangaRecommendations,
+      currentRecommendationTitle: (state) => state.Manga.currentRecommendationTitle
     })
   }
 }

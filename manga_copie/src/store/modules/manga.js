@@ -74,9 +74,10 @@ const state = {
     orderBy: []
   },
   mangaFiltered: null,
+  mangaPicking: null,
+  lastPageVisible: null,
   mangaRecommendations: null,
-  mangaPreferenceUser: null,
-  lastPageVisible: null
+  currentRecommendationTitle: null
 
 }
 
@@ -94,8 +95,8 @@ const mutations = {
     if (mangas.name === 'recommendations') {
       state.mangaRecommendations = mangas.data
     }
-    if (mangas.name === 'preferenceManga') {
-      state.mangaPreferenceUser = mangas.data
+    if (mangas.name === 'mangaPicking') {
+      state.mangaPicking = mangas.data
     }
   }
 }
@@ -126,12 +127,13 @@ const actions = {
     data.name = 'recommendations'
     commit('setDifferentsManga', data)
   },
-  async getMangaPreferenceUser ({
+  async getMangaPicking ({
     commit
   }, idManga) {
+    console.log(idManga)
     const res = await fetch(`${baseUrl}/manga/${idManga}/recommendations`)
     const data = await res.json()
-    data.name = 'preferenceManga'
+    data.name = 'mangaPicking'
     commit('setDifferentsManga', data)
   },
   async getPagination ({
