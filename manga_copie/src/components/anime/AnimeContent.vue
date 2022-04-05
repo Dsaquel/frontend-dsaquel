@@ -4,25 +4,47 @@
       <CardFilterAnime />
     </v-col>
     <v-col cols="12" lg="8">
-      <v-slide-group>
-        <v-slide-item v-for="item in animeUpcoming" :key="item.title">
-          <CardComponent :item="item" />
-        </v-slide-item>
-      </v-slide-group>
-
-      <v-slide-group>
-        <v-slide-item v-for="item in animeSchedules" :key="item.title">
-          <CardComponent :item="item" />
-        </v-slide-item>
-      </v-slide-group>
-      <v-slide-group>
-        <v-slide-item v-for="item in animeSeasonNow" :key="item.title">
-          <CardComponent :item="item" />
-        </v-slide-item>
-      </v-slide-group>
-      <v-btn fab icon @click="getMoreAnime">
-        <v-icon>mdi-eye-plus-outline</v-icon>
-      </v-btn>
+      <v-container>
+        <v-carousel
+          cycle
+          height="450"
+          hide-delimiter-background
+          show-arrows-on-hover
+        >
+          <v-sheet color="red" elevation="8">
+            <v-container>
+              <v-carousel-item v-for="(mangas, i) in carousel" :key="i">
+                <v-row class="fill-height" align="center" justify="center">
+                  <v-col cols="12" lg="3" v-for="(manga, i) in mangas" :key="i">
+                    <v-card
+                      max-width="200"
+                      :to="{
+                        name: 'detailManga',
+                        params: { id: manga.mal_id },
+                      }"
+                    >
+                      <v-img
+                        :aspect-ratio="4 / 5"
+                        :src="manga.images.jpg.image_url"
+                      ></v-img>
+                      <v-card-text>
+                        {{ manga.title }}
+                      </v-card-text>
+                    </v-card>
+                  </v-col>
+                </v-row>
+              </v-carousel-item>
+            </v-container>
+          </v-sheet>
+        </v-carousel>
+      </v-container>
+      <v-sheet class="mx-auto" elevation="8">
+        <v-slide-group>
+          <v-slide-item v-for="item in animeSeasonNow" :key="item.title">
+            <CardComponentAnime :item="item" />
+          </v-slide-item>
+        </v-slide-group>
+      </v-sheet>
     </v-col>
     <v-col cols="12" lg="4">
       <Reviews
@@ -37,26 +59,31 @@
 <script>
 import { mapState } from 'vuex'
 import Reviews from '../utilities/Reviews'
-import CardComponent from '../utilities/CardComponent'
+import CardComponentAnime from '../utilities/CardComponentAnime'
 import CardFilterAnime from '../utilities/CardFilterAnime'
 export default {
   name: 'AnimeContent',
   components: {
     Reviews,
-    CardComponent,
+    CardComponentAnime,
     CardFilterAnime
   },
   data: () => ({
     page: 1,
-    genres: null
+    model: [],
+    genres: null,
+    toggle: false,
+    carousel: []
   }),
-  watch: {
-    genres () {}
+  mounted () {
+    const size = 4
+    const arrayOfArrays = []
+    for (let i = 0; i < this.animeUpcoming.length; i += size) {
+      arrayOfArrays.push(this.animeUpcoming.slice(i, i + size))
+    }
+    this.carousel = arrayOfArrays
   },
   methods: {
-    getMoreAnime () {
-      this.$store.dispatch('Anime/getAnimeSeasonNow')
-    },
     affectTag (tag) {
       this.genres = tag
     },
@@ -67,7 +94,6 @@ export default {
   computed: {
     ...mapState({
       animeUpcoming: (state) => state.Home.animeUpcoming,
-      animeSchedules: (state) => state.Anime.animeSchedules,
       animeSeasonNow: (state) => state.Anime.animeSeasonNow,
       topReviewsAnime: (state) => state.Anime.topReviewsAnime
     })

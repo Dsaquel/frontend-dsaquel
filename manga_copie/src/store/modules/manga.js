@@ -76,9 +76,9 @@ const state = {
   mangaFiltered: null,
   mangaPicking: null,
   lastPageVisible: null,
+  mostMangaFavorites: null,
   mangaRecommendations: null,
   currentRecommendationTitle: null
-
 }
 
 const getters = {}
@@ -92,11 +92,12 @@ const mutations = {
       state.mangaFiltered = mangas.data
       state.lastPageVisible = mangas.pagination.last_visible_page
     }
-    if (mangas.name === 'recommendations') {
+
+    if (mangas.name === 'recommendation') {
       state.mangaRecommendations = mangas.data
     }
-    if (mangas.name === 'mangaPicking') {
-      state.mangaPicking = mangas.data
+    if (mangas.name === 'favorites') {
+      state.mostMangaFavorites = mangas.data
     }
   }
 }
@@ -119,21 +120,20 @@ const actions = {
     data.name = 'filter'
     commit('setDifferentsManga', data)
   },
-  async getMangaRecommendations ({
-    commit
-  }) {
-    const res = await fetch(`${baseUrl}/manga/2`)
-    const data = await res.json()
-    data.name = 'recommendations'
-    commit('setDifferentsManga', data)
-  },
-  async getMangaPicking ({
-    commit
+  async getMangaRecommendation ({
+    commit, state
   }, idManga) {
-    console.log(idManga)
+    if (state.mangaRecommendations !== null) return
     const res = await fetch(`${baseUrl}/manga/${idManga}/recommendations`)
     const data = await res.json()
-    data.name = 'mangaPicking'
+    data.name = 'recommendation'
+    commit('setDifferentsManga', data)
+  },
+  async getMostFavoritesManga ({ commit, state }) {
+    if (state.mostMangaFavorites !== null) return
+    const res = await fetch(`${baseUrl}/manga?order_by=favorites&sort=desc&sfw`)
+    const data = await res.json()
+    data.name = 'favorites'
     commit('setDifferentsManga', data)
   },
   async getPagination ({

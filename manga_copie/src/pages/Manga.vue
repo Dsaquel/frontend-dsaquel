@@ -8,6 +8,10 @@ export default {
   name: 'Manga',
   components: {
     MangaContent
+  },
+  beforeMount () {
+    this.$store.dispatch('Home/getTopManga')
+    this.$store.dispatch('Manga/getMostFavoritesManga')
   }
 }
 </script>

@@ -25,30 +25,26 @@ const mutations = {
 }
 
 const actions = {
-  async getHomePageContent ({
-    commit,
-    state
-  }) {
+  async getTopManga ({ commit, state }) {
+    if (state.topManga !== null) return
+    const res = await fetch(`${baseUrl}/top/manga`)
+    const data = await res.json()
+    data.name = 'topManga'
+    commit('setHomePageContent', data)
+  },
+  async getTopCharacters ({ commit, state }) {
+    if (state.topCharacters !== null) return
+    const res = await fetch(`${baseUrl}/top/characters`)
+    const data = await res.json()
+    data.name = 'topCharacters'
+    commit('setHomePageContent', data)
+  },
+  async getAnimeUpcoming ({ commit, state }) {
     if (state.animeUpcoming !== null) return
-    const promises = [{
-      promise: 'top/manga',
-      name: 'topManga'
-    }, {
-      promise: 'seasons/upcoming',
-      name: 'animeUpcoming'
-    }, {
-      promise: 'top/characters',
-      name: 'topCharacters'
-    }]
-
-    await Promise.all(
-      promises.map(async (promise) => {
-        const res = await fetch(`${baseUrl}/${promise.promise}`)
-        const data = await res.json()
-        data.name = promise.name
-        commit('setHomePageContent', data)
-      })
-    )
+    const res = await fetch(`${baseUrl}/seasons/upcoming`)
+    const data = await res.json()
+    data.name = 'animeUpcoming'
+    commit('setHomePageContent', data)
   }
 }
 

@@ -28,7 +28,6 @@ const state = {
     orderBy: []
   },
   animeFiltered: null,
-  animeSchedules: null,
   animeSeasonNow: null,
   topReviewsAnime: null,
   lastPageVisible: null
@@ -50,9 +49,6 @@ const mutations = {
     if (animes.name === 'filter') {
       state.animeFiltered = animes.data
       state.lastPageVisible = animes.pagination.last_visible_page
-    }
-    if (animes.name === 'schedules') {
-      state.animeSchedules = animes.data
     }
     if (animes.name === 'seasonNow') {
       state.animeSeasonNow = animes.data
@@ -79,17 +75,6 @@ const actions = {
     const res = await fetch(`${baseUrl}/anime?${query}&sfw`)
     const data = await res.json()
     data.name = 'filter'
-    commit('setDifferentsAnime', data)
-  },
-  async getAnimeSchedules ({
-    commit,
-    state
-  }, filter) {
-    if (state.animeSchedules !== null && filter === undefined) return
-    const day = new Date().toLocaleString('en-GB', { weekday: 'long' })
-    const res = await fetch(`${baseUrl}/schedules/${day}`)
-    const data = await res.json()
-    data.name = 'schedules'
     commit('setDifferentsAnime', data)
   },
   async getAnimeSeasonNow ({

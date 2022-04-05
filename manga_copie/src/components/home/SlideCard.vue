@@ -134,9 +134,6 @@ export default {
   components: {
     HoverComponent
   },
-  data: () => ({
-
-  }),
   computed: {
     ...mapState({
       topManga: (state) => state.Home.topManga,

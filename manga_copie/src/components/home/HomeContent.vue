@@ -20,7 +20,9 @@ export default {
   methods: {
   },
   mounted () {
-    this.$store.dispatch('Home/getHomePageContent')
+    this.$store.dispatch('Home/getTopManga')
+    this.$store.dispatch('Home/getTopCharacters')
+    this.$store.dispatch('Home/getAnimeUpcoming')
   },
   computed: {
     ...mapState({})

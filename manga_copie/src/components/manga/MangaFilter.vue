@@ -5,13 +5,13 @@
       <v-col cols="10">
         <v-row>
           <v-col cols="4" v-for="(item, index) in mangas" :key="index">
-            <CardComponent :item="item">
+            <CardComponentManga :item="item">
               <template v-slot:title>
                 <h1>
                   {{ item.title }}
                 </h1>
               </template>
-            </CardComponent>
+            </CardComponentManga>
           </v-col>
         </v-row>
       </v-col>
@@ -26,13 +26,13 @@
 <script>
 import { mapState } from 'vuex'
 import Pagination from '../utilities/Pagination'
-import CardComponent from '../utilities/CardComponent'
+import CardComponentManga from '../utilities/CardComponentManga'
 import CardFilterManga from '../utilities/CardFilterManga'
 export default {
   name: 'MangaFilter',
   components: {
     Pagination,
-    CardComponent,
+    CardComponentManga,
     CardFilterManga
   },
   data: () => ({

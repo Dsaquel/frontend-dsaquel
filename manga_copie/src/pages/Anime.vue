@@ -12,8 +12,9 @@ export default {
   },
 
   beforeMount () {
-    this.$store.dispatch('Anime/getAnimeSchedules')
+    this.$store.dispatch('Home/getAnimeUpcoming')
     this.$store.dispatch('Anime/getTopReviewsAnime')
+    this.$store.dispatch('Anime/getAnimeSeasonNow')
   },
   computed: {
     ...mapState({
