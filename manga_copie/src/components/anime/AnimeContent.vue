@@ -18,10 +18,6 @@
                   <v-col cols="12" lg="3" v-for="(manga, i) in mangas" :key="i">
                     <v-card
                       max-width="200"
-                      :to="{
-                        name: 'detailManga',
-                        params: { id: manga.mal_id },
-                      }"
                     >
                       <v-img
                         :aspect-ratio="4 / 5"
@@ -37,14 +33,14 @@
             </v-container>
           </v-sheet>
         </v-carousel>
+        <v-sheet elevation="8">
+          <v-slide-group>
+            <div v-for="item in animeSeasonNow" :key="item.title">
+              <CardComponentAnime :item="item" />
+            </div>
+          </v-slide-group>
+        </v-sheet>
       </v-container>
-      <v-sheet class="mx-auto" elevation="8">
-        <v-slide-group>
-          <v-slide-item v-for="item in animeSeasonNow" :key="item.title">
-            <CardComponentAnime :item="item" />
-          </v-slide-item>
-        </v-slide-group>
-      </v-sheet>
     </v-col>
     <v-col cols="12" lg="4">
       <Reviews

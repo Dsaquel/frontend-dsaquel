@@ -14,15 +14,15 @@
             {{ item.title }}
           </p>
 
-          <p class="font-weight-medium">Score: {{ item.score }}/10</p>
-          <p class="font-weight-medium">Date de sortie: {{ item.year }}</p>
+          <p class="font-weight-medium" v-if="item.score !== null">Score: {{ item.score }}/10</p>
+          <p class="font-weight-medium" v-if="item.year !== null">Date de sortie: {{ item.year }}</p>
           <p class="font-weight-medium">
             Genres:
             <template v-for="genre in item.genres">
               {{ genre.name }}
             </template>
           </p>
-          <p class="font-weight-medium">
+          <p class="font-weight-medium" v-if="item.episodes !== null">
             Nombre d'épisodes: {{ item.episodes }}
           </p>
         </v-card-text>

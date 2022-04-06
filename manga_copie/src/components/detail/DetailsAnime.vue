@@ -5,31 +5,69 @@
       <v-row justify="center">
         <v-col cols="12" lg="2">
           <v-img max-width="280" :src="anime.images.jpg.image_url"></v-img>
-        </v-col>
-        <v-col cols="12" lg="8">
-          <v-card-text>
-            Synopsis: <br />
-            {{ anime.synopsis }}
-            <br />
-            genres:
-            <template v-for="genre in anime.genres">
+          <p class="subtitle-1">
+            Genres:<template v-for="genre in anime.genres">
               {{ genre.name }}
               <template v-if="anime.genres.slice(-1)[0] !== genre">
                 |
               </template>
             </template>
-            <br>
-            date sortie : {{ anime.year }}
-          </v-card-text>
+          </p>
+          <p class="subtitle-1" v-if="anime.year !== null">
+            {{ anime.year }}
+          </p>
+          <p class="subtitle-1" v-if="anime.broadcast !== null">
+            {{ anime.broadcast.string }}
+          </p>
+          <p class="subtitle-1" v-if="anime.producers !== null">
+            Poducers:
+            <template v-for="producer in anime.producers">
+              {{ producer.name }}
+              <template v-if="anime.producers.slice(-1)[0] !== producer">
+                |
+              </template>
+            </template>
+          </p>
+          <p class="subtitle-1" v-if="anime.studios !== null">
+            Studios:
+            <template v-for="studio in anime.studios">
+              {{ studio.name }}
+              <template v-if="anime.studios.slice(-1)[0] !== studio">
+                |
+              </template>
+            </template>
+          </p>
+          <p class="subtitle-1" v-if="anime.rating !== null">
+            Rating: {{ anime.rating }}
+          </p>
+          <p class="subtitle-1" v-if="anime.score !== null">
+            Score: {{ anime.score }}
+          </p>
+          <p class="subtitle-1" v-if="anime.themes !== null">
+            Themes :
+            <template v-for="theme in anime.themes">
+              {{ theme.name }}
+              <template v-if="anime.themes.slice(-1)[0] !== theme">
+                |
+              </template>
+            </template>
+          </p>
+          <p class="subtitle-1" v-if="anime.type !== null">
+            Type : {{ anime.type }}
+          </p>
         </v-col>
-        <v-col cols="12">
-          <h2>Trailer</h2>
-          <iframe
-            height="100%"
-            width="100%"
-            :src="anime.trailer.embed_url"
-            frameborder="0"
-          ></iframe>
+        <v-col cols="12" lg="8">
+          <v-card-text>
+            <p class="body-1" v-if="anime.synopsis !== null">
+              Synopsis: {{ anime.synopsis }}
+            </p>
+            <div class="containerIframe">
+              <iframe
+                class="iframe"
+                :src="anime.trailer.embed_url"
+              ></iframe>
+            </div>
+          </v-card-text>
         </v-col>
       </v-row>
     </v-card>
@@ -52,3 +90,22 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.containerIframe {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding-top: 66.66%;
+}
+</style>
