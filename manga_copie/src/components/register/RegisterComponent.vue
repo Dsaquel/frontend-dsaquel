@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="valid" ref="form" lazy-validation>
+  <v-form class="mx-auto" v-model="valid" ref="form" lazy-validation>
     <v-col>
       <v-row>
         <v-text-field
@@ -61,7 +61,11 @@ export default {
   methods: {
     validate () {
       this.$refs.form.validate()
-      const payload = { email: this.email, password: this.password, pseudo: this.pseudo }
+      const payload = {
+        email: this.email,
+        password: this.password,
+        pseudo: this.pseudo
+      }
       this.$store.dispatch('insertUser', payload)
     }
   }

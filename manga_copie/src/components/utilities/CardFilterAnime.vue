@@ -1,109 +1,121 @@
 <template>
-  <v-menu :close-on-content-click="menu" max-width="max-content">
-    <template v-slot:activator="{ on, attrs }">
-      <v-btn icon color="primary" dark v-bind="attrs" v-on="on">
-        <v-icon>mdi-filter-variant</v-icon>
-      </v-btn>
-    </template>
-    <v-card min-width="250">
-      <v-list>
-        <v-list-item>
-          <v-list-item-content>
-            <v-list-item-title>Genres</v-list-item-title>
-            <v-chip-group
-              v-model="genres"
-              multiple
-              max="5"
-              active-class="primary--text"
-            >
-              <v-chip
-                v-for="(tag, index) in tags"
-                :value="tag.id"
-                outlined
-                :key="index"
+  <v-container>
+    <v-menu :close-on-content-click="menu" max-width="max-content">
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn icon color="primary" dark v-bind="attrs" v-on="on">
+          <v-icon>mdi-filter-variant</v-icon>
+        </v-btn>
+      </template>
+      <v-card min-width="250">
+        <v-list>
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title>Genres</v-list-item-title>
+              <v-chip-group
+                v-model="genres"
+                multiple
+                max="5"
+                active-class="primary--text"
               >
-                {{ tag.name }}
-              </v-chip>
-            </v-chip-group>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
-
-      <v-divider></v-divider>
-
-      <v-list>
-        <v-list-item>
-          <v-list-item-action>
-            <v-list-item-title>type anime</v-list-item-title>
-            <v-chip-group v-model="type" multiple max="3" active-class="primary--text">
-              <v-chip
-                v-for="type in types"
-                :value="type"
-                outlined
-                :key="type"
-                >{{ type }}</v-chip
-              >
-            </v-chip-group>
-          </v-list-item-action>
-        </v-list-item>
+                <v-chip
+                  v-for="(tag, index) in tags"
+                  :value="tag.id"
+                  outlined
+                  :key="index"
+                >
+                  {{ tag.name }}
+                </v-chip>
+              </v-chip-group>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
 
         <v-divider></v-divider>
 
-        <v-list-item>
-          <v-list-item-action>
-            <v-list-item-title>order By</v-list-item-title>
-            <v-chip-group v-model="orderBy" multiple max="3" active-class="primary--text">
-              <v-chip
-                v-for="order in orders"
-                :value="order"
-                outlined
-                :key="order"
-                >{{ order }}</v-chip
+        <v-list>
+          <v-list-item>
+            <v-list-item-action>
+              <v-list-item-title>type anime</v-list-item-title>
+              <v-chip-group
+                v-model="type"
+                multiple
+                max="3"
+                active-class="primary--text"
               >
-            </v-chip-group>
-          </v-list-item-action>
-        </v-list-item>
-        <v-divider></v-divider>
-        <v-list-item>
-          <v-list-item-action>
-            <v-list-item-title>status</v-list-item-title>
-            <v-chip-group v-model="status" active-class="primary--text">
-              <v-chip
-                v-for="animeStatus in animesStatus"
-                :value="animeStatus"
-                outlined
-                :key="animeStatus"
-                >{{ animeStatus }}</v-chip
+                <v-chip
+                  v-for="type in types"
+                  :value="type"
+                  outlined
+                  :key="type"
+                  >{{ type }}</v-chip
+                >
+              </v-chip-group>
+            </v-list-item-action>
+          </v-list-item>
+
+          <v-divider></v-divider>
+
+          <v-list-item>
+            <v-list-item-action>
+              <v-list-item-title>order By</v-list-item-title>
+              <v-chip-group
+                v-model="orderBy"
+                multiple
+                max="3"
+                active-class="primary--text"
               >
-            </v-chip-group>
-          </v-list-item-action>
-        </v-list-item>
+                <v-chip
+                  v-for="order in orders"
+                  :value="order"
+                  outlined
+                  :key="order"
+                  >{{ order }}</v-chip
+                >
+              </v-chip-group>
+            </v-list-item-action>
+          </v-list-item>
+          <v-divider></v-divider>
+          <v-list-item>
+            <v-list-item-action>
+              <v-list-item-title>status</v-list-item-title>
+              <v-chip-group v-model="status" active-class="primary--text">
+                <v-chip
+                  v-for="animeStatus in animesStatus"
+                  :value="animeStatus"
+                  outlined
+                  :key="animeStatus"
+                  >{{ animeStatus }}</v-chip
+                >
+              </v-chip-group>
+            </v-list-item-action>
+          </v-list-item>
 
-        <v-divider></v-divider>
+          <v-divider></v-divider>
 
-        <v-list-item>
-          <v-list-item-action>
-            <v-switch disabled v-model="sfw" color="purple"></v-switch>
-          </v-list-item-action>
-          <v-list-item-title>filter out adult anime</v-list-item-title>
-        </v-list-item>
+          <v-list-item>
+            <v-list-item-action>
+              <v-switch disabled v-model="sfw" color="purple"></v-switch>
+            </v-list-item-action>
+            <v-list-item-title>filter out adult anime</v-list-item-title>
+          </v-list-item>
 
-        <v-list-item>
-          <v-list-item-action>
-            <v-switch v-model="score" color="purple"></v-switch>
-          </v-list-item-action>
-          <v-list-item-title>score</v-list-item-title>
-        </v-list-item>
-      </v-list>
+          <v-list-item>
+            <v-list-item-action>
+              <v-switch v-model="score" color="purple"></v-switch>
+            </v-list-item-action>
+            <v-list-item-title>score</v-list-item-title>
+          </v-list-item>
+        </v-list>
 
-      <v-card-actions>
-        <v-spacer></v-spacer>
+        <v-card-actions>
+          <v-spacer></v-spacer>
 
-        <v-btn text @click="menu = false"> Cancel </v-btn>
-        <v-btn color="primary" text @click="sendRequest"> Save </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-menu>
+          <v-btn text @click="menu = false"> Cancel </v-btn>
+          <v-btn color="primary" text @click="sendRequest"> Save </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-menu>
+  </v-container>
 </template>
 
 <script>

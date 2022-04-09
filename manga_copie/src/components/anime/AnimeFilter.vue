@@ -1,21 +1,20 @@
 <template>
   <v-container>
+    <CardFilterAnime />
     <v-row>
-      <CardFilterAnime />
-      <v-col cols="10">
-        <v-row>
-          <v-col cols="4" v-for="(item, index) in animes" :key="index">
-            <CardComponentAnime :item="item">
-              <template v-slot:title>
-                <h1>
-                  {{ item.title }}
-                </h1>
-              </template>
-            </CardComponentAnime>
-          </v-col>
-        </v-row>
+      <v-col
+        cols="10"
+        lg="2"
+        md="3"
+        sm="3"
+        v-for="(item, i) in animeFiltered"
+        :key="i"
+      >
+        <DefaultAnime :item="item" />
       </v-col>
+      <v-col cols="12"> </v-col>
     </v-row>
+
     <Pagination
       :lastPageVisible="lastPageVisible"
       @getPagination="getPagination"
@@ -25,14 +24,14 @@
 
 <script>
 import { mapState } from 'vuex'
+import DefaultAnime from '../utilities/DefaultAnime'
 import Pagination from '../utilities/Pagination'
-import CardComponentAnime from '../utilities/CardComponentAnime'
 import CardFilterAnime from '../utilities/CardFilterAnime'
 export default {
   name: 'AnimeGenre',
   components: {
+    DefaultAnime,
     Pagination,
-    CardComponentAnime,
     CardFilterAnime
   },
   data: () => ({
@@ -52,9 +51,10 @@ export default {
   },
   computed: {
     ...mapState({
-      selectedGenre: (state) => state.Anime.selectedGenre,
-      animes: (state) => state.Anime.animeGenres,
       tags: (state) => state.Anime.tags,
+      filters: (state) => state.Anime.filters,
+      selectedGenre: (state) => state.Anime.selectedGenre,
+      animeFiltered: (state) => state.Anime.animeFiltered,
       lastPageVisible: (state) => state.Anime.lastPageVisible
     })
   }

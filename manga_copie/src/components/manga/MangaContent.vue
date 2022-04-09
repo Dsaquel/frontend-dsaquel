@@ -4,13 +4,13 @@
       <CardFilterManga />
     </v-col>
     <v-col cols="12" lg="8">
-      <v-slide-group>
+      <v-slide-group show-arrows="always">
         <v-slide-item v-for="(item, i) in topManga" :key="i">
           <CardComponentManga :item="item" />
         </v-slide-item>
       </v-slide-group>
 
-      <v-slide-group>
+      <v-slide-group show-arrows="always">
         <v-slide-item v-for="(item, i) in mostMangaFavorites" :key="i">
           <CardComponentManga :item="item" />
         </v-slide-item>

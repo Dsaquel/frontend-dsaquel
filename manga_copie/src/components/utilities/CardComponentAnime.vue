@@ -1,7 +1,7 @@
 <template>
-  <v-card class="d-flex flex-column text-center ma-3" @click="reveal = !reveal">
+  <v-card class="ma-3" @click="reveal = !reveal">
     <v-img :src="item.images.webp.image_url" />
-    <v-expand-transition>
+    <v-scale-transition>
       <v-card
         v-if="reveal"
         class="transition-fast-in-fast-out v-card--reveal"
@@ -14,8 +14,12 @@
             {{ item.title }}
           </p>
 
-          <p class="font-weight-medium" v-if="item.score !== null">Score: {{ item.score }}/10</p>
-          <p class="font-weight-medium" v-if="item.year !== null">Date de sortie: {{ item.year }}</p>
+          <p class="font-weight-medium" v-if="item.score !== null">
+            Score: {{ item.score }}/10
+          </p>
+          <p class="font-weight-medium" v-if="item.year !== null">
+            Date de sortie: {{ item.year }}
+          </p>
           <p class="font-weight-medium">
             Genres:
             <template v-for="genre in item.genres">
@@ -30,7 +34,7 @@
           >More details</v-btn
         >
       </v-card>
-    </v-expand-transition>
+    </v-scale-transition>
   </v-card>
 </template>
 
@@ -49,15 +53,20 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.align-center {
-  flex-basis: 15rem;
+<style lang="css" scoped>
+.show-btns {
+  color: rgba(255, 255, 255, 1) !important;
 }
+
 .v-card--reveal {
   bottom: 0;
   opacity: 1 !important;
   position: absolute;
   width: 100%;
+}
+
+html {
+  overflow: hidden !important;
 }
 
 .v-card {

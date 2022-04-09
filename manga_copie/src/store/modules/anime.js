@@ -101,8 +101,7 @@ const actions = {
     const url = localStorage.getItem('url')
     const res = await fetch(`${url}?&page=${page}`)
     const data = await res.json()
-    // TODO: make it reactive
-    data.name = 'filters'
+    data.name = 'filter'
     commit('setDifferentsAnime', data)
   }
 }
