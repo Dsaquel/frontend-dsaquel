@@ -1,19 +1,16 @@
 <template>
   <v-container>
+    <CardFilterManga />
     <v-row>
-      <CardFilterManga />
-      <v-col cols="10">
-        <v-row>
-          <v-col cols="4" v-for="(item, index) in mangas" :key="index">
-            <CardComponentManga :item="item">
-              <template v-slot:title>
-                <h1>
-                  {{ item.title }}
-                </h1>
-              </template>
-            </CardComponentManga>
-          </v-col>
-        </v-row>
+      <v-col
+        cols="10"
+        lg="2"
+        md="3"
+        sm="3"
+        v-for="(item, i) in mangaFiltered"
+        :key="i"
+      >
+        <DefaultItem :to="'detailManga'" :item="item" />
       </v-col>
     </v-row>
     <Pagination
@@ -26,13 +23,13 @@
 <script>
 import { mapState } from 'vuex'
 import Pagination from '../utilities/Pagination'
-import CardComponentManga from '../utilities/CardComponentManga'
+import DefaultItem from '../utilities/DefaultItem'
 import CardFilterManga from '../utilities/CardFilterManga'
 export default {
   name: 'MangaFilter',
   components: {
     Pagination,
-    CardComponentManga,
+    DefaultItem,
     CardFilterManga
   },
   data: () => ({
@@ -40,6 +37,7 @@ export default {
   }),
   beforeMount () {
     const query = this.$route.query.filter
+    console.log(query)
     this.$store.dispatch('Manga/getMangaFiltered', query)
   },
   methods: {
@@ -52,8 +50,7 @@ export default {
   },
   computed: {
     ...mapState({
-      tags: (state) => state.Manga.tags,
-      mangas: (state) => state.Manga.mangaGenres,
+      mangaFiltered: (state) => state.Manga.mangaFiltered,
       lastPageVisible: (state) => state.Manga.lastPageVisible
     })
   }

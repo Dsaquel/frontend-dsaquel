@@ -1,17 +1,24 @@
 <template>
-  <v-container>
+  <div class="d-flex flex-nowrap align-center">
+    <v-text-field
+      class="mr-4"
+      v-model="searchAnime"
+      label="One piece"
+    ></v-text-field>
+    <v-btn class="mr-6" @click="sendRequest" color="success">search</v-btn>
     <v-menu :close-on-content-click="menu" max-width="max-content">
       <template v-slot:activator="{ on, attrs }">
         <v-btn icon color="primary" dark v-bind="attrs" v-on="on">
           <v-icon>mdi-filter-variant</v-icon>
         </v-btn>
       </template>
-      <v-card min-width="250">
+      <v-card>
         <v-list>
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title>Genres</v-list-item-title>
               <v-chip-group
+                column
                 v-model="genres"
                 multiple
                 max="5"
@@ -38,6 +45,7 @@
               <v-list-item-title>type anime</v-list-item-title>
               <v-chip-group
                 v-model="type"
+                column
                 multiple
                 max="3"
                 active-class="primary--text"
@@ -60,6 +68,7 @@
               <v-list-item-title>order By</v-list-item-title>
               <v-chip-group
                 v-model="orderBy"
+                column
                 multiple
                 max="3"
                 active-class="primary--text"
@@ -78,7 +87,11 @@
           <v-list-item>
             <v-list-item-action>
               <v-list-item-title>status</v-list-item-title>
-              <v-chip-group v-model="status" active-class="primary--text">
+              <v-chip-group
+                v-model="status"
+                active-class="primary--text"
+                column
+              >
                 <v-chip
                   v-for="animeStatus in animesStatus"
                   :value="animeStatus"
@@ -115,7 +128,7 @@
         </v-card-actions>
       </v-card>
     </v-menu>
-  </v-container>
+  </div>
 </template>
 
 <script>
@@ -143,6 +156,7 @@ export default {
       'members',
       'favorites'
     ],
+    searchAnime: '',
     animesStatus: ['upcoming', 'airing', 'complete']
   }),
   props: {},
@@ -152,8 +166,9 @@ export default {
       const type = 'type=' + this.typeStore.join('&')
       const genres = 'genres=' + this.genresStore.join('&')
       const orderBy = 'order_by=' + this.orderByStore.join('&')
-      const query = [genres, type, orderBy, status].join('&')
-      this.$router.replace({ name: 'animeFilter', query: { filter: query } })
+      const queryAnime = 'q=' + this.searchAnime
+      const query = [queryAnime, genres, type, orderBy, status].join('&')
+      this.$router.push({ path: '/anime/filters', query: { filter: query } })
     }
   },
   watch: {},

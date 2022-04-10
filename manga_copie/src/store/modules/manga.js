@@ -113,9 +113,9 @@ const actions = {
   async getMangaFiltered ({
     commit
   }, query) {
-    const url = new URL(`${baseUrl}/anime?${query}&sfw`)
+    const url = new URL(`${baseUrl}/manga?${query}&sfw`)
     localStorage.setItem('url', url)
-    const res = await fetch(`${baseUrl}/anime?${query}&sfw`)
+    const res = await fetch(`${baseUrl}/manga?${query}&sfw`)
     const data = await res.json()
     data.name = 'filter'
     commit('setDifferentsManga', data)

@@ -70,9 +70,10 @@ const actions = {
   async getAnimeFiltered ({
     commit
   }, query) {
-    const url = new URL(`${baseUrl}/anime?${query}&sfw`)
+    const url = new URL(`${baseUrl}/anime?sfw&${query}&sfw`)
     localStorage.setItem('url', url)
-    const res = await fetch(`${baseUrl}/anime?${query}&sfw`)
+    console.log(`${baseUrl}/anime?sfw&${query}`)
+    const res = await fetch(`${baseUrl}/anime?sfw&${query}&sfw`)
     const data = await res.json()
     data.name = 'filter'
     commit('setDifferentsAnime', data)

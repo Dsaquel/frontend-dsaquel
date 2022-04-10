@@ -10,9 +10,8 @@
         v-for="(item, i) in animeFiltered"
         :key="i"
       >
-        <DefaultAnime :item="item" />
+        <DefaultItem :to="'detailAnime'" :item="item" />
       </v-col>
-      <v-col cols="12"> </v-col>
     </v-row>
 
     <Pagination
@@ -24,13 +23,13 @@
 
 <script>
 import { mapState } from 'vuex'
-import DefaultAnime from '../utilities/DefaultAnime'
+import DefaultItem from '../utilities/DefaultItem'
 import Pagination from '../utilities/Pagination'
 import CardFilterAnime from '../utilities/CardFilterAnime'
 export default {
   name: 'AnimeGenre',
   components: {
-    DefaultAnime,
+    DefaultItem,
     Pagination,
     CardFilterAnime
   },
@@ -51,9 +50,6 @@ export default {
   },
   computed: {
     ...mapState({
-      tags: (state) => state.Anime.tags,
-      filters: (state) => state.Anime.filters,
-      selectedGenre: (state) => state.Anime.selectedGenre,
       animeFiltered: (state) => state.Anime.animeFiltered,
       lastPageVisible: (state) => state.Anime.lastPageVisible
     })

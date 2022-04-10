@@ -69,20 +69,26 @@
                   <p class="mb-5 font-weight-medium grey--text text--darken-1">
                     Login
                   </p>
-                  <v-form v-model="valid" ref="form" lazy-validation>
+                  <v-form v-model="login" ref="login" lazy-validation>
                     <v-text-field
-                      v-model="email"
+                      v-model="emailLogin"
                       :rules="emailRules"
                       label="E-mail"
                       required
                     ></v-text-field>
 
                     <v-text-field
-                      v-model="password"
-                      type="password"
+                      v-model="passwordLogin"
                       :rules="passwordRules"
                       label="password"
                       required
+                      :type="toggleShowPassword ? 'text' : 'password'"
+                      :append-icon="
+                        toggleShowPassword
+                          ? 'mdi-eye-outline'
+                          : 'mdi-eye-off-outline'
+                      "
+                      @click:append="toggleShowPassword = !toggleShowPassword"
                     ></v-text-field>
 
                     <v-card-actions class="justify-space-between">
@@ -101,10 +107,10 @@
                         forgot password ?
                       </div>
                       <v-btn
-                        :disabled="!valid"
+                        :disabled="!login"
                         color="success"
                         class="mr-4"
-                        @click="validate"
+                        @click="checkLogin"
                         >login</v-btn
                       >
                     </v-card-actions>
@@ -118,17 +124,23 @@
                   </div>
                 </v-window-item>
                 <v-window-item value="createAccount">
-                  <v-form ref="form" v-model="valid">
+                  <v-form lazy-validation ref="register" v-model="register">
                     <v-text-field
-                      v-model="email"
+                      v-model="emailRegister"
                       :rules="emailRules"
                       label="E-mail"
                       required
                     ></v-text-field>
                     <v-text-field
-                      v-model="password"
-                      type="password"
+                      v-model="passwordRegister"
                       :rules="passwordRules"
+                      :type="toggleShowPassword ? 'text' : 'password'"
+                      :append-icon="
+                        toggleShowPassword
+                          ? 'mdi-eye-outline'
+                          : 'mdi-eye-off-outline'
+                      "
+                      @click:append="toggleShowPassword = !toggleShowPassword"
                       label="Mot de passe"
                       required
                     ></v-text-field>
@@ -139,31 +151,37 @@
                       label="Pseudo"
                       required
                     ></v-text-field>
-                  </v-form>
-                  <v-card-actions class="justify-end px-0 pb-0">
-                    <v-btn @click="step = 'index'">back off</v-btn>
-                    <v-btn color="warning" @click="validate">Register</v-btn>
-                  </v-card-actions>
-                </v-window-item>
-                <v-window-item value="resetPassword">
-                  <v-form v-model="valid">
-                    <v-col>
-                      <v-row align="center">
-                        <v-text-field
-                          v-model="email"
-                          :rules="emailRules"
-                          label="E-mail"
-                          required
-                        ></v-text-field>
-                      </v-row>
-                    </v-col>
                     <v-card-actions class="justify-end px-0 pb-0">
                       <v-btn @click="step = 'index'">back off</v-btn>
                       <v-btn
-                        :disabled="!valid"
+                        color="warning"
+                        class="mr-4"
+                        :disabled="!register"
+                        @click="checkRegister"
+                        >Register</v-btn
+                      >
+                    </v-card-actions>
+                  </v-form>
+                </v-window-item>
+                <v-window-item value="resetPassword">
+                  <v-form
+                    lazy-validation
+                    ref="resetPassword"
+                    v-model="resetPassword"
+                  >
+                    <v-text-field
+                      v-model="emailResetPassword"
+                      :rules="emailRules"
+                      label="E-mail"
+                      required
+                    ></v-text-field>
+                    <v-card-actions class="justify-end px-0 pb-0">
+                      <v-btn @click="step = 'index'">back off</v-btn>
+                      <v-btn
+                        :disabled="!resetPassword"
                         color="success"
                         class="mr-4"
-                        @click="validate"
+                        @click="checkResetPassword"
                       >
                         Send
                       </v-btn>
@@ -175,7 +193,7 @@
           </v-card-text>
         </v-card>
       </v-dialog>
-      <router-view :key="$route.path" />
+      <router-view :key="$route.fullPath" />
     </v-main>
   </v-app>
 </template>
@@ -194,11 +212,17 @@ export default {
       step: 'index',
       tab: null,
       isUserConnected: true,
+      resetPassword: true,
       isOpened: false,
-      valid: false,
-      email: '',
+      register: true,
+      login: true,
+      toggleShowPassword: false,
+      emailLogin: '',
+      emailResetPassword: '',
+      emailRegister: '',
       dialog: false,
-      password: '',
+      passwordLogin: '',
+      passwordRegister: '',
       passwordRules: [
         (v) => !!v || 'Mot de passe requis',
         (v) => v.length >= 4 || 'Mot de passe supérieur à 8 caractères'
@@ -215,13 +239,22 @@ export default {
     }
   },
   methods: {
-    validate () {
-      this.$refs.form.validate()
-      const payload = { email: this.email, password: this.password }
-      this.$store.dispatch('checkUserExist', payload)
+    checkLogin () {
+      if (this.$refs.login.validate()) {
+        const payload = { email: this.emailLogin, password: this.passwordLogin }
+        this.$store.dispatch('checkUserExist', payload)
+      }
     },
-    dialogSystem (open, close) {
-      this.close = false
+    checkRegister () {
+      if (this.$refs.register.validate()) {
+        this.$refs.register.validate()
+        console.log('register in')
+      }
+    },
+    checkResetPassword () {
+      if (this.$refs.resetPassword.validate()) {
+        this.$refs.resetPassword.validate()
+      }
     }
   },
   computed: {

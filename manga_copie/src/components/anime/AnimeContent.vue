@@ -1,6 +1,6 @@
 <template>
-  <v-row class="mx-auto">
-    <v-col cols="12">
+  <v-row>
+    <v-col class="mx-auto d-block justify-center" cols="8">
       <CardFilterAnime />
     </v-col>
     <v-col cols="12" lg="8">

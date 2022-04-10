@@ -1,7 +1,7 @@
 <template>
   <v-card
     width="180"
-    :to="{ name: 'detailAnime', params: { id: item.mal_id } }"
+    :to="{ name: to, params: { id: item.mal_id } }"
   >
     <v-img
       :aspect-ratio="1 / 1"
@@ -27,13 +27,16 @@
 
 <script>
 export default {
-  name: 'Anime',
+  name: 'DefaultAnime',
   data: () => ({
     hover: false
   }),
   props: {
     item: {
       type: Object
+    },
+    to: {
+      type: String
     }
   }
 }
