@@ -11,12 +11,14 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: {
-      id: null,
-      email: null,
-      password: null
+      id: 24,
+      pseudo: 'Ouways',
+      email: 'root@root.com',
+      password: 'root@root.com'
     },
     fakeDatabaseOfUser: [{
       id: 1,
+      pseudo: 'dsaquel',
       email: 'root@root.com',
       password: 'root'
     }]

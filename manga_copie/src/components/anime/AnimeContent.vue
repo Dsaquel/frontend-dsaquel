@@ -1,51 +1,49 @@
 <template>
-  <v-row>
-    <v-col class="mx-auto d-block justify-center" cols="8">
+  <v-row class="ma-auto">
+    <v-col class="ma-auto d-block justify-center" cols="8">
       <CardFilterAnime />
     </v-col>
     <v-col cols="12" lg="8">
-      <v-col cols="12">
-        <v-container>
-          <v-carousel
-            cycle
-            height="450"
-            hide-delimiter-background
-            show-arrows-on-hover
-          >
-            <v-sheet color="red" elevation="8">
-              <v-container>
-                <v-carousel-item v-for="(mangas, i) in carousel" :key="i">
-                  <v-row class="fill-height" align="center" justify="center">
-                    <v-col
-                      cols="12"
-                      lg="3"
-                      v-for="(manga, i) in mangas"
-                      :key="i"
-                    >
-                      <v-card max-width="200">
-                        <v-img
-                          :aspect-ratio="4 / 5"
-                          :src="manga.images.jpg.image_url"
-                        ></v-img>
-                        <v-card-text>
-                          {{ manga.title }}
-                        </v-card-text>
-                      </v-card>
-                    </v-col>
-                  </v-row>
-                </v-carousel-item>
-              </v-container>
-            </v-sheet>
-          </v-carousel>
-        </v-container>
-      </v-col>
-      <v-col cols="12">
-        <v-slide-group show-arrows="always">
-          <v-item-group v-for="(item, i) in animeSeasonNow" :key="i">
+      <v-container>
+        <v-carousel
+          cycle
+          height="450"
+          hide-delimiter-background
+          show-arrows-on-hover
+        >
+          <v-sheet color="red" elevation="8">
+            <v-container>
+              <v-carousel-item v-for="(mangas, i) in carousel" :key="i">
+                <v-row class="fill-height" align="center" justify="center">
+                  <v-col cols="12" lg="3" v-for="(manga, i) in mangas" :key="i">
+                    <v-card max-width="200">
+                      <v-img
+                        :aspect-ratio="4 / 5"
+                        :src="manga.images.jpg.image_url"
+                      ></v-img>
+                      <v-card-text>
+                        {{ manga.title }}
+                      </v-card-text>
+                    </v-card>
+                  </v-col>
+                </v-row>
+              </v-carousel-item>
+            </v-container>
+          </v-sheet>
+        </v-carousel>
+      </v-container>
+
+      <v-sheet class="mx-auto" elevation="5">
+        <v-slide-group
+          class="ma-2 pa-2"
+          center-active
+          show-arrows="always"
+        >
+          <v-slide-item v-for="(item, i) in animeSeasonNow" :value="i" :key="i">
             <CardComponentAnime :item="item" />
-          </v-item-group>
+          </v-slide-item>
         </v-slide-group>
-      </v-col>
+      </v-sheet>
     </v-col>
 
     <v-col cols="12" lg="4">
@@ -104,4 +102,7 @@ export default {
 </script>
 
 <style lang="css">
+.v-slide-group:not(.v-slide-group--has-affixes) .v-slide-group__next {
+display: flex;
+}
 </style>

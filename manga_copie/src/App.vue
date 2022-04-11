@@ -7,7 +7,31 @@
 
       <v-spacer></v-spacer>
 
-      <v-btn @click="dialog = true">
+      <v-menu v-if="isUserConnected === true" bottom>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn icon v-bind="attrs" v-on="on">
+            <v-icon>mdi-dots-vertical</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item-group>
+            <v-list-item
+              v-for="(item, i) in dropdownProfileConnected"
+              :key="i"
+              :to="item.to"
+            >
+              <v-list-item-icon>
+                <v-icon v-text="item.icon" />
+              </v-list-item-icon>
+              <v-list-item-content>
+                <v-list-item-title v-text="item.title" />
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-item-group>
+        </v-list>
+      </v-menu>
+
+      <v-btn v-else @click="dialog = true">
         <v-icon class="mr-2">mdi-account-circle</v-icon>
         Se connecter
       </v-btn>
@@ -24,7 +48,7 @@
 
     <v-navigation-drawer v-model="isOpened" clipped app>
       <v-list>
-        <v-list-item v-for="item in menus" :key="item.title" link>
+        <v-list-item v-for="item in menus" :key="item.title" link :to="item.to">
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -199,6 +223,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'app',
   data () {
@@ -211,7 +236,6 @@ export default {
       index: 1,
       step: 'index',
       tab: null,
-      isUserConnected: true,
       resetPassword: true,
       isOpened: false,
       register: true,
@@ -235,13 +259,25 @@ export default {
       pseudoRules: [
         (v) => !!v || 'Pseudo requis',
         (v) => v.length <= 32 || 'Pseudo inférieur à 32 caractères'
+      ],
+      dropdownProfileConnected: [
+        {
+          icon: 'mdi-account',
+          title: 'Account',
+          to: '/account/personnal-informations'
+        },
+        { title: 'Library', icon: 'mdi-view-dashboard', to: 'library' },
+        { title: 'Suggestion', icon: 'mdi-gavel' }
       ]
     }
   },
   methods: {
     checkLogin () {
       if (this.$refs.login.validate()) {
-        const payload = { email: this.emailLogin, password: this.passwordLogin }
+        const payload = {
+          email: this.emailLogin,
+          password: this.passwordLogin
+        }
         this.$store.dispatch('checkUserExist', payload)
       }
     },
@@ -262,8 +298,12 @@ export default {
       const menus = [{ title: 'Suggestion', icon: 'mdi-gavel' }]
       if (this.isUserConnected) {
         menus.push(
-          { title: 'Account', icon: 'mdi-account-box' },
-          { title: 'Library', icon: 'mdi-view-dashboard' }
+          {
+            title: 'Account',
+            icon: 'mdi-account-box',
+            to: '/account/personnal-informations'
+          },
+          { title: 'Library', icon: 'mdi-view-dashboard', to: 'library' }
         )
       }
       return menus
@@ -279,7 +319,8 @@ export default {
         default:
           return 'sign-up'
       }
-    }
+    },
+    ...mapGetters(['isUserConnected'])
   }
 }
 </script>

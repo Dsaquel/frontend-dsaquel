@@ -1,12 +1,8 @@
 <template>
-  <v-card class="ma-3" @click="reveal = !reveal">
-    <v-img :src="item.images.webp.image_url" />
-    <v-scale-transition>
-      <v-card
-        v-if="reveal"
-        class="transition-fast-in-fast-out v-card--reveal"
-        style="height: 100%"
-      >
+  <v-hover v-slot="{ hover }">
+    <v-card width="200" class="ma-2" :elevation="hover ? 12 : 2" @click="reveal = !reveal">
+      <v-img :src="item.images.jpg.image_url" />
+      <v-card v-if="reveal" class="v-card--reveal" style="height: 100%">
         <v-card-text class="pb-0">
           <p class="text-h4 text--primary">Informations</p>
 
@@ -34,8 +30,8 @@
           >More details</v-btn
         >
       </v-card>
-    </v-scale-transition>
-  </v-card>
+    </v-card>
+  </v-hover>
 </template>
 
 <script>
@@ -63,10 +59,6 @@ export default {
   opacity: 1 !important;
   position: absolute;
   width: 100%;
-}
-
-html {
-  overflow: hidden !important;
 }
 
 .v-card {
