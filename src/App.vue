@@ -206,7 +206,7 @@
                         :disabled="!resetPassword"
                         color="success"
                         class="mr-4"
-                        @click="checkResetPassword"
+                        @click="linkPasswordReset"
                       >
                         Send
                       </v-btn>
@@ -215,6 +215,7 @@
                 </v-window-item>
                 <v-window-item value="emailSend">
                   <h2>Email envoyé à {{ emailRegister }}</h2>
+                  <v-btn @click="resendLink">resend email</v-btn>
                 </v-window-item>
               </v-window>
             </v-container>
@@ -291,6 +292,13 @@ export default {
         const newUser = { email: this.emailRegister, password: this.passwordRegister, pseudo: this.pseudo }
         this.$store.dispatch('signUp', newUser)
       }
+    },
+    resendLink () {
+      const newUser = { email: this.emailRegister, password: this.passwordRegister, pseudo: this.pseudo }
+      this.$store.dispatch('resendLink', newUser)
+    },
+    linkPasswordReset () {
+      this.$store.dispatch('linkPasswordReset', this.emailResetPassword)
     },
     logout () {
       this.$store.dispatch('logout')

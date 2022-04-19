@@ -62,11 +62,8 @@ export default new Vuex.Store({
         .then(console.log('send mail confirmation'))
         .catch(error => console.log(error))
     },
-    logout ({ commit }) {
-      commit('setUserDisconnected')
-    },
-    emailConfirmation ({ commit }, params) {
-      fetch(`http://localhost:3000/api/auth/confirmation/${params.email}/${params.token}`, {
+    emailConfirmation ({ commit }, newUser) {
+      fetch(`http://localhost:3000/api/auth/confirmation/${newUser.email}/${newUser.token}`, {
         method: 'get',
         headers: {
           Accept: 'application/json',
@@ -78,6 +75,35 @@ export default new Vuex.Store({
           console.log(message.message) // 3
         })
         .catch(error => console.log(error))
+    },
+    resendLink ({ commit }, newUser) {
+      fetch('http://localhost:3000/api/auth/resendLink', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: newUser.email,
+          password: newUser.password,
+          pseudo: newUser.pseudo
+        })
+      })
+    },
+    linkPasswordReset ({ commit }, email) {
+      fetch('http://localhost:3000/api/auth/linkPasswordReset', {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email
+        })
+      })
+    },
+    logout ({ commit }) {
+      commit('setUserDisconnected')
     }
   },
   modules: {
