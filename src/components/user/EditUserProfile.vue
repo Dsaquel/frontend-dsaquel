@@ -19,23 +19,18 @@
       </v-toolbar>
       <v-card-text>
         <v-text-field
-          v-model="pseudo"
+        id="pseudo"
+          :value="pseudoState"
           :disabled="!isEditing"
           color="white"
           label="Pseudo"
         ></v-text-field>
         <v-text-field
-          v-model="email"
+         id="email"
+          :value="emailState"
           disabled
           color="white"
           label="email"
-        ></v-text-field>
-        <v-text-field
-          v-model="password"
-          type="password"
-          disabled
-          color="white"
-          label="Password"
         ></v-text-field>
       </v-card-text>
       <v-divider></v-divider>
@@ -58,9 +53,11 @@ export default {
   name: 'EditUserProfile',
   data () {
     return {
+      model: null,
+      email: '',
+      pseudo: '',
       hasSaved: false,
-      isEditing: null,
-      model: null
+      isEditing: null
     }
   },
 
@@ -68,22 +65,17 @@ export default {
     save () {
       this.isEditing = !this.isEditing
       this.hasSaved = true
+      const pseudo = document.getElementById('pseudo').value
+      const payload = {}
+      payload.pseudo = pseudo
+      this.$store.dispatch('editUserProfile', payload)
     }
   },
   computed: {
     ...mapState({
-      pseudoState: (state) => state.user.pseudo,
-      email: (state) => state.user.email,
-      password: (state) => state.user.password
-    }),
-    pseudo: {
-      get () {
-        return this.pseudoState
-      },
-      set (newPseudo) {
-        this.$store.state.user.pseudo = newPseudo
-      }
-    }
+      pseudoState: (state) => state.pseudo,
+      emailState: (state) => state.email
+    })
   }
 }
 </script>

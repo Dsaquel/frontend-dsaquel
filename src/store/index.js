@@ -10,19 +10,21 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    isUserConnected: false
+    isUserConnected: false,
+    id: null,
+    email: null,
+    pseudo: null
   },
-  getters: {
-  },
+  getters: {},
   mutations: {
-    setUserConnected (state) {
+    setUserConnected (state, data) {
       state.isUserConnected = true
+      state.id = data.userId
+      state.email = data.email
+      state.pseudo = data.pseudo
     },
     setUserDisconnected (state) {
       state.isUserConnected = false
-    },
-    insertUser (state, payload) {
-      state.fakeDatabaseOfUser.push(payload)
     }
   },
   actions: {
@@ -41,8 +43,13 @@ export default new Vuex.Store({
           password: payload.password
         })
       })
-        .then(res => {
-          if (res.status === 200) { commit('setUserConnected') } else { console.log('t\'es pas le bienvenu toi') }
+        .then(async res => {
+          if (res.status === 200) {
+            const data = await res.json()
+            commit('setUserConnected', data)
+          } else {
+            console.log('t\'es pas le bienvenu toi')
+          }
         })
         .catch(error => console.log(error))
     },
@@ -64,7 +71,9 @@ export default new Vuex.Store({
         .then(console.log('send mail confirmation'))
         .catch(error => console.log(error))
     },
-    emailConfirmation ({ commit }, newUser) {
+    emailConfirmation ({
+      commit
+    }, newUser) {
       fetch(`http://localhost:3000/api/auth/confirmation/${newUser.email}/${newUser.token}`, {
         method: 'get',
         headers: {
@@ -78,7 +87,9 @@ export default new Vuex.Store({
         })
         .catch(error => console.log(error))
     },
-    resendLink ({ commit }, newUser) {
+    resendLink ({
+      commit
+    }, newUser) {
       fetch('http://localhost:3000/api/auth/resendLink', {
         method: 'POST',
         headers: {
@@ -92,7 +103,9 @@ export default new Vuex.Store({
         })
       })
     },
-    linkPasswordReset ({ commit }, email) {
+    linkPasswordReset ({
+      commit
+    }, email) {
       fetch('http://localhost:3000/api/auth/linkPasswordReset', {
         method: 'POST',
         headers: {
@@ -104,7 +117,9 @@ export default new Vuex.Store({
         })
       })
     },
-    resetPassword ({ commit }, payload) {
+    resetPassword ({
+      commit
+    }, payload) {
       fetch('http://localhost:3000/api/auth/resetPassword', {
         method: 'PUT',
         headers: {
@@ -115,6 +130,19 @@ export default new Vuex.Store({
           email: payload.email,
           token: payload.token,
           password: payload.password
+        })
+      })
+    },
+    editUserProfile ({ commit }, payload) {
+      fetch('http://localhost:3000/api/auth/editUserProfile', {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: this.state.id,
+          pseudo: payload.pseudo
         })
       })
     },
