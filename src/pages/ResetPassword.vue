@@ -1,16 +1,12 @@
 <template>
   <v-container>
-    <v-form v-model="valid">
-      <v-col>
-        <v-row align="center">
-          <v-text-field
-            v-model="email"
-            :rules="emailRules"
-            label="E-mail"
-            required
-          ></v-text-field>
-        </v-row>
-      </v-col>
+    <v-form ref="resetPassword" v-model="valid">
+      <v-text-field
+        v-model="password"
+        :rules="passwordRules"
+        label="password"
+        required
+      ></v-text-field>
       <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">
         Envoyer
       </v-btn>
@@ -24,16 +20,19 @@ export default {
   data () {
     return {
       valid: false,
-      email: '',
-      emailRules: [
-        (v) => !!v || 'E-mail requis',
-        (v) => /.+@.+/.test(v) || 'E-mail doit etre valide'
+      password: '',
+      passwordRules: [
+        (v) => !!v || 'Mot de passe requis',
+        (v) => v.length >= 8 || 'Mot de passe supérieur à 8 caractères'
       ]
     }
   },
   methods: {
     validate () {
-      this.$refs.form.validate()
+      if (this.$refs.resetPassword.validate()) {
+        this.$route.params.password = this.password
+        this.$store.dispatch('resetPassword', this.$route.params)
+      }
     }
   }
 }

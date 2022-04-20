@@ -41,7 +41,9 @@ export default new Vuex.Store({
           password: payload.password
         })
       })
-        .then(commit('setUserConnected'))
+        .then(res => {
+          if (res.status === 200) { commit('setUserConnected') } else { console.log('t\'es pas le bienvenu toi') }
+        })
         .catch(error => console.log(error))
     },
     async signUp ({
@@ -99,6 +101,20 @@ export default new Vuex.Store({
         },
         body: JSON.stringify({
           email
+        })
+      })
+    },
+    resetPassword ({ commit }, payload) {
+      fetch('http://localhost:3000/api/auth/resetPassword', {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          email: payload.email,
+          token: payload.token,
+          password: payload.password
         })
       })
     },

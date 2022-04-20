@@ -91,7 +91,7 @@ const routes = [{
   component: Register
 },
 {
-  path: '/reset-password',
+  path: '/reset-password/:email/:token',
   name: 'reset-password',
   component: ResetPassword
 },
