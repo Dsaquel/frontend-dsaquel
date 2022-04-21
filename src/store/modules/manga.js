@@ -145,6 +145,18 @@ const actions = {
     // TODO: make it reactive
     data.name = 'filter'
     commit('setDifferentsManga', data)
+  },
+  insertManga ({ commit }, manga) {
+    fetch('http://localhost:3000/api/stuff/insertManga', {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        manga
+      })
+    })
   }
 }
 

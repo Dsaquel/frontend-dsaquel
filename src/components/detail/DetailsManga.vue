@@ -63,6 +63,7 @@
               </template>
             </template>
           </p>
+          <v-btn @click="insertManga">Insert manga</v-btn>
         </v-col>
         <v-col cols="12" lg="8">
           <v-card-text>
@@ -97,6 +98,11 @@ export default {
   },
   beforeDestroy () {
     this.$store.commit('Manga/setManga', null)
+  },
+  methods: {
+    insertManga () {
+      this.$store.dispatch('Manga/insertManga', this.manga)
+    }
   },
   computed: {
     manga () {

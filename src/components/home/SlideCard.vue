@@ -29,7 +29,7 @@
               <v-btn
                 :to="{
                   name: 'detailAnime',
-                  params: { id: anime.mal_id },
+                  params: { id: anime.id },
                 }"
                 >Detail</v-btn
               >
@@ -71,7 +71,7 @@
               <v-btn
                 :to="{
                   name: 'detailManga',
-                  params: { id: manga.mal_id },
+                  params: { id: manga.id },
                 }"
                 >Detail</v-btn
               >
@@ -113,7 +113,7 @@
               <v-btn
                 :to="{
                   name: 'detailCharacter',
-                  params: { id: character.mal_id },
+                  params: { id: character.id },
                 }"
                 >Detail</v-btn
               >
