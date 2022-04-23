@@ -11,7 +11,7 @@ export default {
     AnimeContent
   },
 
-  beforeMount () {
+  beforeCreate () {
     this.$store.dispatch('Home/getAnimeUpcoming')
     this.$store.dispatch('Anime/getTopReviewsAnime')
     this.$store.dispatch('Anime/getAnimeSeasonNow')

@@ -1,7 +1,7 @@
 <template>
   <v-hover v-slot="{ hover }">
     <v-card :elevation="hover ? 12 : 2" width="200" class="ma-2" @click="reveal = !reveal">
-      <v-img min-width="100%" :src="item.images.webp.image_url" />
+      <v-img min-width="100%" :src="item.image.jpg.medium" />
       <v-expand-transition>
         <v-card
           v-if="reveal"

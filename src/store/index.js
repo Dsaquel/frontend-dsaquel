@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import Anime from './modules/anime'
 import Character from './modules/character'
 import Home from './modules/home'
+import User from './modules/user'
 import Manga from './modules/manga'
 import Navigation from './modules/navigation'
 
@@ -11,7 +12,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     isUserConnected: false,
-    id: null,
+    userId: null,
     email: null,
     pseudo: null
   },
@@ -19,7 +20,7 @@ export default new Vuex.Store({
   mutations: {
     setUserConnected (state, data) {
       state.isUserConnected = true
-      state.id = data.userId
+      state.userId = data.userId
       state.email = data.email
       state.pseudo = data.pseudo
     },
@@ -141,7 +142,7 @@ export default new Vuex.Store({
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          id: this.state.id,
+          id: this.state.userId,
           pseudo: payload.pseudo
         })
       })
@@ -154,6 +155,7 @@ export default new Vuex.Store({
     Anime,
     Character,
     Home,
+    User,
     Manga,
     Navigation
   }

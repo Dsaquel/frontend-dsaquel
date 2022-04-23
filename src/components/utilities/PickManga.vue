@@ -73,7 +73,7 @@ export default {
         title: 'Monster',
         score: '9.12',
         author: 'Urasawa, Naoki',
-        image: 'https://cdn.myanimelist.net/images/manga/3/54525.jpg',
+        image: 'https://cdn.myanimelist.net/images/manga/3/258224.jpg',
         themes: ['Drama', 'Mystery', 'Adult Cast', 'Psychological']
       },
       {

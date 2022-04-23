@@ -50,12 +50,12 @@ const mutations = {
       state.animeFiltered = animes.data
       state.lastPageVisible = animes.pagination.last_visible_page
     }
-    if (animes.name === 'seasonNow') {
-      state.animeSeasonNow = animes.data
-    }
-    if (animes.name === 'topReviewsAnime') {
-      state.topReviewsAnime = animes.data
-    }
+  },
+  setTopReviewsAnime (state, data) {
+    state.topReviewsAnime = data
+  },
+  setSeasonNow (state, data) {
+    state.animeSeasonNow = data
   }
 }
 
@@ -81,20 +81,52 @@ const actions = {
   async getAnimeSeasonNow ({
     commit,
     state
-  }, filter) {
-    if (state.animeSeasonNow !== null && filter === undefined) return
-    const res = await fetch(`${baseUrl}/seasons/now`)
-    const data = await res.json()
-    data.name = 'seasonNow'
-    commit('setDifferentsAnime', data)
+  }) {
+    if (state.animeSeasonNow !== null) return
+    const res = fetch('http://localhost:3000/api/stuff/animeSeasonNow', {
+      method: 'get'
+    })
+    const data = await (await res).json()
+    commit('setSeasonNow', data)
   },
   async getTopReviewsAnime ({
-    commit
+    commit, state
   }) {
-    const res = await fetch(`${baseUrl}/top/reviews`)
-    const data = await res.json()
-    data.name = 'topReviewsAnime'
-    commit('setDifferentsAnime', data)
+    if (state.topReviewsAnime !== null) return
+    const res = fetch('http://localhost:3000/api/stuff/topReviewsAnime', {
+      method: 'get'
+    })
+    const data = await (await res).json()
+    console.log(data)
+    commit('setTopReviewsAnime', data)
+  },
+  async insertAnime ({ commit }, anime) {
+    const resAPI = fetch('http://localhost:3000/api/stuff/insertAnime', {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        anime,
+        type: 'anime'
+      })
+    })
+    console.log(await (await resAPI).json())
+    console.log(anime)
+    const resDB = fetch('http://localhost:3000/api/stuff/insertAnime/id', {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'text/plain'
+      },
+      body: JSON.stringify({
+        anime,
+        userId: this.state.userId,
+        type: 'anime'
+      })
+    })
+    console.log(await (await resDB).json())
   },
   async getPagination ({
     commit

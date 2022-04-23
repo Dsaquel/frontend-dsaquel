@@ -11,7 +11,7 @@
           <v-img
             class="elevation-6"
             :aspect-ratio="4 / 5"
-            :src="item.entry.images.jpg.image_url"
+            :src="item.anime.image.medium"
             width="100%"
             max-width="212"
           />
@@ -19,7 +19,7 @@
           <v-card-title
             class="d-inline-block text-truncate"
             style="max-width: 200px"
-            >{{ item.entry.title }}</v-card-title
+            >{{ item.anime.title }}</v-card-title
           >
           <div class="font-weight-regular">
             Chapters/episode viewed : {{ item.chapters_read }}
@@ -45,7 +45,7 @@
             </template>
             <v-card>
               <v-card-title>
-                <span class="text-h3">{{ item.entry.title }}</span>
+                <span class="text-h3">{{ item.title }}</span>
               </v-card-title>
               <v-card-text>{{ item.review }}</v-card-text>
               <v-spacer></v-spacer>
@@ -78,7 +78,7 @@
                 <v-img
                   class="elevation-6"
                   alt=""
-                  :src="item.user.images.jpg.image_url"
+                  :src="item.user.imageUrl"
                 ></v-img>
               </v-list-item-avatar>
 

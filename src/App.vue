@@ -233,11 +233,6 @@ export default {
   name: 'app',
   data () {
     return {
-      tabs: [
-        { name: 'Home', to: '/' },
-        { name: 'Anime', to: '/anime' },
-        { name: 'Manga', to: '/manga' }
-      ],
       index: 1,
       step: 'index',
       tab: null,
@@ -324,6 +319,18 @@ export default {
         )
       }
       return menus
+    },
+    tabs () {
+      const tabs = [
+        { name: 'Home', to: '/' },
+        { name: 'Anime', to: '/anime' },
+        { name: 'Manga', to: '/manga' }
+      ]
+      if (this.isUserConnected) {
+        tabs.push(
+          { name: 'Library', to: '/library' })
+      }
+      return tabs
     },
     etatStep () {
       switch (this.step) {

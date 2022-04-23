@@ -55,6 +55,7 @@
           <p class="subtitle-1" v-if="anime.type !== null">
             Type : {{ anime.type }}
           </p>
+          <v-btn @click="insertAnime">Insert anime</v-btn>
         </v-col>
         <v-col cols="12" lg="8">
           <v-card-text>
@@ -82,6 +83,11 @@ export default {
   },
   beforeDestroy () {
     this.$store.commit('Anime/setAnime', null)
+  },
+  methods: {
+    insertAnime () {
+      this.$store.dispatch('Anime/insertAnime', this.anime)
+    }
   },
   computed: {
     anime () {

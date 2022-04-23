@@ -1,7 +1,7 @@
 <template>
   <v-hover v-slot="{ hover }">
     <v-card width="200" class="ma-2" :elevation="hover ? 12 : 2" @click="reveal = !reveal">
-      <v-img :src="item.images.jpg.image_url" />
+      <v-img :src="item.image.jpg.medium" />
       <v-card v-if="reveal" class="v-card--reveal" style="height: 100%">
         <v-card-text class="pb-0">
           <p class="text-h4 text--primary">Informations</p>

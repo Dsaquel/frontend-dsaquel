@@ -1,9 +1,13 @@
 <template>
-    <h2>Library content desu</h2>
+    <h2>{{this.$store.state.User.name}}</h2>
 </template>
 
 <script>
 export default {
-  name: 'LibraryContent'
+  name: 'LibraryContent',
+
+  beforeCreate () {
+    this.$store.user.dispatch('getMangas')
+  }
 }
 </script>

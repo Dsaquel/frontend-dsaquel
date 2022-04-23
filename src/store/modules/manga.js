@@ -92,13 +92,12 @@ const mutations = {
       state.mangaFiltered = mangas.data
       state.lastPageVisible = mangas.pagination.last_visible_page
     }
-
     if (mangas.name === 'recommendation') {
       state.mangaRecommendations = mangas.data
     }
-    if (mangas.name === 'favorites') {
-      state.mostMangaFavorites = mangas.data
-    }
+  },
+  setMostFavoritesManga (state, data) {
+    state.mostMangaFavorites = data
   }
 }
 
@@ -121,7 +120,8 @@ const actions = {
     commit('setDifferentsManga', data)
   },
   async getMangaRecommendation ({
-    commit, state
+    commit,
+    state
   }, idManga) {
     if (state.mangaRecommendations !== null) return
     const res = await fetch(`${baseUrl}/manga/${idManga}/recommendations`)
@@ -129,12 +129,16 @@ const actions = {
     data.name = 'recommendation'
     commit('setDifferentsManga', data)
   },
-  async getMostFavoritesManga ({ commit, state }) {
+  async getMostFavoritesManga ({
+    commit,
+    state
+  }) {
     if (state.mostMangaFavorites !== null) return
-    const res = await fetch(`${baseUrl}/manga?order_by=favorites&sort=desc&sfw`)
-    const data = await res.json()
-    data.name = 'favorites'
-    commit('setDifferentsManga', data)
+    const res = fetch('http://localhost:3000/api/stuff/mostFavoritesManga', {
+      method: 'get'
+    })
+    const data = await (await res).json()
+    commit('setMostFavoritesManga', data)
   },
   async getPagination ({
     commit
@@ -146,7 +150,9 @@ const actions = {
     data.name = 'filter'
     commit('setDifferentsManga', data)
   },
-  insertManga ({ commit }, manga) {
+  async insertManga ({
+    commit
+  }, manga) {
     fetch('http://localhost:3000/api/stuff/insertManga', {
       method: 'post',
       headers: {
@@ -154,9 +160,30 @@ const actions = {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        manga
+        manga,
+        type: 'manga'
       })
     })
+      .then(res => res.json())
+      .then(json => console.log(json))
+      .catch(error => { console.log(error) })
+  },
+  async insertMangaDB ({ commit }, manga) {
+    fetch('http://localhost:3000/api/stuff/insertMangaId', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        manga,
+        userId: this.state.userId,
+        type: 'manga'
+      })
+    })
+      .then(res => res.json())
+      .then(json => console.log(json))
+      .catch(error => { console.log(error) })
   }
 }
 

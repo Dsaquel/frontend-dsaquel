@@ -13,13 +13,14 @@
         >
           <v-sheet color="red" elevation="8">
             <v-container>
-              <v-carousel-item v-for="(mangas, i) in carousel" :key="i">
+              <v-carousel-item v-for="(mangas, i) in carousel" :key="i" eager >
                 <v-row class="fill-height" align="center" justify="center">
                   <v-col cols="12" lg="3" v-for="(manga, i) in mangas" :key="i">
                     <v-card max-width="200">
                       <v-img
                         :aspect-ratio="4 / 5"
-                        :src="manga.images.jpg.image_url"
+                        :src="manga.image.jpg.medium"
+                        eager
                       ></v-img>
                       <v-card-text>
                         {{ manga.title }}
@@ -75,13 +76,9 @@ export default {
     toggle: false,
     carousel: []
   }),
-  mounted () {
-    const size = 4
-    const arrayOfArrays = []
-    for (let i = 0; i < this.animeUpcoming.length; i += size) {
-      arrayOfArrays.push(this.animeUpcoming.slice(i, i + size))
-    }
-    this.carousel = arrayOfArrays
+  async mounted () {
+    await this.animeUpcoming
+    this.animeUpcomingSorted()
   },
   methods: {
     affectTag (tag) {
@@ -89,6 +86,16 @@ export default {
     },
     sendPagination (page) {
       this.page = page
+    },
+    async animeUpcomingSorted () {
+      console.log('passé')
+      const size = 4
+      const arrayOfArrays = []
+      for (let i = 0; i < await this.animeUpcoming.length; i += size) {
+        console.log(i)
+        arrayOfArrays.push(await this.animeUpcoming.slice(i, i + size))
+      }
+      this.carousel = arrayOfArrays
     }
   },
   computed: {

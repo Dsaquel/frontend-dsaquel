@@ -102,6 +102,7 @@ export default {
   methods: {
     insertManga () {
       this.$store.dispatch('Manga/insertManga', this.manga)
+      this.$store.dispatch('Manga/insertMangaDB', this.manga)
     }
   },
   computed: {
