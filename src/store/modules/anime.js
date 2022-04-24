@@ -112,7 +112,7 @@ const actions = {
       body: JSON.stringify({
         stuff,
         id: stuff.id,
-        userId: this.state.userId,
+        token: this.state.token,
         type: 'anime'
       })
     })

@@ -163,7 +163,7 @@ const actions = {
       },
       body: JSON.stringify({
         stuff,
-        userId: this.state.userId,
+        token: this.state.token,
         id: stuff.id,
         type: 'manga'
       })
@@ -174,27 +174,6 @@ const actions = {
         console.log(error)
       })
   }
-  // async insertMangaDB ({
-  //   commit
-  // }, manga) {
-  //   fetch('http://localhost:3000/api/stuff/insertMangaId', {
-  //     method: 'POST',
-  //     headers: {
-  //       Accept: 'application/json',
-  //       'Content-Type': 'application/json'
-  //     },
-  //     body: JSON.stringify({
-  //       manga,
-  //       userId: this.state.userId,
-  //       type: 'manga'
-  //     })
-  //   })
-  //     .then((res) => res.json())
-  //     .then((json) => console.log(json))
-  //     .catch((error) => {
-  //       console.log(error)
-  //     })
-  // }
 }
 
 export default {

@@ -12,7 +12,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     isUserConnected: false,
-    userId: null,
+    token: null,
     email: null,
     pseudo: null
   },
@@ -20,7 +20,7 @@ export default new Vuex.Store({
   mutations: {
     setUserConnected (state, data) {
       state.isUserConnected = true
-      state.userId = data.userId
+      state.token = data.token
       state.email = data.email
       state.pseudo = data.pseudo
     },
@@ -142,7 +142,7 @@ export default new Vuex.Store({
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          id: this.state.userId,
+          id: this.state.token,
           pseudo: payload.pseudo
         })
       })
