@@ -4,7 +4,7 @@
       <h2>{{ manga.title }}</h2>
       <v-row justify="center">
         <v-col cols="12" lg="2">
-          <v-img max-width="280" :src="manga.images.jpg.image_url"></v-img>
+          <v-img max-width="280" :src="manga.image.jpg.medium"></v-img>
           <p class="subtitle-1" v-if="manga.authors !== null">
             Author:
             <template v-for="author in manga.authors">
@@ -43,8 +43,8 @@
           <p class="subtitle-1" v-if="manga.members !== null">
             members: {{ manga.members }}
           </p>
-          <p class="subtitle-1" v-if="manga.published.string !== null">
-            published: {{ manga.published.string }}
+          <p class="subtitle-1" v-if="manga.publishInfo.status !== null">
+            published: {{ manga.publishInfo.status }}
           </p>
           <p class="subtitle-1" v-if="manga.rank !== null">
             rank: {{ manga.rank }}
@@ -102,7 +102,6 @@ export default {
   methods: {
     insertManga () {
       this.$store.dispatch('Manga/insertManga', this.manga)
-      this.$store.dispatch('Manga/insertMangaDB', this.manga)
     }
   },
   computed: {

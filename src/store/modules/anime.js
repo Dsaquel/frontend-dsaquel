@@ -36,7 +36,7 @@ const getters = {}
 
 const mutations = {
   setAnime (state, anime) {
-    state.anime = anime.data
+    state.anime = anime
   },
   setAnimes (state, animes) {
     state.animes.push({
@@ -63,7 +63,9 @@ const actions = {
   async getAnime ({
     commit
   }, id) {
-    const res = await fetch(`${baseUrl}/anime/${id}`)
+    const res = await fetch(`http://localhost:3000/api/stuff/getAnime/${id}`, {
+      method: 'get'
+    })
     const data = await res.json()
     commit('setAnime', data)
   },
@@ -100,33 +102,21 @@ const actions = {
     console.log(data)
     commit('setTopReviewsAnime', data)
   },
-  async insertAnime ({ commit }, anime) {
-    const resAPI = fetch('http://localhost:3000/api/stuff/insertAnime', {
+  async insertAnime ({ commit }, stuff) {
+    const resAPI = fetch('http://localhost:3000/api/stuff/insertStuff', {
       method: 'post',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        anime,
-        type: 'anime'
-      })
-    })
-    console.log(await (await resAPI).json())
-    console.log(anime)
-    const resDB = fetch('http://localhost:3000/api/stuff/insertAnime/id', {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'text/plain'
-      },
-      body: JSON.stringify({
-        anime,
+        stuff,
+        id: stuff.id,
         userId: this.state.userId,
         type: 'anime'
       })
     })
-    console.log(await (await resDB).json())
+    console.log(await (await resAPI).json())
   },
   async getPagination ({
     commit

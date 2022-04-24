@@ -4,7 +4,7 @@
       <h2>{{ anime.title }}</h2>
       <v-row justify="center">
         <v-col cols="12" lg="2">
-          <v-img max-width="280" :src="anime.images.jpg.image_url"></v-img>
+          <v-img max-width="280" :src="anime.image.jpg.medium"></v-img>
           <p class="subtitle-1">
             Genres:<template v-for="genre in anime.genres">
               {{ genre.name }}
@@ -15,9 +15,6 @@
           </p>
           <p class="subtitle-1" v-if="anime.year !== null">
             {{ anime.year }}
-          </p>
-          <p class="subtitle-1" v-if="anime.broadcast !== null">
-            {{ anime.broadcast.string }}
           </p>
           <p class="subtitle-1" v-if="anime.producers !== null">
             Poducers:
@@ -64,8 +61,9 @@
             </p>
             <div class="containerIframe">
               <iframe
+              v-if="anime.trailer !== null"
                 class="iframe"
-                :src="anime.trailer.embed_url"
+                :src="anime.trailer.embedUrl"
               ></iframe>
             </div>
           </v-card-text>

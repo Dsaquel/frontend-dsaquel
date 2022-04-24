@@ -105,9 +105,11 @@ const actions = {
   async getManga ({
     commit
   }, id) {
-    const res = await fetch(`${baseUrl}/manga/${id}`)
+    const res = await fetch(`http://localhost:3000/api/stuff/getManga/${id}`, {
+      method: 'get'
+    })
     const data = await res.json()
-    commit('setManga', data.data)
+    commit('setManga', data)
   },
   async getMangaFiltered ({
     commit
@@ -152,39 +154,47 @@ const actions = {
   },
   async insertManga ({
     commit
-  }, manga) {
-    fetch('http://localhost:3000/api/stuff/insertManga', {
+  }, stuff) {
+    fetch('http://localhost:3000/api/stuff/insertStuff', {
       method: 'post',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        manga,
-        type: 'manga'
-      })
-    })
-      .then(res => res.json())
-      .then(json => console.log(json))
-      .catch(error => { console.log(error) })
-  },
-  async insertMangaDB ({ commit }, manga) {
-    fetch('http://localhost:3000/api/stuff/insertMangaId', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        manga,
+        stuff,
         userId: this.state.userId,
+        id: stuff.id,
         type: 'manga'
       })
     })
-      .then(res => res.json())
-      .then(json => console.log(json))
-      .catch(error => { console.log(error) })
+      .then((res) => res.json())
+      .then((json) => console.log(json))
+      .catch((error) => {
+        console.log(error)
+      })
   }
+  // async insertMangaDB ({
+  //   commit
+  // }, manga) {
+  //   fetch('http://localhost:3000/api/stuff/insertMangaId', {
+  //     method: 'POST',
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify({
+  //       manga,
+  //       userId: this.state.userId,
+  //       type: 'manga'
+  //     })
+  //   })
+  //     .then((res) => res.json())
+  //     .then((json) => console.log(json))
+  //     .catch((error) => {
+  //       console.log(error)
+  //     })
+  // }
 }
 
 export default {
