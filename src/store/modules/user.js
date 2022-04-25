@@ -21,7 +21,7 @@ const mutations = {
 
 const actions = {
   getUserStuff ({ commit }) {
-    fetch(`http://localhost:3000/api/stuff/getUserStuff/${this.state.userId}`, {
+    fetch(`http://localhost:3000/api/stuff/getUserStuff/${this.state.token}`, {
       method: 'get'
     })
       .then(res => res.json())
