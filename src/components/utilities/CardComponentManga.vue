@@ -31,9 +31,12 @@
               Nombres de favoris: {{ item.favorites }}
             </p>
           </v-card-text>
-          <v-btn :to="{ name: 'detailManga', params: { id: item.mal_id } }">
+          <v-card-actions>
+          <v-btn :to="{ name: 'detailManga', params: { id: item.id } }">
             More details
           </v-btn>
+          <slot name="delete-stuff"></slot>
+          </v-card-actions>
         </v-card>
       </v-expand-transition>
     </v-card>

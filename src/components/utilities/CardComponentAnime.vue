@@ -26,9 +26,11 @@
             Nombre d'épisodes: {{ item.episodes }}
           </p>
         </v-card-text>
-        <v-btn :to="{ name: 'detailAnime', params: { id: item.mal_id } }"
-          >More details</v-btn
-        >
+        <v-card-actions>
+        <v-btn :to="{ name: 'detailAnime', params: { id: item.id } }"
+          >More details</v-btn>
+        <slot name="delete-stuff"></slot>
+        </v-card-actions>
       </v-card>
     </v-card>
   </v-hover>
