@@ -12,23 +12,60 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     isUserConnected: false,
-    token: null,
-    email: null,
-    pseudo: null
+    token: null
   },
   getters: {},
   mutations: {
     setUserConnected (state, data) {
       state.isUserConnected = true
-      state.token = data.token
-      state.email = data.email
-      state.pseudo = data.pseudo
+      state.token = data
     },
-    setUserDisconnected (state) {
+    logout (state) {
       state.isUserConnected = false
+      state.token = null
     }
+
   },
   actions: {
+    stayUserConnected ({ commit }, userToken) {
+      commit('setUserConnected', userToken)
+    },
+    async checkCookie ({ commit, dispatch }, payload) {
+      const user = await dispatch('getCookie', payload.cname)
+      if (user !== '') {
+        commit('setUserConnected', payload.cvalue.token)
+      } else {
+        if (user !== '' || user != null) {
+          const newUser = { cname: payload.cname, cvalue: payload.cvalue.token, exp: 365 }
+          await dispatch('setCookie', newUser)
+          commit('setUserConnected', payload.cvalue.token)
+        }
+      }
+    },
+    setCookie ({ commit }, payload) {
+      const d = new Date()
+      d.setTime(d.getTime() + (payload.exp * 24 * 60 * 60 * 1000))
+      const expires = 'expires=' + d.toUTCString()
+      document.cookie = payload.cname + '=' + payload.cvalue + ';' + expires + ';path=/'
+    },
+    getCookie (cname) {
+      const name = cname + '='
+      const decodedCookie = decodeURIComponent(document.cookie)
+      const ca = decodedCookie.split(';')
+      for (let i = 0; i < ca.length; i++) {
+        let c = ca[i]
+        while (c.charAt(0) === ' ') {
+          c = c.substring(1)
+        }
+        if (c.indexOf(name) === 0) {
+          return c.substring(name.length, c.length)
+        }
+      }
+      return ''
+    },
+    deleteCookie () {
+      document.cookie = 'user' + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+    },
     async login ({
       commit,
       state
@@ -47,7 +84,8 @@ export default new Vuex.Store({
         .then(async res => {
           if (res.status === 200) {
             const data = await res.json()
-            commit('setUserConnected', data)
+            const payload = { cname: 'user', cvalue: data }
+            this.dispatch('checkCookie', payload)
           } else {
             console.log('t\'es pas le bienvenu toi')
           }
@@ -147,8 +185,9 @@ export default new Vuex.Store({
         })
       })
     },
-    logout ({ commit }) {
-      commit('setUserDisconnected')
+    async logout ({ commit, dispatch }) {
+      dispatch('deleteCookie')
+        .then(commit('logout'))
     }
   },
   modules: {

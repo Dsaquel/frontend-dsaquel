@@ -23,7 +23,7 @@ const mutations = {
 const actions = {
   async getTopManga ({ commit, state }) {
     if (state.topManga !== null) return
-    const res = fetch('http://localhost:3000/api/stuff/topManga', {
+    const res = fetch('http://localhost:3000/api/public/topManga', {
       method: 'get'
     })
     const data = await (await res).json()
@@ -31,7 +31,7 @@ const actions = {
   },
   async getAnimeUpcoming ({ commit, state }) {
     if (state.animeUpcoming !== null) return
-    const res = fetch('http://localhost:3000/api/stuff/animeUpcoming', {
+    const res = fetch('http://localhost:3000/api/public/animeUpcoming', {
       method: 'get'
     })
     const data = await (await res).json()
@@ -39,7 +39,7 @@ const actions = {
   },
   async getTopCharacters ({ commit, state }) {
     if (state.topCharacters !== null) return
-    const res = fetch('http://localhost:3000/api/stuff/topCharacters', {
+    const res = fetch('http://localhost:3000/api/public/topCharacters', {
       method: 'get'
     })
     const data = await (await res).json()
