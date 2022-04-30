@@ -6,11 +6,15 @@ import Home from './modules/home'
 import User from './modules/user'
 import Manga from './modules/manga'
 import Navigation from './modules/navigation'
+import router from '@/router'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    successSnackbar: false,
+    errorSnackbar: false,
+    message: null,
     isUserConnected: false,
     token: null,
     pseudo: null,
@@ -25,12 +29,22 @@ export default new Vuex.Store({
     logout (state) {
       state.isUserConnected = false
       state.token = null
+    },
+    setSuccessSnackbar (state, message) {
+      state.successSnackbar = true
+      state.message = message
+      setTimeout(() => { state.successSnackbar = false }, 2000)
+    },
+    setErrorSnackbar (state, message) {
+      state.errorSnackbar = true
+      state.message = message
+      setTimeout(() => { state.errorSnackbar = false }, 2000)
     }
-
   },
   actions: {
     stayUserConnected ({ commit }, userToken) {
       commit('setUserConnected', userToken)
+      commit('setSuccessSnackbar', 'Connected')
     },
     async checkCookie ({ commit, dispatch }, payload) {
       const user = await dispatch('getCookie', payload.cname)
@@ -69,8 +83,7 @@ export default new Vuex.Store({
       document.cookie = 'user' + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
     },
     async login ({
-      commit,
-      state
+      commit
     }, payload) {
       fetch('http://localhost:3000/api/auth/login', {
         method: 'POST',
@@ -84,17 +97,18 @@ export default new Vuex.Store({
         })
       })
         .then(async res => {
+          const data = await res.json()
           if (res.status === 200) {
-            const data = await res.json()
             const payload = { cname: 'user', cvalue: data }
             this.dispatch('checkCookie', payload)
+            commit('setSuccessSnackbar', 'Connected')
           } else {
-            console.log('t\'es pas le bienvenu toi')
+            commit('setErrorSnackbar', data.error)
           }
         })
         .catch(error => console.log(error))
     },
-    async signUp ({
+    signUp ({
       commit
     }, newUser) {
       fetch('http://localhost:3000/api/auth/signup', {
@@ -109,7 +123,14 @@ export default new Vuex.Store({
           pseudo: newUser.pseudo
         })
       })
-        .then(console.log('send mail confirmation'))
+        .then(async res => {
+          const data = await res.json()
+          if (res.status === 200) {
+            commit('setSuccessSnackbar', data.message)
+          } else {
+            commit('setErrorSnackbar', data.error)
+          }
+        })
         .catch(error => console.log(error))
     },
     emailConfirmation ({
@@ -122,9 +143,14 @@ export default new Vuex.Store({
           'Content-Type': 'application/json'
         }
       })
-        .then((response) => response.json()) // 2
-        .then((message) => {
-          console.log(message.message) // 3
+        .then(async res => {
+          const data = await res.json()
+          if (res.status === 201) {
+            commit('setSuccessSnackbar', data.message)
+            router.push('/')
+          } else {
+            commit('setErrorSnackbar', data.error)
+          }
         })
         .catch(error => console.log(error))
     },
@@ -143,6 +169,15 @@ export default new Vuex.Store({
           pseudo: newUser.pseudo
         })
       })
+        .then(async res => {
+          const data = await res.json()
+          if (res.status === 200) {
+            commit('setSuccessSnackbar', data.message)
+          } else {
+            commit('setErrorSnackbar', data.error)
+          }
+        })
+        .catch(error => console.log(error))
     },
     linkPasswordReset ({
       commit
@@ -156,6 +191,15 @@ export default new Vuex.Store({
         body: JSON.stringify({
           email
         })
+          .then(async res => {
+            const data = await res.json()
+            if (res.status === 200) {
+              commit('setSuccessSnackbar', data.message)
+            } else {
+              commit('setErrorSnackbar', data.error)
+            }
+          })
+          .catch(error => console.log(error))
       })
     },
     resetPassword ({
@@ -185,11 +229,21 @@ export default new Vuex.Store({
           token: this.state.token,
           pseudo: payload.pseudo
         })
+          .then(async res => {
+            const data = await res.json()
+            if (res.status === 200) {
+              commit('setSuccessSnackbar', data.message)
+            } else {
+              commit('setErrorSnackbar', data.error)
+            }
+          })
+          .catch(error => console.log(error))
       })
     },
     async logout ({ commit, dispatch }) {
       dispatch('deleteCookie')
         .then(commit('logout'))
+        .then(commit('setErrorSnackbar', 'Disconnected'))
     }
   },
   modules: {

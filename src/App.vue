@@ -222,6 +222,8 @@
           </v-card-text>
         </v-card>
       </v-dialog>
+      <v-snackbar v-model="successSnackbar" :timeout="2000" color="success">{{ message }}</v-snackbar>
+      <v-snackbar v-model="errorSnackbar" :timeout="2000" color="red accent-2">{{ message }}</v-snackbar>
       <router-view :key="$route.fullPath" />
     </v-main>
   </v-app>
@@ -377,8 +379,27 @@ export default {
       }
     },
     ...mapState({
-      isUserConnected: (state) => state.isUserConnected
-    })
+      isUserConnected: (state) => state.isUserConnected,
+      successSnackbarStore: (state) => state.successSnackbar,
+      errorSnackbarStore: (state) => state.errorSnackbar,
+      message: (state) => state.message
+    }),
+    successSnackbar: {
+      get () {
+        return this.successSnackbarStore
+      },
+      set (newStatue) {
+        return newStatue
+      }
+    },
+    errorSnackbar: {
+      get () {
+        return this.errorSnackbarStore
+      },
+      set (newStatue) {
+        return newStatue
+      }
+    }
   }
 }
 </script>
