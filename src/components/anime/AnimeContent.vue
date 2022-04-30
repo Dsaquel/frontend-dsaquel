@@ -13,17 +13,17 @@
         >
           <v-sheet color="red" elevation="8">
             <v-container>
-              <v-carousel-item v-for="(mangas, i) in carousel" :key="i" eager >
+              <v-carousel-item v-for="(animes, i) in carousel" :key="i" eager >
                 <v-row class="fill-height" align="center" justify="center">
-                  <v-col cols="12" lg="3" v-for="(manga, i) in mangas" :key="i">
+                  <v-col cols="12" lg="3" v-for="(anime, i) in animes" :key="i">
                     <v-card max-width="200">
                       <v-img
                         :aspect-ratio="4 / 5"
-                        :src="manga.image.jpg.medium"
+                        :src.sync="anime.image.jpg.medium"
                         eager
                       ></v-img>
                       <v-card-text>
-                        {{ manga.title }}
+                        {{ anime.title }}
                       </v-card-text>
                     </v-card>
                   </v-col>
@@ -76,9 +76,18 @@ export default {
     toggle: false,
     carousel: []
   }),
-  async mounted () {
-    await this.animeUpcoming
-    this.animeUpcomingSorted()
+  watch: {
+    animeUpcoming: {
+      immediate: true,
+      handler (newVal, oldVal) {
+        const size = 4
+        const arrayOfArrays = []
+        for (let i = 0; i < newVal.length; i += size) {
+          arrayOfArrays.push(newVal.slice(i, i + size))
+        }
+        this.carousel = arrayOfArrays
+      }
+    }
   },
   methods: {
     affectTag (tag) {
@@ -86,16 +95,6 @@ export default {
     },
     sendPagination (page) {
       this.page = page
-    },
-    async animeUpcomingSorted () {
-      console.log('passé')
-      const size = 4
-      const arrayOfArrays = []
-      for (let i = 0; i < await this.animeUpcoming.length; i += size) {
-        console.log(i)
-        arrayOfArrays.push(await this.animeUpcoming.slice(i, i + size))
-      }
-      this.carousel = arrayOfArrays
     }
   },
   computed: {

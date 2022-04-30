@@ -85,7 +85,7 @@ const actions = {
     state
   }) {
     if (state.animeSeasonNow !== null) return
-    const res = fetch('http://localhost:3000/api/stuff/animeSeasonNow', {
+    const res = fetch('http://localhost:3000/api/public/animeSeasonNow', {
       method: 'get'
     })
     const data = await (await res).json()
@@ -95,7 +95,7 @@ const actions = {
     commit, state
   }) {
     if (state.topReviewsAnime !== null) return
-    const res = fetch('http://localhost:3000/api/stuff/topReviewsAnime', {
+    const res = fetch('http://localhost:3000/api/public/topReviewsAnime', {
       method: 'get'
     })
     const data = await (await res).json()

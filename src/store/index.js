@@ -12,7 +12,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     isUserConnected: false,
-    token: null
+    token: null,
+    pseudo: null,
+    email: null
   },
   getters: {},
   mutations: {
@@ -180,7 +182,7 @@ export default new Vuex.Store({
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          id: this.state.token,
+          token: this.state.token,
           pseudo: payload.pseudo
         })
       })

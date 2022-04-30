@@ -35,6 +35,10 @@
       </v-card-text>
       <v-divider></v-divider>
       <v-card-actions>
+        <v-btn @click="resetPassword">Reset password here</v-btn>
+        <v-snackbar v-model="hasSend" :timeout="2000" absolute bottom left>
+        Mail envoyé pour reset votre mdp
+      </v-snackbar>
         <v-spacer></v-spacer>
         <v-btn :disabled="!isEditing" color="success" @click="save">
           Save
@@ -57,10 +61,13 @@ export default {
       email: '',
       pseudo: '',
       hasSaved: false,
+      hasSend: false,
       isEditing: null
     }
   },
-
+  beforeMount () {
+    this.$store.dispatch('User/getUserProfile')
+  },
   methods: {
     save () {
       this.isEditing = !this.isEditing
@@ -69,12 +76,16 @@ export default {
       const payload = {}
       payload.pseudo = pseudo
       this.$store.dispatch('editUserProfile', payload)
+    },
+    resetPassword () {
+      this.hasSend = true
+      this.$store.dispatch('linkPasswordReset', this.emailState)
     }
   },
   computed: {
     ...mapState({
-      pseudoState: (state) => state.pseudo,
-      emailState: (state) => state.email
+      pseudoState: (state) => state.User.pseudo,
+      emailState: (state) => state.User.email
     })
   }
 }

@@ -136,7 +136,7 @@ const actions = {
     state
   }) {
     if (state.mostMangaFavorites !== null) return
-    const res = fetch('http://localhost:3000/api/stuff/mostFavoritesManga', {
+    const res = fetch('http://localhost:3000/api/public/mostFavoritesManga', {
       method: 'get'
     })
     const data = await (await res).json()

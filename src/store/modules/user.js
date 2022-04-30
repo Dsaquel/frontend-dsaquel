@@ -1,5 +1,7 @@
 const state = {
-  stuff: []
+  stuff: [],
+  email: null,
+  pseudo: null
 }
 
 const getters = {
@@ -28,6 +30,10 @@ const getters = {
 const mutations = {
   setUserStuff (state, data) {
     state.stuff = data
+  },
+  setUserInformation (state, data) {
+    state.email = data.email
+    state.pseudo = data.pseudo
   }
 }
 
@@ -40,8 +46,14 @@ const actions = {
       .then(data => commit('setUserStuff', data))
       .catch(error => console.log(error))
   },
+  getUserProfile ({ commit }) {
+    fetch(`http://localhost:3000/api/auth/userProfile/${this.state.token}`, {
+      method: 'get'
+    })
+      .then(res => res.json())
+      .then(data => commit('setUserInformation', data))
+  },
   deleteUserStuff ({ commit }, _id) {
-    console.log(_id)
     fetch(`http://localhost:3000/api/stuff/deleteUserStuff/${this.state.token}`, {
       method: 'delete',
       headers: {
