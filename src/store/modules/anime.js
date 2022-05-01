@@ -102,21 +102,31 @@ const actions = {
     console.log(data)
     commit('setTopReviewsAnime', data)
   },
-  async insertAnime ({ commit }, stuff) {
-    const resAPI = fetch('http://localhost:3000/api/stuff/insertStuff', {
+  insertAnime ({ commit }, stuff) {
+    const data = JSON.stringify({
+      stuff,
+      id: stuff.id,
+      token: this.state.token,
+      type: 'anime'
+    })
+    fetch('http://localhost:3000/api/stuff/insertStuff', {
       method: 'post',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        stuff,
-        id: stuff.id,
-        token: this.state.token,
-        type: 'anime'
-      })
+      body: data
     })
-    console.log(await (await resAPI).json())
+      .then(res => {
+        if (res.status === 401) {
+          localStorage.setItem('userStuff', data)
+          window.dispatchEvent(new CustomEvent('userStuff', {
+            detail: {
+              storage: localStorage.getItem('userStuff')
+            }
+          }))
+        }
+      })
   },
   async getPagination ({
     commit

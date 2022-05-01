@@ -178,21 +178,30 @@ const actions = {
   async insertManga ({
     commit
   }, stuff) {
+    const data = JSON.stringify({
+      stuff,
+      id: stuff.id,
+      token: this.state.token,
+      type: 'manga'
+    })
     fetch('http://localhost:3000/api/stuff/insertStuff', {
       method: 'post',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({
-        stuff,
-        token: this.state.token,
-        id: stuff.id,
-        type: 'manga'
-      })
+      body: data
     })
-      .then((res) => res.json())
-      .then((json) => console.log(json))
+      .then(res => {
+        if (res.status === 401) {
+          localStorage.setItem('userStuff', data)
+          window.dispatchEvent(new CustomEvent('userStuff', {
+            detail: {
+              storage: localStorage.getItem('userStuff')
+            }
+          }))
+        }
+      })
       .catch((error) => {
         console.log(error)
       })

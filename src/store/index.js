@@ -101,7 +101,23 @@ export default new Vuex.Store({
           if (res.status === 200) {
             const payload = { cname: 'user', cvalue: data }
             this.dispatch('checkCookie', payload)
-            commit('setSuccessSnackbar', 'Connected')
+            const stuffOffline = JSON.parse(localStorage.getItem('userStuff'))
+            if (stuffOffline === null) {
+              commit('setSuccessSnackbar', 'Connected')
+            } else {
+              stuffOffline.token = data.token
+              fetch('http://localhost:3000/api/stuff/insertStuff', {
+                method: 'post',
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(stuffOffline)
+              })
+                .then(res => res.json())
+                .then(message => commit('setSuccessSnackbar', message.message))
+              localStorage.removeItem('userStuff')
+            }
           } else {
             commit('setErrorSnackbar', data.error)
           }

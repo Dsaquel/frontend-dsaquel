@@ -273,6 +273,12 @@ export default {
       ]
     }
   },
+  mounted () {
+    window.addEventListener('userStuff', (event) => {
+      this.dialog = true
+    })
+  },
+
   beforeMount () {
     this.checkCookie('user')
   },
