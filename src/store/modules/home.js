@@ -5,7 +5,36 @@ const state = {
 }
 
 const getters = {
-
+  topManga (state) {
+    const array = state.topManga
+    if (array !== null) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]
+      }
+      return array
+    }
+  },
+  animeUpcoming (state) {
+    const array = state.animeUpcoming
+    if (array !== null) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]
+      }
+      return array
+    }
+  },
+  topCharacters (state) {
+    const array = state.topCharacters
+    if (array !== null) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]
+      }
+      return array
+    }
+  }
 }
 
 const mutations = {

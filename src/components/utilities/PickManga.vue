@@ -3,7 +3,7 @@
     <div class="title">
       Pick your manga favorites or select one who have your gender favorites ;)
     </div>
-    <v-col v-for="manga in mangas" :key="manga.id" cols="12" md="4">
+    <v-col v-for="manga in pickMangas" :key="manga.id" cols="12" md="4">
       <v-card class="d-flex align-center">
         <v-tooltip left>
           <template v-slot:activator="{ on, attrs }">
@@ -11,22 +11,31 @@
               v-on="on"
               class="blur"
               v-bind="attrs"
-              :src="manga.image"
-              @click="sendPicking(manga.id, manga.title)"
+              :src="manga.image.jpg.medium"
+              @click="sendPicking(manga.id, manga.title.default)"
               style="cursor: pointer"
             />
           </template>
           <v-card>
-            <v-card-title>Information {{ manga.title }}</v-card-title>
+            <v-card-title>Information {{ manga.title.default }}</v-card-title>
             <v-card-text>
-              author: {{ manga.author }}<br />
-              score: {{ manga.score }}<br />
+              <p>
+              author:
+              <template v-for="author in manga.authors">
+                {{ author.name }}
+                <template v-if="manga.authors.slice(-1)[0] !== author">
+                  |
+                </template>
+              </template>
+              </p>
+              <p>score: {{ manga.score }}</p>
+              <br />
             </v-card-text>
             <v-card-text
               >genres:
-              <template v-for="genre in manga.themes">
-                {{ genre }}
-                <template v-if="manga.themes.slice(-1)[0] !== genre">
+              <template v-for="genre in manga.genres">
+                {{ genre.name }}
+                <template v-if="manga.genres.slice(-1)[0] !== genre">
                   |
                 </template>
               </template>
@@ -39,6 +48,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'PickManga',
   data: () => ({
@@ -65,7 +75,7 @@ export default {
         title: 'Vagabond',
         score: '10 (personnal)',
         author: 'Inoue, Takehiko',
-        image: 'https://cdn.myanimelist.net/images/manga/2/181787.jpg',
+        image: 'https://cdn.myanimelist.net/images/manga/1/259070.jpg',
         themes: [' Action', 'Adventure', 'Drama', 'Historical', 'Samurai']
       },
       {
@@ -109,20 +119,36 @@ export default {
         themes: ['Action', 'Comedy', 'Drama', 'Sports']
       },
       {
-        id: 45757,
-        title: 'Shokugeki no Souma',
-        score: '7.97',
-        author: 'Saeki, Shun (art)',
-        image: 'https://cdn.myanimelist.net/images/manga/1/115803.jpg',
-        themes: ['Gourmet']
+        id: 50265,
+        title: 'Spy x Family',
+        score: '9.09',
+        author: 'Endou, Tatsuya',
+        image: 'https://cdn.myanimelist.net/images/manga/3/219741.jpg',
+        themes: ['childcare']
       }
     ]
   }),
+  watch: {
+    pickMangas: {
+      immediate: true,
+      handler (newVal, oldVal) {
+        newVal
+          .map(value => ({ value, sort: Math.random() }))
+          .sort((a, b) => a.sort - b.sort)
+          .map(({ value }) => value)
+      }
+    }
+  },
   methods: {
     sendPicking (idManga, title) {
       this.$store.state.Manga.currentRecommendationTitle = title
       this.$emit('sendPicking', idManga)
     }
+  },
+  computed: {
+    ...mapState({
+      pickMangas: (state) => state.Manga.pickMangas
+    })
   }
 }
 </script>

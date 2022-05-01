@@ -12,6 +12,7 @@
           show-arrows-on-hover
         >
           <v-sheet color="red" elevation="8">
+            <div class="text-h4">Anime announced</div>
             <v-container>
               <v-carousel-item v-for="(animes, i) in carousel" :key="i" eager >
                 <v-row class="fill-height" align="center" justify="center">
@@ -23,7 +24,7 @@
                         eager
                       ></v-img>
                       <v-card-text>
-                        {{ anime.title }}
+                        {{ anime.title.default }}
                       </v-card-text>
                     </v-card>
                   </v-col>
@@ -35,6 +36,7 @@
       </v-container>
 
       <v-sheet class="mx-auto" elevation="5">
+        <div class="ml-5 text-h4">Current anime aired</div>
         <v-slide-group
           class="ma-2 pa-2"
           center-active
@@ -107,8 +109,9 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="css" scoped>
 .v-slide-group:not(.v-slide-group--has-affixes) .v-slide-group__next {
 display: flex;
 }
+
 </style>

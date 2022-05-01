@@ -5,6 +5,7 @@
     </v-col>
     <v-col cols="12" lg="8">
       <v-sheet class="mx-auto" elevation="5">
+        <div class="text-h4">Top manga</div>
         <v-slide-group show-arrows="always">
           <v-slide-item v-for="(item, i) in topManga" :key="i">
             <CardComponentManga :item="item" />
@@ -12,6 +13,7 @@
         </v-slide-group>
       </v-sheet>
       <v-sheet class="mx-auto" elevation="5">
+        <div class="text-h4">Most favorites manga</div>
         <v-slide-group show-arrows="always">
           <v-slide-item v-for="(item, i) in mostMangaFavorites" :key="i">
             <CardComponentManga :item="item" />
@@ -37,7 +39,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import PickManga from '../utilities/PickManga'
 import CardComponentManga from '../utilities/CardComponentManga'
 import Recommendation from '../utilities/Recommendation'
@@ -54,6 +56,17 @@ export default {
     page: 1,
     selected: ''
   }),
+  watch: {
+    topManga: {
+      immediate: true,
+      handler (newVal, oldVal) {
+        newVal
+          .map(value => ({ value, sort: Math.random() }))
+          .sort((a, b) => a.sort - b.sort)
+          .map(({ value }) => value)
+      }
+    }
+  },
   methods: {
     affectTag (tag) {
       this.selected = tag
@@ -70,12 +83,14 @@ export default {
   },
   computed: {
     ...mapState({
-      topManga: (state) => state.Home.topManga,
       mangaReviewsManga: (state) => state.Manga.mangaReviewsManga,
-      mostMangaFavorites: (state) => state.Manga.mostMangaFavorites,
       mangaRecommendations: (state) => state.Manga.mangaRecommendations,
       currentRecommendationTitle: (state) =>
         state.Manga.currentRecommendationTitle
+    }),
+    ...mapGetters({
+      mostMangaFavorites: 'Manga/mostMangaFavorites',
+      topManga: 'Home/topManga'
     })
   }
 }

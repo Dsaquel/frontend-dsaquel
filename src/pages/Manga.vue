@@ -12,6 +12,7 @@ export default {
   beforeMount () {
     this.$store.dispatch('Home/getTopManga')
     this.$store.dispatch('Manga/getMostFavoritesManga')
+    this.$store.dispatch('Manga/pickMangas')
   }
 }
 </script>

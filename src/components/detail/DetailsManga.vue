@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-card>
-      <h2>{{ manga.title }}</h2>
+      <h2>{{ manga.title.default }}</h2>
       <v-row justify="center">
         <v-col cols="12" lg="2">
           <v-img max-width="280" :src="manga.image.jpg.medium"></v-img>

@@ -7,23 +7,27 @@
           <p class="text-h4 text--primary">Informations</p>
 
           <p class="font-weight-black body-1">
-            {{ item.title }}
+            {{ item.title.default }}
           </p>
 
           <p class="font-weight-medium" v-if="item.score !== null">
-            Score: {{ item.score }}/10
+            commununity score: {{ item.score }}/10
           </p>
-          <p class="font-weight-medium" v-if="item.year !== null">
-            Date de sortie: {{ item.year }}
-          </p>
+
           <p class="font-weight-medium">
             Genres:
             <template v-for="genre in item.genres">
-              {{ genre.name }}
-            </template>
+                {{ genre.name }}
+                <template v-if="item.genres.slice(-1)[0] !== genre">
+                  |
+                </template>
+              </template>
           </p>
           <p class="font-weight-medium" v-if="item.episodes !== null">
-            Nombre d'épisodes: {{ item.episodes }}
+            Announced episodes: {{ item.episodes }}
+          </p>
+          <p class="font-weight-medium" v-if="item.airInfo.status !== null">
+            {{ item.airInfo.status }}
           </p>
         </v-card-text>
         <v-card-actions>

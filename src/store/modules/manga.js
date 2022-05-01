@@ -75,13 +75,25 @@ const state = {
   },
   mangaFiltered: null,
   mangaPicking: null,
+  pickMangas: null,
   lastPageVisible: null,
   mostMangaFavorites: null,
   mangaRecommendations: null,
   currentRecommendationTitle: null
 }
 
-const getters = {}
+const getters = {
+  mostMangaFavorites (state) {
+    const array = state.mostMangaFavorites
+    if (array !== null) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]
+      }
+      return array
+    }
+  }
+}
 
 const mutations = {
   setManga (state, manga) {
@@ -98,6 +110,9 @@ const mutations = {
   },
   setMostFavoritesManga (state, data) {
     state.mostMangaFavorites = data
+  },
+  setPickMangas (state, data) {
+    state.pickMangas = data
   }
 }
 
@@ -141,6 +156,14 @@ const actions = {
     })
     const data = await (await res).json()
     commit('setMostFavoritesManga', data)
+  },
+  async pickMangas ({ commit, state }) {
+    if (state.pickMangas !== null) return
+    const res = fetch('http://localhost:3000/api/public/pickMangas', {
+      method: 'get'
+    })
+    const data = await (await res).json()
+    commit('setPickMangas', data)
   },
   async getPagination ({
     commit

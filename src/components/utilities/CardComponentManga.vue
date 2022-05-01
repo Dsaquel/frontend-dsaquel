@@ -11,18 +11,33 @@
           <v-card-text class="pb-0">
             <p class="text-h4 text--primary">Informations</p>
             <p class="font-weight-black body-1">
-              {{ item.title }}
+              {{ item.title.default }}
             </p>
             <p class="font-weight-medium">
-              Auteur:
+              Author:
               <template v-for="author in item.authors">
                 {{ author.name }}
+                <template v-if="item.authors.slice(-1)[0] !== author">
+                  |
+                </template>
               </template>
             </p>
             <p class="font-weight-medium">
+              Genres:
+              <template v-for="genre in item.genres">
+                {{ genre.name }}
+                <template v-if="item.genres.slice(-1)[0] !== genre">
+                  |
+                </template>
+              </template>
+            </p>
+            <p>
               Themes:
               <template v-for="theme in item.themes">
                 {{ theme.name }}
+                <template v-if="item.themes.slice(-1)[0] !== theme">
+                  |
+                </template>
               </template>
             </p>
             <p class="font-weight-medium">volumes: {{ item.volumes }}</p>
