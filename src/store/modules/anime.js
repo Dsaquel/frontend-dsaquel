@@ -63,7 +63,7 @@ const actions = {
   async getAnime ({
     commit
   }, id) {
-    const res = await fetch(`http://localhost:3000/api/stuff/getAnime/${id}`, {
+    const res = await fetch(`${process.env.VUE_APP_API_URL}/api/stuff/getAnime/${id}`, {
       method: 'get'
     })
     const data = await res.json()
@@ -85,7 +85,7 @@ const actions = {
     state
   }) {
     if (state.animeSeasonNow !== null) return
-    const res = fetch('http://localhost:3000/api/public/animeSeasonNow', {
+    const res = fetch(`${process.env.VUE_APP_API_URL}/api/public/animeSeasonNow`, {
       method: 'get'
     })
     const data = await (await res).json()
@@ -95,7 +95,7 @@ const actions = {
     commit, state
   }) {
     if (state.topReviewsAnime !== null) return
-    const res = fetch('http://localhost:3000/api/public/topReviewsAnime', {
+    const res = fetch(`${process.env.VUE_APP_API_URL}/api/public/topReviewsAnime`, {
       method: 'get'
     })
     const data = await (await res).json()
@@ -109,7 +109,7 @@ const actions = {
       token: this.state.token,
       type: 'anime'
     })
-    fetch('http://localhost:3000/api/stuff/insertStuff', {
+    fetch(`${process.env.VUE_APP_API_URL}/api/stuff/insertStuff`, {
       method: 'post',
       headers: {
         Accept: 'application/json',

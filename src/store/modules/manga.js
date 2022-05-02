@@ -120,7 +120,7 @@ const actions = {
   async getManga ({
     commit
   }, id) {
-    const res = await fetch(`http://localhost:3000/api/stuff/getManga/${id}`, {
+    const res = await fetch(`${process.env.VUE_APP_API_URL}/api/stuff/getManga/${id}`, {
       method: 'get'
     })
     const data = await res.json()
@@ -151,7 +151,7 @@ const actions = {
     state
   }) {
     if (state.mostMangaFavorites !== null) return
-    const res = fetch('http://localhost:3000/api/public/mostFavoritesManga', {
+    const res = fetch(`${process.env.VUE_APP_API_URL}/api/public/mostFavoritesManga`, {
       method: 'get'
     })
     const data = await (await res).json()
@@ -159,7 +159,7 @@ const actions = {
   },
   async pickMangas ({ commit, state }) {
     if (state.pickMangas !== null) return
-    const res = fetch('http://localhost:3000/api/public/pickMangas', {
+    const res = fetch(`${process.env.VUE_APP_API_URL}/api/public/pickMangas`, {
       method: 'get'
     })
     const data = await (await res).json()
@@ -184,7 +184,7 @@ const actions = {
       token: this.state.token,
       type: 'manga'
     })
-    fetch('http://localhost:3000/api/stuff/insertStuff', {
+    fetch(`${process.env.VUE_APP_API_URL}/api/stuff/insertStuff`, {
       method: 'post',
       headers: {
         Accept: 'application/json',

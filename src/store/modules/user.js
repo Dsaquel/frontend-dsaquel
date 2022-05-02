@@ -39,7 +39,7 @@ const mutations = {
 
 const actions = {
   getUserStuff ({ commit }) {
-    fetch(`http://localhost:3000/api/stuff/getUserStuff/${this.state.token}`, {
+    fetch(`${process.env.VUE_APP_API_URL}/api/stuff/getUserStuff/${this.state.token}`, {
       method: 'get'
     })
       .then(res => res.json())
@@ -47,14 +47,14 @@ const actions = {
       .catch(error => console.log(error))
   },
   getUserProfile ({ commit }) {
-    fetch(`http://localhost:3000/api/auth/userProfile/${this.state.token}`, {
+    fetch(`${process.env.VUE_APP_API_URL}/api/auth/userProfile/${this.state.token}`, {
       method: 'get'
     })
       .then(res => res.json())
       .then(data => commit('setUserInformation', data))
   },
   deleteUserStuff ({ commit }, _id) {
-    fetch(`http://localhost:3000/api/stuff/deleteUserStuff/${this.state.token}`, {
+    fetch(`${process.env.VUE_APP_API_URL}/api/stuff/deleteUserStuff/${this.state.token}`, {
       method: 'delete',
       headers: {
         Accept: 'application/json',

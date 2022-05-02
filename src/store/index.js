@@ -85,7 +85,7 @@ export default new Vuex.Store({
     async login ({
       commit
     }, payload) {
-      fetch('http://localhost:3000/api/auth/login', {
+      fetch(`${process.env.VUE_APP_API_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -106,7 +106,7 @@ export default new Vuex.Store({
               commit('setSuccessSnackbar', 'Connected')
             } else {
               stuffOffline.token = data.token
-              fetch('http://localhost:3000/api/stuff/insertStuff', {
+              fetch(`${process.env.VUE_APP_API_URL}/api/stuff/insertStuff`, {
                 method: 'post',
                 headers: {
                   Accept: 'application/json',
@@ -127,7 +127,7 @@ export default new Vuex.Store({
     signUp ({
       commit
     }, newUser) {
-      fetch('http://localhost:3000/api/auth/signup', {
+      fetch(`${process.env.VUE_APP_API_URL}/api/auth/signup`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -152,7 +152,7 @@ export default new Vuex.Store({
     emailConfirmation ({
       commit
     }, newUser) {
-      fetch(`http://localhost:3000/api/auth/confirmation/${newUser.email}/${newUser.token}`, {
+      fetch(`${process.env.VUE_APP_API_URL}/api/auth/confirmation/${newUser.email}/${newUser.token}`, {
         method: 'get',
         headers: {
           Accept: 'application/json',
@@ -173,7 +173,7 @@ export default new Vuex.Store({
     resendLink ({
       commit
     }, newUser) {
-      fetch('http://localhost:3000/api/auth/resendLink', {
+      fetch(`${process.env.VUE_APP_API_URL}/api/auth/resendLink`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -198,7 +198,7 @@ export default new Vuex.Store({
     linkPasswordReset ({
       commit
     }, email) {
-      fetch('http://localhost:3000/api/auth/linkPasswordReset', {
+      fetch(`${process.env.VUE_APP_API_URL}/api/auth/linkPasswordReset`, {
         method: 'POST',
         headers: {
           Accept: 'application/json',
@@ -221,7 +221,7 @@ export default new Vuex.Store({
     resetPassword ({
       commit
     }, payload) {
-      fetch('http://localhost:3000/api/auth/resetPassword', {
+      fetch(`${process.env.VUE_APP_API_URL}/api/auth/resetPassword`, {
         method: 'PUT',
         headers: {
           Accept: 'application/json',
@@ -235,7 +235,7 @@ export default new Vuex.Store({
       })
     },
     editUserProfile ({ commit }, payload) {
-      fetch('http://localhost:3000/api/auth/editUserProfile', {
+      fetch(`${process.env.VUE_APP_API_URL}/api/auth/editUserProfile`, {
         method: 'PUT',
         headers: {
           Accept: 'application/json',
