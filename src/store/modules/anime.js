@@ -117,7 +117,8 @@ const actions = {
       },
       body: data
     })
-      .then(res => {
+      .then(async res => {
+        const response = await res.json()
         if (res.status === 401) {
           localStorage.setItem('userStuff', data)
           window.dispatchEvent(new CustomEvent('userStuff', {
@@ -125,7 +126,7 @@ const actions = {
               storage: localStorage.getItem('userStuff')
             }
           }))
-        }
+        } else { commit('setSuccessSnackbar', response.message, { root: true }) }
       })
   },
   async getPagination ({
