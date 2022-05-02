@@ -233,6 +233,16 @@ export default new Vuex.Store({
           password: payload.password
         })
       })
+        .then(async res => {
+          const data = await res.json()
+          if (res.status === 200) {
+            commit('setSuccessSnackbar', data.message)
+            router.push('/')
+          } else {
+            commit('setErrorSnackbar', data.error)
+            router.push('/')
+          }
+        })
     },
     editUserProfile ({ commit }, payload) {
       fetch(`${process.env.VUE_APP_API_URL}/api/auth/editUserProfile`, {
