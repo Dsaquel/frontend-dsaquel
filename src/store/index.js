@@ -207,16 +207,16 @@ export default new Vuex.Store({
         body: JSON.stringify({
           email
         })
-          .then(async res => {
-            const data = await res.json()
-            if (res.status === 200) {
-              commit('setSuccessSnackbar', data.message)
-            } else {
-              commit('setErrorSnackbar', data.error)
-            }
-          })
-          .catch(error => console.log(error))
       })
+        .then(async res => {
+          const data = await res.json()
+          if (res.status === 200) {
+            commit('setSuccessSnackbar', data.message)
+          } else {
+            commit('setErrorSnackbar', data.error)
+          }
+        })
+        .catch(error => console.log(error))
     },
     resetPassword ({
       commit
