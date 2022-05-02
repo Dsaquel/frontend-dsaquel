@@ -7,6 +7,7 @@ import User from './modules/user'
 import Manga from './modules/manga'
 import Navigation from './modules/navigation'
 import router from '@/router'
+import Cookies from 'js-cookie'
 
 Vue.use(Vuex)
 
@@ -46,43 +47,16 @@ export default new Vuex.Store({
       commit('setUserConnected', userToken)
       commit('setSuccessSnackbar', 'Connected')
     },
-    async checkCookie ({ commit, dispatch }, payload) {
-      const user = await dispatch('getCookie', payload.cname)
-      if (user !== '') {
-        commit('setUserConnected', payload.cvalue.token)
+    checkCookie ({ commit }, payload) {
+      const user = Cookies.get('user')
+      if (user === undefined) {
+        Cookies.set('user', payload, { expires: 365 })
+        commit('setUserConnected', payload)
       } else {
-        if (user !== '' || user != null) {
-          const newUser = { cname: payload.cname, cvalue: payload.cvalue.token, exp: 365 }
-          await dispatch('setCookie', newUser)
-          commit('setUserConnected', payload.cvalue.token)
-        }
+        commit('setUserConnected', user)
       }
     },
-    setCookie ({ commit }, payload) {
-      const d = new Date()
-      d.setTime(d.getTime() + (payload.exp * 24 * 60 * 60 * 1000))
-      const expires = 'expires=' + d.toUTCString()
-      document.cookie = payload.cname + '=' + payload.cvalue + ';' + expires + ';path=/'
-    },
-    getCookie (cname) {
-      const name = cname + '='
-      const decodedCookie = decodeURIComponent(document.cookie)
-      const ca = decodedCookie.split(';')
-      for (let i = 0; i < ca.length; i++) {
-        let c = ca[i]
-        while (c.charAt(0) === ' ') {
-          c = c.substring(1)
-        }
-        if (c.indexOf(name) === 0) {
-          return c.substring(name.length, c.length)
-        }
-      }
-      return ''
-    },
-    deleteCookie () {
-      document.cookie = 'user' + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-    },
-    async login ({
+    login ({
       commit
     }, payload) {
       fetch(`${process.env.VUE_APP_API_URL}/api/auth/login`, {
@@ -99,8 +73,7 @@ export default new Vuex.Store({
         .then(async res => {
           const data = await res.json()
           if (res.status === 200) {
-            const payload = { cname: 'user', cvalue: data }
-            this.dispatch('checkCookie', payload)
+            this.dispatch('checkCookie', data.token)
             const stuffOffline = JSON.parse(localStorage.getItem('userStuff'))
             if (stuffOffline === null) {
               commit('setSuccessSnackbar', 'Connected')
@@ -266,10 +239,10 @@ export default new Vuex.Store({
           .catch(error => console.log(error))
       })
     },
-    async logout ({ commit, dispatch }) {
-      dispatch('deleteCookie')
-        .then(commit('logout'))
-        .then(commit('setErrorSnackbar', 'Disconnected'))
+    async logout ({ commit }) {
+      Cookies.remove('user', { path: '' })
+      commit('logout')
+      commit('setErrorSnackbar', 'Disconnected')
     }
   },
   modules: {
