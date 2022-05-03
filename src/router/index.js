@@ -11,6 +11,7 @@ const Home = () => import(/* webpackChunkName: "Home" */ '../pages/Home.vue')
 const Login = () => import(/* webpackChunkName: "Login" */ '../pages/Login.vue')
 const Library = () => import(/* webpackChunkName: "Library" */ '../pages/Library.vue')
 const PageNotFound = () => import(/* webpackChunkName: "PageNotFound" */ '../pages/PageNotFound.vue')
+const Production = () => import(/* webpackChunkName: "Production" */ '../pages/Production.vue')
 const Manga = () => import(/* webpackChunkName: "Manga" */ '../pages/Manga.vue')
 const Anime = () => import(/* webpackChunkName: "Anime" */ '../pages/Anime.vue')
 const UserProfile = () => import(/* webpackChunkName: "UserProfile" */ '../pages/UserProfile.vue')
@@ -89,6 +90,11 @@ const routes = [{
   path: '/register',
   name: 'register',
   component: Register
+},
+{
+  path: '/production',
+  name: 'production',
+  component: Production
 },
 {
   path: '/reset-password/:email/:token',
