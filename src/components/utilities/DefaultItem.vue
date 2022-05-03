@@ -1,6 +1,6 @@
 <template>
   <v-card
-    width="180"
+    width="210"
     :to="{ name: to, params: { id: item.mal_id } }"
   >
     <v-img
@@ -18,10 +18,11 @@
     >
 
     <v-rating length="5" size="5" :value="item.score / 2" readonly x-small />
-    <v-row align="center" justify="end">
-      <v-icon disabled class="mr-1"> mdi-book-heart </v-icon>
-      <span class="subheading mr-2">{{ item.popularity }}</span>
-    </v-row>
+      <div class="ml-2">
+        <v-icon disabled class="mr-1"> mdi-account-group </v-icon>
+        <span class="subheading ml-1">{{ item.popularity }}</span>
+      </div>
+
   </v-card>
 </template>
 

@@ -41,17 +41,17 @@
               </template>
             </p>
             <p class="font-weight-medium">volumes: {{ item.volumes }}</p>
-            <p class="font-weight-medium">Chapitres: {{ item.chapters }}</p>
+            <p class="font-weight-medium">chapters: {{ item.chapters }}</p>
             <p class="font-weight-medium">
-              Nombres de favoris: {{ item.favorites }}
+              Number of favorites: {{ item.favorites }}
             </p>
           </v-card-text>
-          <v-card-actions>
+
           <v-btn :to="{ name: 'detailManga', params: { id: item.id } }">
             More details
           </v-btn>
           <slot name="delete-stuff"></slot>
-          </v-card-actions>
+
         </v-card>
       </v-expand-transition>
     </v-card>

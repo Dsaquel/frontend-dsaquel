@@ -33,7 +33,7 @@
 
       <v-btn v-else @click="dialog = true">
         <v-icon class="mr-2">mdi-account-circle</v-icon>
-        Se connecter
+        login
       </v-btn>
 
       <template v-slot:extension>
@@ -320,8 +320,6 @@ export default {
       const user = Cookies.get('user')
       if (user !== undefined) {
         this.$store.dispatch('stayUserConnected', user)
-      } else {
-        console.log('go se connecter bg')
       }
     }
   },

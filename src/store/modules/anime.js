@@ -74,7 +74,6 @@ const actions = {
   }, query) {
     const url = new URL(`${baseUrl}/anime?sfw&${query}&sfw`)
     localStorage.setItem('url', url)
-    console.log(`${baseUrl}/anime?sfw&${query}`)
     const res = await fetch(`${baseUrl}/anime?sfw&${query}&sfw`)
     const data = await res.json()
     data.name = 'filter'
@@ -99,7 +98,6 @@ const actions = {
       method: 'get'
     })
     const data = await (await res).json()
-    console.log(data)
     commit('setTopReviewsAnime', data)
   },
   insertAnime ({ commit }, stuff) {

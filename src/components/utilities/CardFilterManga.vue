@@ -116,7 +116,6 @@
         <v-card-actions>
           <v-spacer></v-spacer>
 
-          <v-btn text @click="menu = false"> Cancel </v-btn>
           <v-btn color="primary" text @click="sendRequest"> Save </v-btn>
         </v-card-actions>
       </v-card>

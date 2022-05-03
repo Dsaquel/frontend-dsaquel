@@ -37,7 +37,6 @@ export default {
   }),
   beforeMount () {
     const query = this.$route.query.filter
-    console.log(query)
     this.$store.dispatch('Manga/getMangaFiltered', query)
   },
   methods: {

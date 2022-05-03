@@ -1,7 +1,6 @@
 <template>
 <v-container>
-
-          <v-sheet class="mx-auto" elevation="5">
+        <v-sheet class="mx-auto" elevation="5" v-if="mangas.length !== 0">
         <v-slide-group show-arrows="always">
           <v-slide-item v-for="(item, i) in mangas" :key="i">
             <CardComponentManga :item="item">
@@ -14,7 +13,8 @@
           </v-slide-item>
         </v-slide-group>
       </v-sheet>
-      <v-sheet class="mx-auto" elevation="5">
+      <div class="font-italic" v-else>nothing to show about manga</div>
+      <v-sheet class="mx-auto" elevation="5" v-if="animes.length !== 0">
         <v-slide-group show-arrows="always">
           <v-slide-item v-for="(item, i) in animes" :key="i">
             <CardComponentAnime :item="item">
@@ -27,6 +27,7 @@
           </v-slide-item>
         </v-slide-group>
       </v-sheet>
+      <div class="font-italic" v-else>nothing to show about anime</div>
 </v-container>
 </template>
 

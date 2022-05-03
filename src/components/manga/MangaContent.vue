@@ -26,8 +26,8 @@
         <PickManga @sendPicking="sendPicking" />
       </div>
       <div v-else>
-        <v-btn @click="resetPick">reset les preferences ?</v-btn>
-        <h2>Recommendation concernant {{ currentRecommendationTitle }}</h2>
+        <v-btn @click="resetPick">reset your pick ?</v-btn>
+        <h2>concerning recommendation of {{ currentRecommendationTitle }}</h2>
         <Recommendation
           @sendPagination="sendPagination"
           :item="mangaRecommendations[page]"

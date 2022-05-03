@@ -5,7 +5,7 @@
         <v-slide-item v-for="(anime, i) in animeUpcoming" :key="i">
           <HoverComponent :item="anime">
             <template v-slot:subTitle></template>
-            <template v-slot:secondTitle> Quelques informations </template>
+            <template v-slot:secondTitle> some informations </template>
             <template v-slot:textContent>
               <p class="font-weight-black body-1">
                 {{ anime.title.default }}
@@ -80,7 +80,7 @@
             <template v-slot:subTitle
               >
             </template>
-            <template v-slot:secondTitle> A propos </template>
+            <template v-slot:secondTitle> informations </template>
             <template v-slot:textContent>
               <p class="font-weight-black body-1">
                 {{ character.title }}

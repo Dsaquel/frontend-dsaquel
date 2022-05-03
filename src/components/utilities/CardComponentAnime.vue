@@ -30,11 +30,8 @@
             {{ item.airInfo.status }}
           </p>
         </v-card-text>
-        <v-card-actions>
-        <v-btn :to="{ name: 'detailAnime', params: { id: item.id } }"
-          >More details</v-btn>
-        <slot name="delete-stuff"></slot>
-        </v-card-actions>
+          <v-btn :to="{ name: 'detailAnime', params: { id: item.id } }">More details</v-btn>
+          <slot name="delete-stuff"></slot>
       </v-card>
     </v-card>
   </v-hover>
