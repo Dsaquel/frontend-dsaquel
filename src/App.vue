@@ -321,6 +321,9 @@ export default {
       if (user !== undefined) {
         this.$store.dispatch('stayUserConnected', user)
       }
+    },
+    metaInfo: {
+      title: 'Dsaquel'
     }
   },
   computed: {
