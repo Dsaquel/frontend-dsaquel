@@ -234,6 +234,9 @@ import { mapState } from 'vuex'
 import Cookies from 'js-cookie'
 export default {
   name: 'app',
+  metaInfo: {
+    title: 'Dsaquel'
+  },
   data () {
     return {
       index: 1,
@@ -321,9 +324,6 @@ export default {
       if (user !== undefined) {
         this.$store.dispatch('stayUserConnected', user)
       }
-    },
-    metaInfo: {
-      title: 'Dsaquel'
     }
   },
   computed: {
