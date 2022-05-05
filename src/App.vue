@@ -254,7 +254,7 @@ export default {
       passwordLogin: '',
       passwordRegister: '',
       passwordRules: [
-        (v) => !!v || 'Mot de passe requis',
+        (v) => !!v || 'password required',
         (v) => v.length >= 4 || 'Mot de passe supérieur à 8 caractères'
       ],
       emailRules: [
