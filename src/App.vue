@@ -235,7 +235,7 @@ import Cookies from 'js-cookie'
 export default {
   name: 'app',
   metaInfo: {
-    title: 'Dsaquel'
+    titleTemplate: 'Dsaquel'
   },
   data () {
     return {
