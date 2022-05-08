@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import EditUserProfile from '../components/user/EditUserProfile'
+import EditUserProfile from '../components/account/EditUserProfile'
 
 export default {
   name: 'UserProfile',

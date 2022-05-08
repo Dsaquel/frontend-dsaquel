@@ -66,7 +66,7 @@ export default {
     }
   },
   beforeMount () {
-    this.$store.dispatch('User/getUserProfile')
+    this.$store.dispatch('Account/GET_USER_PROFILE')
   },
   methods: {
     save () {
@@ -75,17 +75,17 @@ export default {
       const pseudo = document.getElementById('pseudo').value
       const payload = {}
       payload.pseudo = pseudo
-      this.$store.dispatch('editUserProfile', payload)
+      this.$store.dispatch('Account/EDIT_USER_PROFILE', payload)
     },
     resetPassword () {
       this.hasSend = true
-      this.$store.dispatch('linkPasswordReset', this.emailState)
+      this.$store.dispatch('Account/LINK_PASSWORD_RESET', this.emailState)
     }
   },
   computed: {
     ...mapState({
-      pseudoState: (state) => state.User.pseudo,
-      emailState: (state) => state.User.email
+      pseudoState: (state) => state.Account.pseudo,
+      emailState: (state) => state.Account.email
     })
   }
 }

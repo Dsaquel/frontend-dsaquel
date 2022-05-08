@@ -21,7 +21,8 @@ const Search = () => import(/* webpackChunkName: "Search" */ '../pages/Search.vu
 
 Vue.use(VueRouter)
 
-const routes = [{
+const routes =
+[{
   path: '/',
   name: 'home',
   component: Home

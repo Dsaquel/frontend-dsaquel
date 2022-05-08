@@ -7,7 +7,7 @@
 
       <v-spacer></v-spacer>
 
-      <v-menu v-if="isUserConnected === true" bottom>
+      <v-menu v-if="token !== null" bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-btn icon v-bind="attrs" v-on="on">
             <v-icon>mdi-dots-vertical</v-icon>
@@ -60,7 +60,7 @@
       </v-list>
 
       <template v-slot:append>
-        <div v-if="isUserConnected" class="pa-2">
+        <div v-if="token" class="pa-2">
           <v-btn block @click="logout"> Logout </v-btn>
         </div>
       </template>
@@ -70,7 +70,7 @@
       <v-dialog
         style="transform-origin: center center"
         persistent
-        v-if="isUserConnected === false"
+        v-if="token === null"
         v-model="dialog"
         max-width="500"
       >
@@ -255,16 +255,16 @@ export default {
       passwordRegister: '',
       passwordRules: [
         (v) => !!v || 'password required',
-        (v) => v.length >= 4 || 'Mot de passe supérieur à 8 caractères'
+        (v) => v.length >= 4 || 'password need to be more than 8 character'
       ],
       emailRules: [
-        (v) => !!v || 'E-mail requis',
-        (v) => /.+@.+/.test(v) || 'E-mail doit etre valide'
+        (v) => !!v || 'E-mail required',
+        (v) => /.+@.+/.test(v) || 'E-mail must be valid'
       ],
       pseudo: '',
       pseudoRules: [
-        (v) => !!v || 'Pseudo requis',
-        (v) => v.length <= 32 || 'Pseudo inférieur à 32 caractères'
+        (v) => !!v || 'Pseudo required',
+        (v) => v.length <= 32 || 'pseudonyme need to be more than 8 character'
       ],
       dropdownProfileConnected: [
         {
@@ -293,25 +293,25 @@ export default {
           email: this.emailLogin,
           password: this.passwordLogin
         }
-        this.$store.dispatch('login', payload)
+        this.$store.dispatch('Account/LOGIN', payload)
       }
     },
     signup () {
       if (this.$refs.register.validate()) {
         this.step = 'emailSend'
         const newUser = { email: this.emailRegister, password: this.passwordRegister, pseudo: this.pseudo }
-        this.$store.dispatch('signUp', newUser)
+        this.$store.dispatch('Account/SIGN_UP', newUser)
       }
     },
     resendLink () {
       const newUser = { email: this.emailRegister, password: this.passwordRegister, pseudo: this.pseudo }
-      this.$store.dispatch('resendLink', newUser)
+      this.$store.dispatch('Account/RESEND_LINK', newUser)
     },
     linkPasswordReset () {
-      this.$store.dispatch('linkPasswordReset', this.emailResetPassword)
+      this.$store.dispatch('Account/LINK_PASSWORD_RESET', this.emailResetPassword)
     },
     logout () {
-      this.$store.dispatch('logout')
+      this.$store.dispatch('Account/LOGOUT')
       this.dialog = false
     },
     checkResetPassword () {
@@ -322,21 +322,21 @@ export default {
     checkCookie () {
       const user = Cookies.get('user')
       if (user !== undefined) {
-        this.$store.dispatch('stayUserConnected', user)
+        this.$store.dispatch('Account/STAY_USER_CONNECTED', user)
       }
     }
   },
   computed: {
     menus () {
-      const menus = [{ title: 'Suggestion', icon: 'mdi-gavel', to: 'production' }]
-      if (this.isUserConnected) {
+      const menus = [{ title: 'Suggestion', icon: 'mdi-gavel', to: '/production' }]
+      if (this.token !== null) {
         menus.push(
           {
             title: 'Account',
             icon: 'mdi-account-box',
             to: '/account/personnal-informations'
           },
-          { title: 'Library', icon: 'mdi-view-dashboard', to: 'library' }
+          { title: 'Library', icon: 'mdi-view-dashboard', to: '/library' }
         )
       }
       return menus
@@ -347,7 +347,7 @@ export default {
         { name: 'Anime', to: '/anime' },
         { name: 'Manga', to: '/manga' }
       ]
-      if (this.isUserConnected) {
+      if (this.token !== null) {
         tabs.push(
           { name: 'Library', to: '/library' })
       }
@@ -366,7 +366,7 @@ export default {
       }
     },
     ...mapState({
-      isUserConnected: (state) => state.isUserConnected,
+      token: (state) => state.Account.token,
       successSnackbarStore: (state) => state.successSnackbar,
       errorSnackbarStore: (state) => state.errorSnackbar,
       message: (state) => state.message

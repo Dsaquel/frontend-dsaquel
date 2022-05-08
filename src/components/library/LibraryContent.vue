@@ -43,17 +43,17 @@ export default {
   },
 
   beforeCreate () {
-    this.$store.dispatch('User/getUserStuff')
+    this.$store.dispatch('Account/GET_USER_STUFF')
   },
   methods: {
     deleteStuff (_id) {
-      this.$store.dispatch('User/deleteUserStuff', _id)
+      this.$store.dispatch('Account/DELETE_USER_STUFF', _id)
     }
   },
   computed: {
     ...mapGetters({
-      mangas: 'User/mangas',
-      animes: 'User/animes'
+      mangas: 'Account/mangas',
+      animes: 'Account/animes'
     })
   }
 }

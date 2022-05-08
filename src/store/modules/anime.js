@@ -104,7 +104,7 @@ const actions = {
     const data = JSON.stringify({
       stuff,
       id: stuff.id,
-      token: this.state.token,
+      token: this.state.Account.token,
       type: 'anime'
     })
     fetch(`${process.env.VUE_APP_API_URL}/api/stuff/insertStuff`, {

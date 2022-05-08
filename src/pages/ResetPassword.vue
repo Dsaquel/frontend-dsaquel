@@ -31,7 +31,7 @@ export default {
     validate () {
       if (this.$refs.resetPassword.validate()) {
         this.$route.params.password = this.password
-        this.$store.dispatch('resetPassword', this.$route.params)
+        this.$store.dispatch('Account/RESET_PASSWORD', this.$route.params)
       }
     }
   }
