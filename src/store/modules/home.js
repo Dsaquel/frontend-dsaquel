@@ -52,7 +52,7 @@ const mutations = {
 const actions = {
   async getTopManga ({ commit, state }) {
     if (state.topManga !== null) return
-    const res = fetch(`${process.env.VUE_APP_API_URL}/api/public/topManga`, {
+    const res = fetch(`${process.env.VUE_APP_API_URL}/public/topManga`, {
       method: 'get'
     })
     const data = await (await res).json()
@@ -60,7 +60,7 @@ const actions = {
   },
   async getAnimeUpcoming ({ commit, state }) {
     if (state.animeUpcoming !== null) return
-    const res = fetch(`${process.env.VUE_APP_API_URL}/api/public/animeUpcoming`, {
+    const res = fetch(`${process.env.VUE_APP_API_URL}/public/animeUpcoming`, {
       method: 'get'
     })
     const data = await (await res).json()
@@ -68,7 +68,7 @@ const actions = {
   },
   async getTopCharacters ({ commit, state }) {
     if (state.topCharacters !== null) return
-    const res = fetch(`${process.env.VUE_APP_API_URL}/api/public/topCharacters`, {
+    const res = fetch(`${process.env.VUE_APP_API_URL}/public/topCharacters`, {
       method: 'get'
     })
     const data = await (await res).json()

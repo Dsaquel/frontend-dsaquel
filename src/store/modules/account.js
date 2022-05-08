@@ -2,6 +2,9 @@ import router from '@/router'
 import Cookies from 'js-cookie'
 import { SET_LOGOUT, SET_USER_TOKEN, SET_USER_STUFF, SET_USER_INFORMATION } from '@/store/types/mutation-types'
 import { LOGIN, SIGN_UP, STAY_USER_CONNECTED, CHECK_COOKIE, EMAIL_CONFIRMATION, RESEND_LINK, LINK_PASSWORD_RESET, RESET_PASSWORD, GET_USER_PROFILE, EDIT_USER_PROFILE, LOGOUT, GET_USER_STUFF, DELETE_USER_STUFF } from '@/store/types/action-types'
+import AccountService from '@/services/accountService'
+
+const Account = new AccountService()
 
 const state = {
   stuff: [],
@@ -50,101 +53,57 @@ const mutations = {
 }
 
 const actions = {
-  [LOGIN] ({
+  async [LOGIN] ({
     commit, dispatch
   }, payload) {
-    fetch(`${process.env.VUE_APP_API_URL}/api/auth/login`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: payload.email,
-        password: payload.password
-      })
-    })
-      .then(async res => {
-        const data = await res.json()
-        if (res.status === 200) {
-          dispatch(CHECK_COOKIE, data.token)
-          const stuffOffline = JSON.parse(localStorage.getItem('userStuff'))
-          if (stuffOffline === null) {
-            this.commit('setSuccessSnackbar', 'Connected')
-          } else {
-            stuffOffline.token = data.token
-            fetch(`${process.env.VUE_APP_API_URL}/api/stuff/insertStuff`, {
-              method: 'post',
-              headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(stuffOffline)
-            })
-              .then(res => res.json())
-              .then(message => this.commit('setSuccessSnackbar', message.message))
-            localStorage.removeItem('userStuff')
-          }
-        } else {
-          this.commit('setErrorSnackbar', data.error)
-        }
-      })
-      .catch(error => console.log(error))
+    const token = await Account.login(payload)
+    if (token.error) {
+      this.commit('setErrorSnackbar', token.error)
+    } else {
+      dispatch(CHECK_COOKIE, token)
+      const stuffOffline = JSON.parse(localStorage.getItem('userStuff'))
+      if (stuffOffline === null) {
+        this.commit('setSuccessSnackbar', 'Connected')
+      } else {
+        stuffOffline.token = token
+        fetch(`${process.env.VUE_APP_API_URL}/stuff/insertStuff`, {
+          method: 'post',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(stuffOffline)
+        })
+          .then(res => res.json())
+          .then(message => this.commit('setSuccessSnackbar', message.message))
+        localStorage.removeItem('userStuff')
+      }
+    }
   },
   [LOGOUT] ({ commit }) {
     Cookies.remove('user', { path: '' })
     commit(SET_LOGOUT)
     this.commit('setErrorSnackbar', 'Disconnected')
   },
-  [SIGN_UP] ({
+  async [SIGN_UP] ({
     commit
   }, newUser) {
-    fetch(`${process.env.VUE_APP_API_URL}/api/auth/signup`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: newUser.email,
-        password: newUser.password,
-        pseudo: newUser.pseudo
-      })
-    })
-      .then(async res => {
-        const data = await res.json()
-        if (res.status === 200) {
-          this.commit('setSuccessSnackbar', data.message)
-        } else {
-          this.commit('setErrorSnackbar', data.error)
-        }
-      })
-      .catch(error => console.log(error))
+    const res = await Account.signUp(newUser)
+    if (res.error) {
+      this.commit('setErrorSnackbar', res.error)
+    } else {
+      this.commit('setSuccessSnackbar', res)
+    }
   },
-  [RESEND_LINK] ({
+  async [RESEND_LINK] ({
     commit
   }, newUser) {
-    fetch(`${process.env.VUE_APP_API_URL}/api/auth/resendLink`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: newUser.email,
-        password: newUser.password,
-        pseudo: newUser.pseudo
-      })
-    })
-      .then(async res => {
-        const data = await res.json()
-        if (res.status === 200) {
-          this.commit('setSuccessSnackbar', data.message)
-        } else {
-          this.commit('setErrorSnackbar', data.error)
-        }
-      })
-      .catch(error => console.log(error))
+    const res = await Account.resendLink(newUser)
+    if (res.error) {
+      this.commit('setErrorSnackbar', res.error)
+    } else {
+      this.commit('setSuccessSnackbar', res)
+    }
   },
   [CHECK_COOKIE] ({ commit }, payload) {
     const user = Cookies.get('user')
@@ -155,129 +114,77 @@ const actions = {
       commit(SET_USER_TOKEN, user)
     }
   },
-  [RESET_PASSWORD] ({
+  async [RESET_PASSWORD] ({
     commit
   }, payload) {
-    fetch(`${process.env.VUE_APP_API_URL}/api/auth/resetPassword`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: payload.email,
-        token: payload.token,
-        password: payload.password
-      })
-    })
-      .then(async res => {
-        const data = await res.json()
-        if (res.status === 200) {
-          this.commit('setSuccessSnackbar', data.message)
-          router.push('/')
-        } else {
-          this.commit('setErrorSnackbar', data.error)
-          router.push('/')
-        }
-      })
+    const res = await Account.resetPassword(payload)
+    console.log(res)
+    if (res.error) {
+      this.commit('setErrorSnackbar', res.error)
+      router.push('/')
+    } else {
+      this.commit('setSuccessSnackbar', res)
+      router.push('/')
+    }
   },
-  [GET_USER_STUFF] ({ commit }) {
-    fetch(`${process.env.VUE_APP_API_URL}/api/stuff/getUserStuff/${state.token}`, {
-      method: 'get'
-    })
-      .then(res => res.json())
-      .then(data => commit(SET_USER_STUFF, data))
-      .catch(error => console.log(error))
+  async [GET_USER_STUFF] ({ commit, state }) {
+    const res = await Account.getUserStuff(state.token)
+    if (res.error) {
+      this.commit('setErrorSnackbar', res.error)
+    } else {
+      commit(SET_USER_STUFF, res)
+    }
   },
-  [GET_USER_PROFILE] ({ commit, state }) {
-    fetch(`${process.env.VUE_APP_API_URL}/api/auth/userProfile/${state.token}`, {
-      method: 'get'
-    })
-      .then(res => res.json())
-      .then(data => commit(SET_USER_INFORMATION, data))
+  async [GET_USER_PROFILE] ({ commit, state }) {
+    const res = await Account.getUserProfile(state.token)
+    if (res.error) {
+      this.commit('setErrorSnackbar', res.error)
+    } else {
+      commit(SET_USER_INFORMATION, res)
+    }
   },
-  [EDIT_USER_PROFILE] ({ commit, state }, payload) {
-    fetch(`${process.env.VUE_APP_API_URL}/api/auth/editUserProfile`, {
-      method: 'PUT',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        token: state.token,
-        pseudo: payload.pseudo
-      })
-    })
-      .then(async res => {
-        const data = await res.json()
-        if (res.status === 200) {
-          this.commit('setSuccessSnackbar', data.message)
-        } else {
-          this.commit('setErrorSnackbar', data.error)
-        }
-      })
-      .catch(error => console.log(error))
+  async [EDIT_USER_PROFILE] ({ commit, state }, payload) {
+    payload.token = state.token
+    const res = await Account.editUserProfile(payload)
+    if (res.error) {
+      this.commit('setErrorSnackbar', res.error)
+    } else {
+      this.commit('setSuccessSnackbar', res)
+    }
   },
-  [DELETE_USER_STUFF] ({ commit, state }, _id) {
-    fetch(`${process.env.VUE_APP_API_URL}/api/stuff/deleteUserStuff/${state.token}`, {
-      method: 'delete',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        _id
-      })
-    }).then(res => res.json())
-      .then(data => commit(SET_USER_STUFF, data))
+  async [DELETE_USER_STUFF] ({ commit, state }, _id) {
+    const payload = { token: state.token, _id }
+    const res = await Account.deleteUserStuff(payload)
+    if (res.error) {
+      this.commit('setErrorSnackbar', res.error)
+    } else {
+      commit(SET_USER_STUFF, res)
+    }
   },
-  [EMAIL_CONFIRMATION] ({
+  async [EMAIL_CONFIRMATION] ({
     commit
   }, newUser) {
-    fetch(`${process.env.VUE_APP_API_URL}/api/auth/confirmation/${newUser.email}/${newUser.token}`, {
-      method: 'get',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(async res => {
-        const data = await res.json()
-        if (res.status === 201) {
-          this.commit('setSuccessSnackbar', data.message)
-          router.push('/')
-        } else {
-          this.commit('setErrorSnackbar', data.error)
-        }
-      })
-      .catch(error => console.log(error))
+    const res = await Account.emailConfirmation(newUser)
+    if (res.error) {
+      this.commit('setErrorSnackbar', res.error)
+    } else {
+      this.commit('setSuccessSnackbar', res)
+      router.push('/')
+    }
   },
   [STAY_USER_CONNECTED] ({ commit }, userToken) {
     commit(SET_USER_TOKEN, userToken)
     this.commit('setSuccessSnackbar', 'Connected')
   },
-  [LINK_PASSWORD_RESET] ({
+  async [LINK_PASSWORD_RESET] ({
     commit
   }, email) {
-    fetch(`${process.env.VUE_APP_API_URL}/api/auth/linkPasswordReset`, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email
-      })
-    })
-      .then(async res => {
-        const data = await res.json()
-        if (res.status === 200) {
-          this.commit('setSuccessSnackbar', data.message)
-        } else {
-          this.commit('setErrorSnackbar', data.error)
-        }
-      })
-      .catch(error => console.log(error))
+    const res = await Account.linkPasswordReset({ email })
+    if (res.error) {
+      this.commit('setErrorSnackbar', res.error)
+    } else {
+      this.commit('setSuccessSnackbar', res)
+    }
   }
 }
 
