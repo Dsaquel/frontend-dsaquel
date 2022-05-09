@@ -3,7 +3,9 @@ import Cookies from 'js-cookie'
 import { SET_LOGOUT, SET_USER_TOKEN, SET_USER_STUFF, SET_USER_INFORMATION } from '@/store/types/mutation-types'
 import { LOGIN, SIGN_UP, STAY_USER_CONNECTED, CHECK_COOKIE, EMAIL_CONFIRMATION, RESEND_LINK, LINK_PASSWORD_RESET, RESET_PASSWORD, GET_USER_PROFILE, EDIT_USER_PROFILE, LOGOUT, GET_USER_STUFF, DELETE_USER_STUFF } from '@/store/types/action-types'
 import AccountService from '@/services/accountService'
+import DataService from '@/services/dataService'
 
+const Data = new DataService()
 const Account = new AccountService()
 
 const state = {
@@ -66,17 +68,13 @@ const actions = {
         this.commit('setSuccessSnackbar', 'Connected')
       } else {
         stuffOffline.token = token
-        fetch(`${process.env.VUE_APP_API_URL}/stuff/insertStuff`, {
-          method: 'post',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(stuffOffline)
-        })
-          .then(res => res.json())
-          .then(message => this.commit('setSuccessSnackbar', message.message))
-        localStorage.removeItem('userStuff')
+        const res = await Data.insertAnime(stuffOffline)
+        if (res.error) {
+          console.log(res.error)
+        } else {
+          this.commit('setSuccessSnackbar', res)
+          localStorage.removeItem('userStuff')
+        }
       }
     }
   },

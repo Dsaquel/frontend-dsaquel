@@ -13,8 +13,8 @@ export default {
 
   beforeCreate () {
     this.$store.dispatch('Home/getAnimeUpcoming')
-    this.$store.dispatch('Anime/getTopReviewsAnime')
-    this.$store.dispatch('Anime/getAnimeSeasonNow')
+    this.$store.dispatch('Anime/GET_REVIEWS_ANIME')
+    this.$store.dispatch('Anime/GET_ANIME_SEASON_NOW')
   },
   computed: {
     ...mapState({

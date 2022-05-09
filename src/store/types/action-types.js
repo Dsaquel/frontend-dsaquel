@@ -1,3 +1,4 @@
+// account action
 export const LOGIN = 'LOGIN'
 export const LOGOUT = 'LOGOUT'
 export const SIGN_UP = 'SIGN_UP'
@@ -11,3 +12,11 @@ export const DELETE_USER_STUFF = 'DELETE_USER_STUFF'
 export const EMAIL_CONFIRMATION = 'EMAIL_CONFIRMATION'
 export const STAY_USER_CONNECTED = 'STAY_USER_CONNECTED'
 export const LINK_PASSWORD_RESET = 'LINK_PASSWORD_RESET'
+
+// anime action
+export const GET_ANIME = 'GET_ANIME'
+export const INSERT_ANIME = 'INSERT_ANIME'
+export const GET_PAGINATION = 'GET_PAGINATION'
+export const GET_REVIEWS_ANIME = 'GET_REVIEWS_ANIME'
+export const GET_ANIME_FILTERED = 'GET_ANIME_FILTERED'
+export const GET_ANIME_SEASON_NOW = 'GET_ANIME_SEASON_NOW'

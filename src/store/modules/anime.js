@@ -1,4 +1,8 @@
-const baseUrl = 'https://api.jikan.moe/v4'
+import { SET_ANIME, SET_ANIME_FILTERED, SET_TOP_REVIEWS_ANIME, SET_SEASON_NOW } from '@/store/types/mutation-types'
+import { GET_ANIME, GET_ANIME_FILTERED, GET_ANIME_SEASON_NOW, GET_PAGINATION, GET_REVIEWS_ANIME, INSERT_ANIME } from '@/store/types/action-types'
+import DataService from '@/services/dataService'
+
+const Data = new DataService()
 
 const state = {
   tags: [
@@ -20,7 +24,6 @@ const state = {
     { name: 'shoujo', id: 25 }
   ],
   anime: null,
-  animes: null,
   filters: {
     type: [],
     genres: [],
@@ -35,51 +38,78 @@ const state = {
 const getters = {}
 
 const mutations = {
-  setAnime (state, anime) {
+  [SET_ANIME] (state, anime) {
     state.anime = anime
   },
-  setAnimes (state, animes) {
-    state.animes.push({
-      data: animes.data,
-      name: animes.name
-    })
+  [SET_ANIME_FILTERED] (state, animes) {
+    state.animeFiltered = animes.data
     state.lastPageVisible = animes.pagination.last_visible_page
   },
-  setDifferentsAnime (state, animes) {
-    if (animes.name === 'filter') {
-      state.animeFiltered = animes.data
-      state.lastPageVisible = animes.pagination.last_visible_page
-    }
-  },
-  setTopReviewsAnime (state, data) {
+  [SET_TOP_REVIEWS_ANIME] (state, data) {
     state.topReviewsAnime = data
   },
-  setSeasonNow (state, data) {
+  [SET_SEASON_NOW] (state, data) {
     state.animeSeasonNow = data
   }
 }
 
 const actions = {
-  async getAnime ({
+  async [GET_ANIME] ({
     commit
   }, id) {
-    const res = await fetch(`${process.env.VUE_APP_API_URL}/stuff/getAnime/${id}`, {
-      method: 'get'
-    })
-    const data = await res.json()
-    commit('setAnime', data)
+    const res = await Data.getAnime(id)
+    if (res.error) {
+      console.log(res)
+    } else {
+      commit(SET_ANIME, res)
+    }
   },
-  async getAnimeFiltered ({
+  async [INSERT_ANIME] ({ commit }, stuff) {
+    const data = {
+      stuff,
+      id: stuff.id,
+      token: this.state.Account.token,
+      type: 'anime'
+    }
+    const res = await Data.insertAnime(data)
+    if (res.error) {
+      localStorage.setItem('userStuff', JSON.stringify(data))
+      window.dispatchEvent(new CustomEvent('userStuff', {
+        detail: {
+          storage: localStorage.getItem('userStuff')
+        }
+      }))
+    } else {
+      console.log('toto')
+      this.commit('setSuccessSnackbar', res)
+    }
+  },
+  async [GET_PAGINATION] ({
     commit
   }, query) {
-    const url = new URL(`${baseUrl}/anime?sfw&${query}&sfw`)
-    localStorage.setItem('url', url)
-    const res = await fetch(`${baseUrl}/anime?sfw&${query}&sfw`)
-    const data = await res.json()
-    data.name = 'filter'
-    commit('setDifferentsAnime', data)
+    console.log(query)
+    // const res = await Data.getPagination(page)
+    // commit(SET_ANIME_FILTERED, res)
   },
-  async getAnimeSeasonNow ({
+  async [GET_REVIEWS_ANIME] ({
+    commit, state
+  }) {
+    if (state.topReviewsAnime !== null) return
+    const res = fetch(`${process.env.VUE_APP_API_URL}/public/topReviewsAnime`, {
+      method: 'get'
+    })
+    const data = await (await res).json()
+    commit(SET_TOP_REVIEWS_ANIME, data)
+  },
+  async [GET_ANIME_FILTERED] ({
+    commit
+  }, query) {
+    const res = await Data.getAnimefiltered(query)
+    console.log(res)
+    localStorage.setItem('url', query)
+    commit(SET_ANIME_FILTERED, res)
+  },
+  async [GET_ANIME_SEASON_NOW] ({
     commit,
     state
   }) {
@@ -88,54 +118,9 @@ const actions = {
       method: 'get'
     })
     const data = await (await res).json()
-    commit('setSeasonNow', data)
-  },
-  async getTopReviewsAnime ({
-    commit, state
-  }) {
-    if (state.topReviewsAnime !== null) return
-    const res = fetch(`${process.env.VUE_APP_API_URL}/public/topReviewsAnime`, {
-      method: 'get'
-    })
-    const data = await (await res).json()
-    commit('setTopReviewsAnime', data)
-  },
-  insertAnime ({ commit }, stuff) {
-    const data = JSON.stringify({
-      stuff,
-      id: stuff.id,
-      token: this.state.Account.token,
-      type: 'anime'
-    })
-    fetch(`${process.env.VUE_APP_API_URL}/stuff/insertStuff`, {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: data
-    })
-      .then(async res => {
-        const response = await res.json()
-        if (res.status === 401) {
-          localStorage.setItem('userStuff', data)
-          window.dispatchEvent(new CustomEvent('userStuff', {
-            detail: {
-              storage: localStorage.getItem('userStuff')
-            }
-          }))
-        } else { commit('setSuccessSnackbar', response.message, { root: true }) }
-      })
-  },
-  async getPagination ({
-    commit
-  }, page) {
-    const url = localStorage.getItem('url')
-    const res = await fetch(`${url}?&page=${page}`)
-    const data = await res.json()
-    data.name = 'filter'
-    commit('setDifferentsAnime', data)
+    commit(SET_SEASON_NOW, data)
   }
+
 }
 
 export default {

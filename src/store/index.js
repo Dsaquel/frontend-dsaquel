@@ -5,7 +5,6 @@ import Character from './modules/character'
 import Home from './modules/home'
 import Account from './modules/account'
 import Manga from './modules/manga'
-import Navigation from './modules/navigation'
 
 Vue.use(Vuex)
 
@@ -35,7 +34,6 @@ export default new Vuex.Store({
     Character,
     Home,
     Account,
-    Manga,
-    Navigation
+    Manga
   }
 })

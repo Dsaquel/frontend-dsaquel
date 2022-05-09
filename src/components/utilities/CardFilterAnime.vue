@@ -161,13 +161,17 @@ export default {
   props: {},
   methods: {
     sendRequest () {
-      const status = 'status=' + this.statusStore
-      const type = 'type=' + this.typeStore.join('&')
-      const genres = 'genres=' + this.genresStore.join('&')
-      const orderBy = 'order_by=' + this.orderByStore.join('&')
-      const queryAnime = 'q=' + this.searchAnime
-      const query = [queryAnime, genres, type, orderBy, status].join('&')
-      this.$router.push({ path: '/anime/filters', query: { filter: query } })
+      const status = (this.statusStore && this.statusStore.length) ? 'status=' + this.statusStore : null
+      const type = (this.typeStore && this.typeStore.length) ? 'type=' + this.typeStore : null
+      const genres = (this.genresStore && this.genresStore.length) ? 'genres=' + this.genresStore : null
+      const orderBy = (this.orderByStore && this.orderByStore.length) ? 'orderBy=' + this.orderByStore : null
+      const title = (this.searchAnime && this.searchAnime.length) ? 'title=' + this.searchAnime : null
+      const sort = 'sort=desc'
+      const group = [{ title }, { genres }, { type }, { orderBy }, { status }, { sort }]
+      group.forEach(element => Object.keys(element).forEach((k) => element[k] === null && delete element[k]))
+      const query = group.filter(value => Object.keys(value).length !== 0).map(value => Object.values(value)[0]).join('&')
+      this.$store.dispatch('Anime/GET_ANIME_FILTERED', query)
+      // this.$router.push({ path: '/anime/filters', query: { filter: query } })
     }
   },
   watch: {},

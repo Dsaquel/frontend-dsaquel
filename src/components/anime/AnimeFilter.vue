@@ -38,11 +38,11 @@ export default {
   }),
   mounted () {
     const query = this.$route.query.filter
-    this.$store.dispatch('Anime/getAnimeFiltered', query)
+    this.$store.dispatch('Anime/GET_ANIME_FILTERED', query)
   },
   methods: {
     getPagination (page) {
-      this.$store.dispatch('Anime/getPagination', page)
+      this.$store.dispatch('Anime/GET_PAGINATION', page)
     },
     affectTag (tag) {
       this.selected = tag

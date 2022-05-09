@@ -77,14 +77,14 @@
 export default {
   name: 'DetailsAnime',
   beforeMount () {
-    this.$store.dispatch('Anime/getAnime', this.$route.params.id)
+    this.$store.dispatch('Anime/GET_ANIME', this.$route.params.id)
   },
   beforeDestroy () {
-    this.$store.commit('Anime/setAnime', null)
+    this.$store.commit('Anime/SET_ANIME', null)
   },
   methods: {
     insertAnime () {
-      this.$store.dispatch('Anime/insertAnime', this.anime)
+      this.$store.dispatch('Anime/INSERT_ANIME', this.anime)
     }
   },
   computed: {

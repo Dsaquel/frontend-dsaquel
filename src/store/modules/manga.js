@@ -66,7 +66,6 @@ const state = {
   }
   ],
   manga: null,
-  mangas: [],
   filters: {
     type: [],
     genres: [],
