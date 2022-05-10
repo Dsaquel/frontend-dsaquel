@@ -19,15 +19,6 @@ export default class Data extends ServiceApi {
     }
   }
 
-  async getPagination (page) {
-    try {
-      const res = await this.get('/public/pagination')
-      return res.data
-    } catch (err) {
-      return err
-    }
-  }
-
   async getAnimefiltered (query) {
     try {
       const res = await this.get(`/public/animeFiltered?${query}`)
