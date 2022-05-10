@@ -1,6 +1,6 @@
 import ServiceApi from '../serviceApi'
 
-export default class Data extends ServiceApi {
+export default class Character extends ServiceApi {
   async getCharacter (id) {
     try {
       const res = await this.get(`/public/character/${id}`)

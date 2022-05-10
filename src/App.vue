@@ -328,7 +328,7 @@ export default {
   },
   computed: {
     menus () {
-      const menus = [{ title: 'Suggestion', icon: 'mdi-gavel', to: '/production' }]
+      const menus = [{ title: 'Suggestion', icon: 'mdi-gavel', to: '/suggestion' }]
       if (this.token !== null) {
         menus.push(
           {

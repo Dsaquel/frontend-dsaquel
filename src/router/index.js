@@ -8,6 +8,7 @@ const DetailsManga = () => import(/* webpackChunkName: "DetailManga" */ '../comp
 const AnimeFilter = () => import(/* webpackChunkName: "AnimeFilter" */ '../components/anime/AnimeFilter.vue')
 const MangaFilter = () => import(/* webpackChunkName: "MangaFilter" */ '../components/manga/MangaFilter.vue')
 const Home = () => import(/* webpackChunkName: "Home" */ '../pages/Home.vue')
+const Suggestion = () => import(/* webpackChunkName: "Suggestion" */ '../pages/Suggestion.vue')
 const Login = () => import(/* webpackChunkName: "Login" */ '../pages/Login.vue')
 const Library = () => import(/* webpackChunkName: "Library" */ '../pages/Library.vue')
 const PageNotFound = () => import(/* webpackChunkName: "PageNotFound" */ '../pages/PageNotFound.vue')
@@ -17,7 +18,6 @@ const Anime = () => import(/* webpackChunkName: "Anime" */ '../pages/Anime.vue')
 const UserProfile = () => import(/* webpackChunkName: "UserProfile" */ '../pages/UserProfile.vue')
 const Register = () => import(/* webpackChunkName: "Register" */ '../pages/Register.vue')
 const ResetPassword = () => import(/* webpackChunkName: "ResetPassword" */ '../pages/ResetPassword.vue')
-const Search = () => import(/* webpackChunkName: "Search" */ '../pages/Search.vue')
 
 Vue.use(VueRouter)
 
@@ -31,6 +31,11 @@ const routes =
   path: '/confirmation/:email/:token',
   name: 'EmailConfirmation',
   component: EmailConfirmation
+},
+{
+  path: '/suggestion',
+  name: 'suggestion',
+  component: Suggestion
 },
 {
   path: '/detail-manga/:id',
@@ -101,10 +106,6 @@ const routes =
   path: '/reset-password/:email/:token',
   name: 'reset-password',
   component: ResetPassword
-},
-{
-  path: '/search/:id',
-  component: Search
 },
 {
   path: '*',
