@@ -1,4 +1,4 @@
-# manga_copie
+# front-dsaquel
 
 ## Project setup
 ```
