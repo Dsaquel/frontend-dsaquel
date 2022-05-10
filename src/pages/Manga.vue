@@ -10,9 +10,9 @@ export default {
     MangaContent
   },
   beforeMount () {
-    this.$store.dispatch('Home/getTopManga')
-    this.$store.dispatch('Manga/getMostFavoritesManga')
-    this.$store.dispatch('Manga/pickMangas')
+    this.$store.dispatch('Home/GET_TOP_MANGA')
+    this.$store.dispatch('Manga/GET_MOST_FAVORITES_MANGA')
+    this.$store.dispatch('Manga/GET_PICK_MANGA')
   }
 }
 </script>

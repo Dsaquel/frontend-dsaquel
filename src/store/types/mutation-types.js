@@ -9,3 +9,18 @@ export const SET_ANIME = 'SET_ANIME'
 export const SET_ANIME_FILTERED = 'SET_ANIME_FILTERED'
 export const SET_TOP_REVIEWS_ANIME = 'SET_TOP_REVIEWS_ANIME'
 export const SET_SEASON_NOW = 'SET_SEASON_NOW'
+
+// character mutations
+export const SET_CHARACTER = 'SET_CHARACTER'
+
+// home mutations
+export const SET_TOP_MANGA = 'SET_TOP_MANGA'
+export const SET_ANIME_UPCOMING = 'SET_ANIME_UPCOMING'
+export const SET_TOP_CHARACTERS = 'SET_TOP_CHARACTERS'
+
+// mutations manga
+export const SET_MANGA = 'SET_MANGA'
+export const SET_PICK_MANGA = 'SET_PICK_MANGA'
+export const SET_MANGA_FILTERED = 'SET_MANGA_FILTERED'
+export const SET_MOST_FAVORITES_MANGA = 'SET_MOST_FAVORITES_MANGA'
+export const SET_MANGA_RECOMMENDATIONS = 'SET_MANGA_RECOMMENDATIONS'

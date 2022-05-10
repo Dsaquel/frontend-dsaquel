@@ -1,23 +1,26 @@
-const baseUrl = 'https://api.jikan.moe/v4'
+import DataService from '@/services/extends/dataService'
+import { SET_CHARACTER } from '@/store/types/mutation-types'
+import { GET_CHARACTER } from '@/store/types/action-types'
+
+const Data = new DataService()
 
 const state = {
+  character: null,
   characters: [],
-  lastPageVisible: null,
-  character: null
+  lastPageVisible: null
 }
 const getters = {}
 
 const mutations = {
-  setCharacter (state, character) {
+  [SET_CHARACTER] (state, character) {
     state.character = character
   }
 }
 
 const actions = {
-  async getCharacter ({ commit }, id) {
-    const res = await fetch(`${baseUrl}/characters/${id}`)
-    const data = await res.json()
-    commit('setCharacter', data.data)
+  async [GET_CHARACTER] ({ commit }, id) {
+    const res = await Data.getCharacter(id)
+    commit(SET_CHARACTER, res)
   }
 }
 

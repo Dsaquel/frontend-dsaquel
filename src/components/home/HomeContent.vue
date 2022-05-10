@@ -21,9 +21,9 @@ export default {
 
   },
   mounted () {
-    this.$store.dispatch('Home/getTopManga')
-    this.$store.dispatch('Home/getTopCharacters')
-    this.$store.dispatch('Home/getAnimeUpcoming')
+    this.$store.dispatch('Home/GET_TOP_MANGA')
+    this.$store.dispatch('Home/GET_ANIME_UPCOMING')
+    this.$store.dispatch('Home/GET_TOP_CHARACTERS')
   },
   computed: {
     ...mapState({})

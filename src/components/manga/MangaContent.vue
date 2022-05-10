@@ -75,7 +75,7 @@ export default {
       this.page = page
     },
     sendPicking (idManga) {
-      this.$store.dispatch('Manga/getMangaRecommendation', idManga)
+      this.$store.dispatch('Manga/GET_MANGA_RECOMMENDATIONS', idManga)
     },
     resetPick () {
       this.$store.state.Manga.mangaRecommendations = null

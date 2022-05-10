@@ -1,18 +1,35 @@
 import router from '@/router'
 import Cookies from 'js-cookie'
-import { SET_LOGOUT, SET_USER_TOKEN, SET_USER_STUFF, SET_USER_INFORMATION } from '@/store/types/mutation-types'
-import { LOGIN, SIGN_UP, STAY_USER_CONNECTED, CHECK_COOKIE, EMAIL_CONFIRMATION, RESEND_LINK, LINK_PASSWORD_RESET, RESET_PASSWORD, GET_USER_PROFILE, EDIT_USER_PROFILE, LOGOUT, GET_USER_STUFF, DELETE_USER_STUFF } from '@/store/types/action-types'
-import AccountService from '@/services/accountService'
-import DataService from '@/services/dataService'
+import AccountService from '@/services/extends/accountService'
+import {
+  SET_LOGOUT,
+  SET_USER_TOKEN,
+  SET_USER_STUFF,
+  SET_USER_INFORMATION
+} from '@/store/types/mutation-types'
+import {
+  LOGIN,
+  LOGOUT,
+  SIGN_UP,
+  RESEND_LINK,
+  CHECK_COOKIE,
+  RESET_PASSWORD,
+  GET_USER_STUFF,
+  GET_USER_PROFILE,
+  EDIT_USER_PROFILE,
+  DELETE_USER_STUFF,
+  EMAIL_CONFIRMATION,
+  STAY_USER_CONNECTED,
+  LINK_PASSWORD_RESET
+} from '@/store/types/action-types'
 
-const Data = new DataService()
 const Account = new AccountService()
 
 const state = {
   stuff: [],
   token: null,
-  pseudo: null,
-  email: null
+  email: null,
+  pseudo: null
 }
 
 const getters = {
@@ -68,7 +85,7 @@ const actions = {
         this.commit('setSuccessSnackbar', 'Connected')
       } else {
         stuffOffline.token = token
-        const res = await Data.insertAnime(stuffOffline)
+        const res = await Account.insertStuff(stuffOffline)
         if (res.error) {
           console.log(res.error)
         } else {

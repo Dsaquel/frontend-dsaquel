@@ -1,4 +1,4 @@
-import ServiceApi from './serviceApi'
+import ServiceApi from '../serviceApi'
 
 export default class Account extends ServiceApi {
   async login (payload) {
@@ -49,6 +49,15 @@ export default class Account extends ServiceApi {
   async linkPasswordReset (payload) {
     try {
       const res = await this.post('/auth/linkPasswordReset', payload)
+      return res.data?.message
+    } catch (err) {
+      return err.data
+    }
+  }
+
+  async insertStuff (payload) {
+    try {
+      const res = await this.post('/stuff/insertStuff', payload)
       return res.data?.message
     } catch (err) {
       return err.data

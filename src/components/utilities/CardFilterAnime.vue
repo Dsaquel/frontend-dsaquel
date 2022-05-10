@@ -20,8 +20,6 @@
               <v-chip-group
                 column
                 v-model="genres"
-                multiple
-                max="5"
                 active-class="primary--text"
               >
                 <v-chip
@@ -46,8 +44,6 @@
               <v-chip-group
                 v-model="type"
                 column
-                multiple
-                max="3"
                 active-class="primary--text"
               >
                 <v-chip
@@ -69,8 +65,6 @@
               <v-chip-group
                 v-model="orderBy"
                 column
-                multiple
-                max="3"
                 active-class="primary--text"
               >
                 <v-chip
@@ -164,7 +158,7 @@ export default {
       const status = (this.statusStore && this.statusStore.length) ? 'status=' + this.statusStore : null
       const type = (this.typeStore && this.typeStore.length) ? 'type=' + this.typeStore : null
       const genres = (this.genresStore && this.genresStore.length) ? 'genres=' + this.genresStore : null
-      const orderBy = (this.orderByStore && this.orderByStore.length) ? 'orderBy=' + this.orderByStore : null
+      const orderBy = (this.orderByStore && this.orderByStore.length) ? 'order_by=' + this.orderByStore : null
       const title = (this.searchAnime && this.searchAnime.length) ? 'q=' + this.searchAnime : null
       const sfw = 'sfw'
       const sort = 'sort=desc'

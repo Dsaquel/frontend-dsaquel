@@ -1,8 +1,21 @@
-import { SET_ANIME, SET_ANIME_FILTERED, SET_TOP_REVIEWS_ANIME, SET_SEASON_NOW } from '@/store/types/mutation-types'
-import { GET_ANIME, GET_ANIME_FILTERED, GET_ANIME_SEASON_NOW, GET_REVIEWS_ANIME, INSERT_ANIME } from '@/store/types/action-types'
-import DataService from '@/services/dataService'
+import DataService from '@/services/extends/dataService'
+import AccountService from '@/services/extends/accountService'
+import {
+  SET_ANIME,
+  SET_SEASON_NOW,
+  SET_ANIME_FILTERED,
+  SET_TOP_REVIEWS_ANIME
+} from '@/store/types/mutation-types'
+import {
+  GET_ANIME,
+  INSERT_ANIME,
+  GET_REVIEWS_ANIME,
+  GET_ANIME_FILTERED,
+  GET_ANIME_SEASON_NOW
+} from '@/store/types/action-types'
 
 const Data = new DataService()
+const Account = new AccountService()
 
 const state = {
   tags: [
@@ -41,15 +54,15 @@ const mutations = {
   [SET_ANIME] (state, anime) {
     state.anime = anime
   },
+  [SET_SEASON_NOW] (state, data) {
+    state.animeSeasonNow = data
+  },
   [SET_ANIME_FILTERED] (state, animes) {
     state.animeFiltered = animes.data
     state.lastPageVisible = animes.pagination.last_visible_page
   },
   [SET_TOP_REVIEWS_ANIME] (state, data) {
     state.topReviewsAnime = data
-  },
-  [SET_SEASON_NOW] (state, data) {
-    state.animeSeasonNow = data
   }
 }
 
@@ -71,7 +84,7 @@ const actions = {
       token: this.state.Account.token,
       type: 'anime'
     }
-    const res = await Data.insertAnime(data)
+    const res = await Account.insertStuff(data)
     if (res.error) {
       localStorage.setItem('userStuff', JSON.stringify(data))
       window.dispatchEvent(new CustomEvent('userStuff', {
@@ -87,16 +100,13 @@ const actions = {
     commit, state
   }) {
     if (state.topReviewsAnime !== null) return
-    const res = fetch(`${process.env.VUE_APP_API_URL}/public/topReviewsAnime`, {
-      method: 'get'
-    })
-    const data = await (await res).json()
-    commit(SET_TOP_REVIEWS_ANIME, data)
+    const res = await Data.getReviewsAnime()
+    commit(SET_TOP_REVIEWS_ANIME, res)
   },
   async [GET_ANIME_FILTERED] ({
     commit
   }, query) {
-    const res = await Data.getAnimefiltered(query)
+    const res = await Data.getAnimeFiltered(query)
     commit(SET_ANIME_FILTERED, res)
   },
   async [GET_ANIME_SEASON_NOW] ({
@@ -104,11 +114,8 @@ const actions = {
     state
   }) {
     if (state.animeSeasonNow !== null) return
-    const res = fetch(`${process.env.VUE_APP_API_URL}/public/animeSeasonNow`, {
-      method: 'get'
-    })
-    const data = await (await res).json()
-    commit(SET_SEASON_NOW, data)
+    const res = await Data.getAnimeSeasonNow()
+    commit(SET_SEASON_NOW, res)
   }
 
 }

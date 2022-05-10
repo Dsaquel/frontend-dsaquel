@@ -1,4 +1,24 @@
-const baseUrl = 'https://api.jikan.moe/v4'
+import DataService from '@/services/extends/dataService'
+import AccountService from '@/services/extends/accountService'
+import {
+  SET_MANGA,
+  SET_PICK_MANGA,
+  SET_MANGA_FILTERED,
+  SET_MOST_FAVORITES_MANGA,
+  SET_MANGA_RECOMMENDATIONS
+} from '@/store/types/mutation-types'
+import {
+  GET_MANGA,
+  INSERT_MANGA,
+  GET_PICK_MANGA,
+  GET_MANGA_FILTERED,
+  GET_MOST_FAVORITES_MANGA,
+  GET_MANGA_RECOMMENDATIONS
+} from '@/store/types/action-types'
+
+const Data = new DataService()
+const Account = new AccountService()
+
 const state = {
   tags: [{
     name: 'action',
@@ -72,9 +92,9 @@ const state = {
     status: [],
     orderBy: []
   },
-  mangaFiltered: null,
-  mangaPicking: null,
   pickMangas: null,
+  mangaPicking: null,
+  mangaFiltered: null,
   lastPageVisible: null,
   mostMangaFavorites: null,
   mangaRecommendations: null,
@@ -95,117 +115,80 @@ const getters = {
 }
 
 const mutations = {
-  setManga (state, manga) {
+  [SET_MANGA] (state, manga) {
     state.manga = manga
   },
-  setDifferentsManga (state, mangas) {
-    if (mangas.name === 'filter') {
-      state.mangaFiltered = mangas.data
-      state.lastPageVisible = mangas.pagination.last_visible_page
-    }
-    if (mangas.name === 'recommendation') {
-      state.mangaRecommendations = mangas.data
-    }
+  [SET_PICK_MANGA] (state, data) {
+    state.pickMangas = data
   },
-  setMostFavoritesManga (state, data) {
+  [SET_MANGA_FILTERED] (state, mangas) {
+    state.mangaFiltered = mangas.data
+    state.lastPageVisible = mangas.pagination.last_visible_page
+  },
+  [SET_MOST_FAVORITES_MANGA] (state, data) {
     state.mostMangaFavorites = data
   },
-  setPickMangas (state, data) {
-    state.pickMangas = data
+  [SET_MANGA_RECOMMENDATIONS] (state, mangas) {
+    state.mangaRecommendations = mangas.data
   }
 }
 
 const actions = {
-  async getManga ({
+  async [GET_MANGA] ({
     commit
   }, id) {
-    const res = await fetch(`${process.env.VUE_APP_API_URL}/stuff/getManga/${id}`, {
-      method: 'get'
-    })
-    const data = await res.json()
-    commit('setManga', data)
+    const res = await Data.getManga(id)
+    commit(SET_MANGA, res)
   },
-  async getMangaFiltered ({
-    commit
-  }, query) {
-    const url = new URL(`${baseUrl}/manga?${query}&sfw`)
-    localStorage.setItem('url', url)
-    const res = await fetch(`${baseUrl}/manga?${query}&sfw`)
-    const data = await res.json()
-    data.name = 'filter'
-    commit('setDifferentsManga', data)
-  },
-  async getMangaRecommendation ({
-    commit,
-    state
-  }, idManga) {
-    if (state.mangaRecommendations !== null) return
-    const res = await fetch(`${baseUrl}/manga/${idManga}/recommendations`)
-    const data = await res.json()
-    data.name = 'recommendation'
-    commit('setDifferentsManga', data)
-  },
-  async getMostFavoritesManga ({
-    commit,
-    state
-  }) {
-    if (state.mostMangaFavorites !== null) return
-    const res = fetch(`${process.env.VUE_APP_API_URL}/public/mostFavoritesManga`, {
-      method: 'get'
-    })
-    const data = await (await res).json()
-    commit('setMostFavoritesManga', data)
-  },
-  async pickMangas ({ commit, state }) {
-    if (state.pickMangas !== null) return
-    const res = fetch(`${process.env.VUE_APP_API_URL}/public/pickMangas`, {
-      method: 'get'
-    })
-    const data = await (await res).json()
-    commit('setPickMangas', data)
-  },
-  async getPagination ({
-    commit
-  }, page) {
-    const url = localStorage.getItem('url')
-    const res = await fetch(`${url}?&page=${page}`)
-    const data = await res.json()
-    // TODO: make it reactive
-    data.name = 'filter'
-    commit('setDifferentsManga', data)
-  },
-  async insertManga ({
+  async [INSERT_MANGA] ({
     commit
   }, stuff) {
-    const data = JSON.stringify({
+    const data = {
       stuff,
       id: stuff.id,
       token: this.state.Account.token,
       type: 'manga'
-    })
-    fetch(`${process.env.VUE_APP_API_URL}/stuff/insertStuff`, {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: data
-    })
-      .then(async res => {
-        const response = await res.json()
-        if (res.status === 401) {
-          localStorage.setItem('userStuff', data)
-          window.dispatchEvent(new CustomEvent('userStuff', {
-            detail: {
-              storage: localStorage.getItem('userStuff')
-            }
-          }))
-        } else { commit('setSuccessSnackbar', response.message, { root: true }) }
-      })
-      .catch((error) => {
-        console.log(error)
-      })
+    }
+    const res = await Account.insertStuff(data)
+    if (res.error) {
+      localStorage.setItem('userStuff', JSON.stringify(data))
+      window.dispatchEvent(new CustomEvent('userStuff', {
+        detail: {
+          storage: localStorage.getItem('userStuff')
+        }
+      }))
+    } else {
+      this.commit('setSuccessSnackbar', res)
+    }
+  },
+  async [GET_PICK_MANGA] ({ commit, state }) {
+    if (state.pickMangas !== null) return
+    const res = await Data.getPickManga()
+    commit(SET_PICK_MANGA, res)
+  },
+  async [GET_MANGA_FILTERED] ({
+    commit
+  }, query) {
+    const res = await Data.getMangaFiltered(query)
+    commit(SET_MANGA_FILTERED, res)
+  },
+  async [GET_MOST_FAVORITES_MANGA] ({
+    commit,
+    state
+  }) {
+    if (state.mostMangaFavorites !== null) return
+    const res = await Data.getMostFavoritesManga()
+    commit(SET_MOST_FAVORITES_MANGA, res)
+  },
+  async [GET_MANGA_RECOMMENDATIONS] ({
+    commit,
+    state
+  }, id) {
+    if (state.mangaRecommendations !== null) return
+    const res = await Data.getMangaRecommendation(id)
+    commit(SET_MANGA_RECOMMENDATIONS, res)
   }
+
 }
 
 export default {

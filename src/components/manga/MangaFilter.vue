@@ -35,13 +35,17 @@ export default {
   data: () => ({
     selected: ''
   }),
-  beforeMount () {
+  beforeCreate () {
     const query = this.$route.query.filter
-    this.$store.dispatch('Manga/getMangaFiltered', query)
+    this.$store.dispatch('Manga/GET_MANGA_FILTERED', query)
   },
   methods: {
     getPagination (page) {
-      this.$store.dispatch('Manga/getPagination', page)
+      const query = this.$route.query.filter
+      const params = new URLSearchParams(query)
+      params.set('page', page)
+      const newQuery = params.toString()
+      this.$router.push({ query: { filter: newQuery } })
     },
     affectTag (tag) {
       this.selected = tag

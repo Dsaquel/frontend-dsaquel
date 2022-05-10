@@ -1,6 +1,20 @@
+import DataService from '@/services/extends/dataService'
+import {
+  SET_TOP_MANGA,
+  SET_ANIME_UPCOMING,
+  SET_TOP_CHARACTERS
+} from '@/store/types/mutation-types'
+import {
+  GET_TOP_MANGA,
+  GET_ANIME_UPCOMING,
+  GET_TOP_CHARACTERS
+} from '@/store/types/action-types'
+
+const Data = new DataService()
+
 const state = {
-  animeUpcoming: null,
   topManga: null,
+  animeUpcoming: null,
   topCharacters: null
 }
 
@@ -38,41 +52,32 @@ const getters = {
 }
 
 const mutations = {
-  setTopManga (state, data) {
+  [SET_TOP_MANGA] (state, data) {
     state.topManga = data
   },
-  setAnimeUpcoming (state, data) {
+  [SET_ANIME_UPCOMING] (state, data) {
     state.animeUpcoming = data
   },
-  setTopCharacters (state, data) {
+  [SET_TOP_CHARACTERS] (state, data) {
     state.topCharacters = data
   }
 }
 
 const actions = {
-  async getTopManga ({ commit, state }) {
+  async [GET_TOP_MANGA] ({ commit, state }) {
     if (state.topManga !== null) return
-    const res = fetch(`${process.env.VUE_APP_API_URL}/public/topManga`, {
-      method: 'get'
-    })
-    const data = await (await res).json()
-    commit('setTopManga', data)
+    const res = await Data.getTopManga()
+    commit(SET_TOP_MANGA, res)
   },
-  async getAnimeUpcoming ({ commit, state }) {
+  async [GET_ANIME_UPCOMING] ({ commit, state }) {
     if (state.animeUpcoming !== null) return
-    const res = fetch(`${process.env.VUE_APP_API_URL}/public/animeUpcoming`, {
-      method: 'get'
-    })
-    const data = await (await res).json()
-    commit('setAnimeUpcoming', data)
+    const res = await Data.getAnimeUpComing()
+    commit(SET_ANIME_UPCOMING, res)
   },
-  async getTopCharacters ({ commit, state }) {
+  async [GET_TOP_CHARACTERS] ({ commit, state }) {
     if (state.topCharacters !== null) return
-    const res = fetch(`${process.env.VUE_APP_API_URL}/public/topCharacters`, {
-      method: 'get'
-    })
-    const data = await (await res).json()
-    commit('setTopCharacters', data)
+    const res = await Data.getTopCharacters()
+    commit(SET_TOP_CHARACTERS, res)
   }
 }
 

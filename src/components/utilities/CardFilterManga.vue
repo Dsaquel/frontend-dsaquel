@@ -19,8 +19,6 @@
               <v-list-item-title>Genres</v-list-item-title>
               <v-chip-group
                 v-model="genres"
-                multiple
-                max="5"
                 active-class="primary--text"
               >
                 <v-chip
@@ -44,8 +42,6 @@
               <v-list-item-title>type manga</v-list-item-title>
               <v-chip-group
                 v-model="type"
-                multiple
-                max="3"
                 active-class="primary--text"
               >
                 <v-chip
@@ -66,8 +62,6 @@
               <v-list-item-title>order By</v-list-item-title>
               <v-chip-group
                 v-model="orderBy"
-                multiple
-                max="3"
                 active-class="primary--text"
               >
                 <v-chip
@@ -165,12 +159,16 @@ export default {
   }),
   methods: {
     sendRequest () {
-      const status = 'status=' + this.statusStore
-      const type = 'type=' + this.typeStore.join('&')
-      const genres = 'genres=' + this.genresStore.join('&')
-      const orderBy = 'order_by=' + this.orderByStore.join('&')
-      const queryManga = 'q=' + this.searchManga
-      const query = [queryManga, genres, type, orderBy, status].join('&')
+      const status = (this.statusStore && this.statusStore.length) ? 'status=' + this.statusStore : null
+      const type = (this.typeStore && this.typeStore.length) ? 'type=' + this.typeStore : null
+      const genres = (this.genresStore && this.genresStore.length) ? 'genres=' + this.genresStore : null
+      const orderBy = (this.orderByStore && this.orderByStore.length) ? 'order_by=' + this.orderByStore : null
+      const title = (this.searchManga && this.searchManga.length) ? 'q=' + this.searchManga : null
+      const sfw = 'sfw'
+      const sort = 'sort=desc'
+      const group = [{ title }, { type }, { sfw }, { genres }, { orderBy }, { status }, { sort }]
+      group.forEach(element => Object.keys(element).forEach((k) => element[k] === null && delete element[k]))
+      const query = group.filter(value => Object.keys(value).length !== 0).map(value => Object.values(value)[0]).join('&')
       this.$router.push({ path: '/manga/filters', query: { filter: query } })
     }
   },
