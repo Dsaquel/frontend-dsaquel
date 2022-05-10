@@ -1,8 +1,8 @@
-import DataService from '@/services/extends/dataService'
+import CharacterService from '@/services/extends/characterService'
 import { SET_CHARACTER } from '@/store/types/mutation-types'
 import { GET_CHARACTER } from '@/store/types/action-types'
 
-const Data = new DataService()
+const Character = new CharacterService()
 
 const state = {
   character: null,
@@ -19,7 +19,7 @@ const mutations = {
 
 const actions = {
   async [GET_CHARACTER] ({ commit }, id) {
-    const res = await Data.getCharacter(id)
+    const res = await Character.getCharacter(id)
     commit(SET_CHARACTER, res)
   }
 }

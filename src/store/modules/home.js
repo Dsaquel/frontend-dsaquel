@@ -1,4 +1,6 @@
-import DataService from '@/services/extends/dataService'
+import AnimeService from '@/services/extends/animeService'
+import MangaService from '@/services/extends/mangaService'
+import CharacterService from '@/services/extends/characterService'
 import {
   SET_TOP_MANGA,
   SET_ANIME_UPCOMING,
@@ -10,7 +12,9 @@ import {
   GET_TOP_CHARACTERS
 } from '@/store/types/action-types'
 
-const Data = new DataService()
+const Manga = new MangaService()
+const Anime = new AnimeService()
+const Character = new CharacterService()
 
 const state = {
   topManga: null,
@@ -66,17 +70,17 @@ const mutations = {
 const actions = {
   async [GET_TOP_MANGA] ({ commit, state }) {
     if (state.topManga !== null) return
-    const res = await Data.getTopManga()
+    const res = await Manga.getTopManga()
     commit(SET_TOP_MANGA, res)
   },
   async [GET_ANIME_UPCOMING] ({ commit, state }) {
     if (state.animeUpcoming !== null) return
-    const res = await Data.getAnimeUpComing()
+    const res = await Anime.getAnimeUpComing()
     commit(SET_ANIME_UPCOMING, res)
   },
   async [GET_TOP_CHARACTERS] ({ commit, state }) {
     if (state.topCharacters !== null) return
-    const res = await Data.getTopCharacters()
+    const res = await Character.getTopCharacters()
     commit(SET_TOP_CHARACTERS, res)
   }
 }

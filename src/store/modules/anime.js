@@ -1,4 +1,4 @@
-import DataService from '@/services/extends/dataService'
+import AnimeService from '@/services/extends/animeService'
 import AccountService from '@/services/extends/accountService'
 import {
   SET_ANIME,
@@ -14,7 +14,7 @@ import {
   GET_ANIME_SEASON_NOW
 } from '@/store/types/action-types'
 
-const Data = new DataService()
+const Anime = new AnimeService()
 const Account = new AccountService()
 
 const state = {
@@ -70,7 +70,7 @@ const actions = {
   async [GET_ANIME] ({
     commit
   }, id) {
-    const res = await Data.getAnime(id)
+    const res = await Anime.getAnime(id)
     if (res.error) {
       console.log(res)
     } else {
@@ -100,13 +100,13 @@ const actions = {
     commit, state
   }) {
     if (state.topReviewsAnime !== null) return
-    const res = await Data.getReviewsAnime()
+    const res = await Anime.getReviewsAnime()
     commit(SET_TOP_REVIEWS_ANIME, res)
   },
   async [GET_ANIME_FILTERED] ({
     commit
   }, query) {
-    const res = await Data.getAnimeFiltered(query)
+    const res = await Anime.getAnimeFiltered(query)
     commit(SET_ANIME_FILTERED, res)
   },
   async [GET_ANIME_SEASON_NOW] ({
@@ -114,7 +114,7 @@ const actions = {
     state
   }) {
     if (state.animeSeasonNow !== null) return
-    const res = await Data.getAnimeSeasonNow()
+    const res = await Anime.getAnimeSeasonNow()
     commit(SET_SEASON_NOW, res)
   }
 

@@ -1,5 +1,6 @@
-import DataService from '@/services/extends/dataService'
+import MangaService from '@/services/extends/mangaService'
 import AccountService from '@/services/extends/accountService'
+
 import {
   SET_MANGA,
   SET_PICK_MANGA,
@@ -16,7 +17,7 @@ import {
   GET_MANGA_RECOMMENDATIONS
 } from '@/store/types/action-types'
 
-const Data = new DataService()
+const Manga = new MangaService()
 const Account = new AccountService()
 
 const state = {
@@ -137,7 +138,7 @@ const actions = {
   async [GET_MANGA] ({
     commit
   }, id) {
-    const res = await Data.getManga(id)
+    const res = await Manga.getManga(id)
     commit(SET_MANGA, res)
   },
   async [INSERT_MANGA] ({
@@ -163,13 +164,13 @@ const actions = {
   },
   async [GET_PICK_MANGA] ({ commit, state }) {
     if (state.pickMangas !== null) return
-    const res = await Data.getPickManga()
+    const res = await Manga.getPickManga()
     commit(SET_PICK_MANGA, res)
   },
   async [GET_MANGA_FILTERED] ({
     commit
   }, query) {
-    const res = await Data.getMangaFiltered(query)
+    const res = await Manga.getMangaFiltered(query)
     commit(SET_MANGA_FILTERED, res)
   },
   async [GET_MOST_FAVORITES_MANGA] ({
@@ -177,7 +178,7 @@ const actions = {
     state
   }) {
     if (state.mostMangaFavorites !== null) return
-    const res = await Data.getMostFavoritesManga()
+    const res = await Manga.getMostFavoritesManga()
     commit(SET_MOST_FAVORITES_MANGA, res)
   },
   async [GET_MANGA_RECOMMENDATIONS] ({
@@ -185,7 +186,7 @@ const actions = {
     state
   }, id) {
     if (state.mangaRecommendations !== null) return
-    const res = await Data.getMangaRecommendation(id)
+    const res = await Manga.getMangaRecommendation(id)
     commit(SET_MANGA_RECOMMENDATIONS, res)
   }
 
