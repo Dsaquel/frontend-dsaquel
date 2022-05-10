@@ -21,13 +21,27 @@ export default {
   },
   data () {
     return {
-      page: 1
+      pageWanted: 1
     }
   },
 
   methods: {
     getPagination () {
-      this.$emit('getPagination', this.page)
+      console.log(this.pageWanted)
+      this.$emit('getPagination', this.pageWanted)
+    }
+  },
+  computed: {
+    page: {
+      get () {
+        const query = this.$route.query.filter
+        const params = new URLSearchParams(query)
+        const page = (params.get('page')) ? parseInt(params.get('page'), 10) : 1
+        return page
+      },
+      set (newValue) {
+        this.pageWanted = newValue
+      }
     }
   }
 }

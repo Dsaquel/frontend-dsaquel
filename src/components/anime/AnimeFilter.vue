@@ -36,13 +36,17 @@ export default {
   data: () => ({
     selected: ''
   }),
-  mounted () {
+  beforeCreate () {
     const query = this.$route.query.filter
     this.$store.dispatch('Anime/GET_ANIME_FILTERED', query)
   },
   methods: {
     getPagination (page) {
-      this.$store.dispatch('Anime/GET_PAGINATION', page)
+      const query = this.$route.query.filter
+      const params = new URLSearchParams(query)
+      params.set('page', page)
+      const newQuery = params.toString()
+      this.$router.push({ query: { filter: newQuery } })
     },
     affectTag (tag) {
       this.selected = tag

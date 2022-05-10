@@ -21,10 +21,7 @@ export default class Data extends ServiceApi {
 
   async getPagination (page) {
     try {
-    //   const url = localStorage.getItem('url')
-    //   const res = await fetch(`${url}?&page=${page}`)
       const res = await this.get('/public/pagination')
-      console.log(res?.data)
       return res.data
     } catch (err) {
       return err
@@ -33,9 +30,7 @@ export default class Data extends ServiceApi {
 
   async getAnimefiltered (query) {
     try {
-      console.log(query)
       const res = await this.get(`/public/animeFiltered?${query}`)
-      console.log(res)
       return res.data
     } catch (err) {
       return err

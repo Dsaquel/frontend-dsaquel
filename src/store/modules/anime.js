@@ -1,5 +1,5 @@
 import { SET_ANIME, SET_ANIME_FILTERED, SET_TOP_REVIEWS_ANIME, SET_SEASON_NOW } from '@/store/types/mutation-types'
-import { GET_ANIME, GET_ANIME_FILTERED, GET_ANIME_SEASON_NOW, GET_PAGINATION, GET_REVIEWS_ANIME, INSERT_ANIME } from '@/store/types/action-types'
+import { GET_ANIME, GET_ANIME_FILTERED, GET_ANIME_SEASON_NOW, GET_REVIEWS_ANIME, INSERT_ANIME } from '@/store/types/action-types'
 import DataService from '@/services/dataService'
 
 const Data = new DataService()
@@ -80,16 +80,8 @@ const actions = {
         }
       }))
     } else {
-      console.log('toto')
       this.commit('setSuccessSnackbar', res)
     }
-  },
-  async [GET_PAGINATION] ({
-    commit
-  }, query) {
-    console.log(query)
-    // const res = await Data.getPagination(page)
-    // commit(SET_ANIME_FILTERED, res)
   },
   async [GET_REVIEWS_ANIME] ({
     commit, state
@@ -105,8 +97,6 @@ const actions = {
     commit
   }, query) {
     const res = await Data.getAnimefiltered(query)
-    console.log(res)
-    localStorage.setItem('url', query)
     commit(SET_ANIME_FILTERED, res)
   },
   async [GET_ANIME_SEASON_NOW] ({
