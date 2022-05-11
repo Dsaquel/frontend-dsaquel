@@ -2,7 +2,6 @@
   <v-hover class="mx-2" v-slot="{ hover }">
     <v-card
       :elevation="hover ? 12 : 2"
-      :class="{ 'on-hover': hover }"
       width="100%"
       max-width="200"
       @click="reveal = !reveal"
@@ -50,6 +49,11 @@ export default {
       type: Object
     }
   },
+  computed: {
+    theme () {
+      return this.$vuetify.theme.dark ? 'dark' : 'light'
+    }
+  },
   data: () => ({
     reveal: false,
     icons: ['mdi-rewind', 'mdi-play', 'mdi-fast-forward'],
@@ -61,14 +65,6 @@ export default {
 <style scoped>
 .v-card {
   transition: opacity 0.4s ease-in-out;
-}
-
-.v-card:not(.on-hover) {
-  opacity: 0.4;
-}
-
-.show-btns {
-  color: rgba(255, 255, 255, 1) !important;
 }
 
 .v-card--reveal {

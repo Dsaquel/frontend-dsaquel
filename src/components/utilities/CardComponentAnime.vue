@@ -53,9 +53,6 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.show-btns {
-  color: rgba(255, 255, 255, 1) !important;
-}
 
 .v-card--reveal {
   bottom: 0;

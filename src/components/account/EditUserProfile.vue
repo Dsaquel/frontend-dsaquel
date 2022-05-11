@@ -1,14 +1,13 @@
 <template>
   <v-container>
     <v-card class="overflow-hidden">
-      <v-toolbar flat color="orange">
+      <v-toolbar flat>
         <v-icon>mdi-account</v-icon>
         <v-toolbar-title class="font-weight-light">
           User Profile
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn
-          color="purple darken-3"
           fab
           small
           @click="isEditing = !isEditing"
@@ -22,14 +21,12 @@
         id="pseudo"
           :value="pseudoState"
           :disabled="!isEditing"
-          color="white"
           label="Pseudo"
         ></v-text-field>
         <v-text-field
          id="email"
           :value="emailState"
           disabled
-          color="white"
           label="email"
         ></v-text-field>
       </v-card-text>

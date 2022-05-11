@@ -381,7 +381,7 @@ export default {
           to: '/account/personnal-informations'
         },
         { title: 'Library', icon: 'mdi-view-dashboard', to: 'library' },
-        { title: 'Suggestion', icon: 'mdi-gavel' }
+        { title: 'Suggestion', icon: 'mdi-mail', to: '/suggestion' }
       ]
     }
   },
@@ -452,7 +452,7 @@ export default {
   computed: {
     menus () {
       const menus = [
-        { title: 'Suggestion', icon: 'mdi-gavel', to: '/suggestion' }
+        { title: 'Suggestion', icon: 'mdi-mail', to: '/suggestion' }
       ]
       if (this.token !== null) {
         menus.push(

@@ -49,7 +49,7 @@
               </v-card-title>
               <v-card-text>{{ item.review }}</v-card-text>
               <v-spacer></v-spacer>
-              <v-btn color="green darken-1" text @click="dialog = false">
+              <v-btn text @click="dialog = false">
                 Close
               </v-btn>
             </v-card>
@@ -74,7 +74,7 @@
         <v-col class="mt-10">
           <v-card-actions>
             <v-list-item class="grow">
-              <v-list-item-avatar color="grey darken-3">
+              <v-list-item-avatar>
                 <v-img
                   class="elevation-6"
                   alt=""
