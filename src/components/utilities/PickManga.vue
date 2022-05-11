@@ -4,7 +4,7 @@
       Pick a manga
     </div>
   <v-row align="center">
-    <v-col v-for="manga in pickMangas" :key="manga.id" cols="12" md="4">
+    <v-col v-for="manga in pickMangas" :key="manga.id" lg="4" md="3">
       <v-card class="d-flex align-center">
         <v-tooltip left>
           <template v-slot:activator="{ on, attrs }">

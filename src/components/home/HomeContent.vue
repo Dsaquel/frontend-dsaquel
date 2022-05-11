@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <v-container>
+
       <SlideCard />
-    </v-container>
-  </div>
+
 </template>
 
 <script>

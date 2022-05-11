@@ -2,11 +2,10 @@
   <v-hover class="mx-2" v-slot="{ hover }">
     <v-card
       :elevation="hover ? 12 : 2"
-      width="100%"
-      max-width="200"
+      height="100%"
       @click="reveal = !reveal"
     >
-      <v-img :src="item.image.jpg.medium" width="200" height="340">
+      <v-img :src="item.image.jpg.medium" width="200">
         <v-card-title class="text-h6 white--text">
           <v-row class="fill-height flex-column" justify="space-between">
             <p class="mt-4 subheading text-left">

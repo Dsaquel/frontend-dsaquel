@@ -63,7 +63,6 @@
         <v-slide-group
           class="ma-2 pa-2"
           center-active
-          show-arrows="always"
         >
           <v-slide-item
             v-for="(item, i) in animeSeasonNow"

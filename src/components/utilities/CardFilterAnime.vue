@@ -1,5 +1,5 @@
 <template>
-  <div class="d-flex flex-nowrap align-center">
+  <div class="d-flex flex-wrap align-center">
     <v-text-field
       class="mr-4"
       v-model="searchAnime"

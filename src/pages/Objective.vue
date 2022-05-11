@@ -28,7 +28,7 @@
 export default {
   name: 'objective',
   data: () => ({
-    tasks: ['toto', 'tata']
+    tasks: ['refact le router', 'Pouvoir supprimé son compte (désactiver)', 'Faire load les data tant qu\'ils ne sont pas dispo', 'Pouvoir récupérer son compte s\'il a été supprimé', 'Rajouter du content dans les détails (anime/manga)']
   })
 }
 </script>

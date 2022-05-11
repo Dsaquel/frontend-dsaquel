@@ -344,7 +344,7 @@ export default {
       hoverThemeBtn: false,
       footersContent: [
         { icon: 'mdi-home', to: '/' },
-        { icon: 'mdi-bullseye-arrow', to: '/goal' },
+        { icon: 'mdi-bullseye-arrow', to: '/objective' },
         { icon: 'mdi-mail', to: '/suggestion' }
       ],
       index: 1,
