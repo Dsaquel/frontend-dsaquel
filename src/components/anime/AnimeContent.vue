@@ -11,7 +11,7 @@
       lg="8"
     >
       <v-container>
-         <v-carousel
+        <v-carousel
           cycle
           height="450"
           show-arrows-on-hover
@@ -19,24 +19,38 @@
         >
           <v-sheet elevation="8">
             <div class="text-h4">Anime announced</div>
-            <v-container>
-              <v-carousel-item v-for="(animes, i) in carousel" :key="i" eager >
-                <v-row class="fill-height" align="center" justify="center">
-                  <v-col cols="12" lg="3" v-for="(anime, i) in animes" :key="i">
-                    <v-card max-width="200">
+              <v-carousel-item
+                v-for="(animes, i) in carousel"
+                :key="i"
+                eager
+              >
+                <v-row
+                  align-content-lg="center"
+                  justify="center"
+                >
+                  <v-col
+                    lg="3"
+                    sm="4"
+                    v-for="(anime, i) in animes"
+                    :key="i"
+                  >
+                    <v-card
+                      class="flex-wrap"
+                      height="100%"
+                      flat
+                    >
                       <v-img
-                        :aspect-ratio="4 / 5"
-                        :src.sync="anime.image.jpg.medium"
-                        eager
-                      ></v-img>
-                      <v-card-text>
+                        :src.sync="anime.image.jpg.large"
+                      />
+
+                      <v-card-text class="text-truncate">
                         {{ anime.title.default }}
                       </v-card-text>
+
                     </v-card>
                   </v-col>
                 </v-row>
               </v-carousel-item>
-            </v-container>
           </v-sheet>
         </v-carousel>
       </v-container>
@@ -94,17 +108,14 @@ export default {
     toggle: false,
     carousel: []
   }),
-  mounted () {
-    console.log(this.$vuetify.breakpoint.width)
-  },
   watch: {
     animeUpcoming: {
       immediate: true,
       handler (newVal, oldVal) {
         const size =
-          this.$vuetify.breakpoint.width >= 800
+          this.$vuetify.breakpoint.width >= 1200
             ? 4
-            : this.$vuetify.breakpoint.width >= 400
+            : this.$vuetify.breakpoint.width >= 800
               ? 3
               : 2
         const arrayOfArrays = []
@@ -114,9 +125,6 @@ export default {
         this.carousel = arrayOfArrays
       }
     }
-    // carousel (newVal, oldVal) {
-    //   console.log(newVal)
-    // }
   },
   methods: {
     affectTag (tag) {
@@ -131,7 +139,10 @@ export default {
       animeUpcoming: (state) => state.Home.animeUpcoming,
       animeSeasonNow: (state) => state.Anime.animeSeasonNow,
       topReviewsAnime: (state) => state.Anime.topReviewsAnime
-    })
+    }),
+    widthScreen () {
+      return this.$vuetify.breakpoint.width
+    }
   }
 }
 </script>
