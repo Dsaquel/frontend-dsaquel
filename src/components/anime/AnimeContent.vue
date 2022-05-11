@@ -17,41 +17,37 @@
           show-arrows-on-hover
           hide-delimiters
         >
-          <v-sheet elevation="8">
-            <div class="text-h4">Anime announced</div>
-              <v-carousel-item
-                v-for="(animes, i) in carousel"
+          <div class="text-h4">Anime announced</div>
+          <v-carousel-item
+            v-for="(animes, i) in carousel"
+            :key="i"
+            eager
+          >
+            <v-row
+              align-content-lg="center"
+              justify="center"
+            >
+              <v-col
+                lg="3"
+                sm="4"
+                v-for="(anime, i) in animes"
                 :key="i"
-                eager
               >
-                <v-row
-                  align-content-lg="center"
-                  justify="center"
+                <v-card
+                  class="flex-wrap"
+                  height="100%"
+                  flat
                 >
-                  <v-col
-                    lg="3"
-                    sm="4"
-                    v-for="(anime, i) in animes"
-                    :key="i"
-                  >
-                    <v-card
-                      class="flex-wrap"
-                      height="100%"
-                      flat
-                    >
-                      <v-img
-                        :src.sync="anime.image.jpg.large"
-                      />
+                  <v-img :src.sync="anime.image.jpg.large" />
 
-                      <v-card-text class="text-truncate">
-                        {{ anime.title.default }}
-                      </v-card-text>
+                  <v-card-text class="text-truncate">
+                    {{ anime.title.default }}
+                  </v-card-text>
 
-                    </v-card>
-                  </v-col>
-                </v-row>
-              </v-carousel-item>
-          </v-sheet>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-carousel-item>
         </v-carousel>
       </v-container>
 
