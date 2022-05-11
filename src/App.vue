@@ -1,15 +1,47 @@
 <template>
-  <v-app id="app">
-    <v-app-bar clipped-left app>
+  <v-app
+    id="app"
+    :style="{background: $vuetify.theme.themes[theme].background}"
+  >
+    <v-app-bar
+      clipped-left
+      app
+    >
       <v-app-bar-nav-icon @click="isOpened = !isOpened" />
 
       <v-toolbar-title>Dsaquel</v-toolbar-title>
 
       <v-spacer></v-spacer>
+      <div @mouseleave="hoverThemeBtn = false">
+        <v-btn
+          :disabled="hoverThemeBtn"
+          @mouseover="hoverThemeBtn = true"
+          icon
+        >
+          <v-icon>mdi-theme-light-dark</v-icon>
+        </v-btn>
+        <v-slide-x-transition>
 
-      <v-menu v-if="token !== null" bottom>
+          <v-btn
+            v-show="hoverThemeBtn"
+            @click="switchTheme"
+            icon
+          >
+            <v-icon v-text="this.$vuetify.theme.dark ? 'mdi-weather-night' : 'mdi-white-balance-sunny'"></v-icon>
+          </v-btn>
+
+        </v-slide-x-transition>
+      </div>
+      <v-menu
+        v-if="token !== null"
+        bottom
+      >
         <template v-slot:activator="{ on, attrs }">
-          <v-btn icon v-bind="attrs" v-on="on">
+          <v-btn
+            icon
+            v-bind="attrs"
+            v-on="on"
+          >
             <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
@@ -31,24 +63,43 @@
         </v-list>
       </v-menu>
 
-      <v-btn v-else @click="dialog = true">
+      <v-btn
+        v-else
+        @click="dialog = true"
+      >
         <v-icon class="mr-2">mdi-account-circle</v-icon>
         login
       </v-btn>
 
       <template v-slot:extension>
-        <v-tabs v-model="tab" align-with-title>
+        <v-tabs
+          v-model="tab"
+          align-with-title
+        >
           <v-tabs-slider color="green"></v-tabs-slider>
-          <v-tab v-for="tab in tabs" :key="tab.name" :to="tab.to">
+          <v-tab
+            v-for="tab in tabs"
+            :key="tab.name"
+            :to="tab.to"
+          >
             {{ tab.name }}
           </v-tab>
         </v-tabs>
       </template>
     </v-app-bar>
 
-    <v-navigation-drawer v-model="isOpened" clipped app>
+    <v-navigation-drawer
+      v-model="isOpened"
+      clipped
+      app
+    >
       <v-list>
-        <v-list-item v-for="item in menus" :key="item.title" link :to="item.to">
+        <v-list-item
+          v-for="item in menus"
+          :key="item.title"
+          link
+          :to="item.to"
+        >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -60,8 +111,14 @@
       </v-list>
 
       <template v-slot:append>
-        <div v-if="token" class="pa-2">
-          <v-btn block @click="logout"> Logout </v-btn>
+        <div
+          v-if="token"
+          class="pa-2"
+        >
+          <v-btn
+            block
+            @click="logout"
+          > Logout </v-btn>
         </div>
       </template>
     </v-navigation-drawer>
@@ -78,9 +135,12 @@
           <v-card-title class="flex-nowrap align-start">
             {{ etatStep }}
             <v-spacer></v-spacer>
-            <v-btn @click="dialog = false" icon
-              ><v-icon>mdi-close</v-icon></v-btn
+            <v-btn
+              @click="dialog = false"
+              icon
             >
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
           </v-card-title>
           <v-divider></v-divider>
           <v-card-text>
@@ -94,7 +154,11 @@
                   <p class="mb-5 font-weight-medium grey--text text--darken-1">
                     Login
                   </p>
-                  <v-form v-model="userLogin" ref="login" lazy-validation>
+                  <v-form
+                    v-model="userLogin"
+                    ref="login"
+                    lazy-validation
+                  >
                     <v-text-field
                       v-model="emailLogin"
                       :rules="emailRules"
@@ -136,20 +200,24 @@
                         color="success"
                         class="mr-4"
                         @click="login"
-                        >login</v-btn
-                      >
+                      >login</v-btn>
                     </v-card-actions>
                   </v-form>
                   <v-divider></v-divider>
                   <div class="d-flex flex-column text-center body-2">
                     <span class="my-5">No account ?</span>
-                    <v-btn @click="step = 'createAccount'" color="warning"
-                      >create account</v-btn
-                    >
+                    <v-btn
+                      @click="step = 'createAccount'"
+                      color="warning"
+                    >create account</v-btn>
                   </div>
                 </v-window-item>
                 <v-window-item value="createAccount">
-                  <v-form lazy-validation ref="register" v-model="register">
+                  <v-form
+                    lazy-validation
+                    ref="register"
+                    v-model="register"
+                  >
                     <v-text-field
                       v-model="emailRegister"
                       :rules="emailRules"
@@ -183,8 +251,7 @@
                         class="mr-4"
                         :disabled="!register"
                         @click="signup"
-                        >Register</v-btn
-                      >
+                      >Register</v-btn>
                     </v-card-actions>
                   </v-form>
                 </v-window-item>
@@ -222,10 +289,44 @@
           </v-card-text>
         </v-card>
       </v-dialog>
-      <v-snackbar v-model="successSnackbar" :timeout="2000" color="success">{{ message }}</v-snackbar>
-      <v-snackbar v-model="errorSnackbar" :timeout="2000" color="red accent-2">{{ message }}</v-snackbar>
+      <v-snackbar
+        v-model="successSnackbar"
+        :timeout="2000"
+        color="success"
+      >{{
+        message
+      }}</v-snackbar>
+      <v-snackbar
+        v-model="errorSnackbar"
+        :timeout="2000"
+        color="red accent-2"
+      >{{ message }}</v-snackbar>
       <router-view :key="$route.fullPath" />
     </v-main>
+    <v-card>
+      <v-footer padless>
+        <v-card
+          flat
+          tile
+          width="100%"
+          class="lighten-1 text-center"
+        >
+          <v-card-text>
+            <v-btn
+              v-for="content, i in footersContent"
+              :key="i"
+              class="mx-4"
+              icon
+              :to="content.to"
+            >
+              <v-icon size="24px">
+                {{ content.icon }}
+              </v-icon>
+            </v-btn>
+          </v-card-text>
+        </v-card>
+      </v-footer>
+    </v-card>
   </v-app>
 </template>
 
@@ -239,6 +340,13 @@ export default {
   },
   data () {
     return {
+      isDark: true,
+      hoverThemeBtn: false,
+      footersContent: [
+        { icon: 'mdi-home', to: '/' },
+        { icon: 'mdi-bullseye-arrow', to: '/goal' },
+        { icon: 'mdi-mail', to: '/suggestion' }
+      ],
       index: 1,
       step: 'index',
       tab: null,
@@ -299,16 +407,27 @@ export default {
     signup () {
       if (this.$refs.register.validate()) {
         this.step = 'emailSend'
-        const newUser = { email: this.emailRegister, password: this.passwordRegister, pseudo: this.pseudo }
+        const newUser = {
+          email: this.emailRegister,
+          password: this.passwordRegister,
+          pseudo: this.pseudo
+        }
         this.$store.dispatch('Account/SIGN_UP', newUser)
       }
     },
     resendLink () {
-      const newUser = { email: this.emailRegister, password: this.passwordRegister, pseudo: this.pseudo }
+      const newUser = {
+        email: this.emailRegister,
+        password: this.passwordRegister,
+        pseudo: this.pseudo
+      }
       this.$store.dispatch('Account/RESEND_LINK', newUser)
     },
     linkPasswordReset () {
-      this.$store.dispatch('Account/LINK_PASSWORD_RESET', this.emailResetPassword)
+      this.$store.dispatch(
+        'Account/LINK_PASSWORD_RESET',
+        this.emailResetPassword
+      )
     },
     logout () {
       this.$store.dispatch('Account/LOGOUT')
@@ -324,11 +443,17 @@ export default {
       if (user !== undefined) {
         this.$store.dispatch('Account/STAY_USER_CONNECTED', user)
       }
+    },
+    switchTheme () {
+      this.$vuetify.theme.dark = !this.$vuetify.theme.dark
+      this.$vuetify.theme.light = !this.$vuetify.theme.light
     }
   },
   computed: {
     menus () {
-      const menus = [{ title: 'Suggestion', icon: 'mdi-gavel', to: '/suggestion' }]
+      const menus = [
+        { title: 'Suggestion', icon: 'mdi-gavel', to: '/suggestion' }
+      ]
       if (this.token !== null) {
         menus.push(
           {
@@ -348,8 +473,7 @@ export default {
         { name: 'Manga', to: '/manga' }
       ]
       if (this.token !== null) {
-        tabs.push(
-          { name: 'Library', to: '/library' })
+        tabs.push({ name: 'Library', to: '/library' })
       }
       return tabs
     },
@@ -364,6 +488,9 @@ export default {
         default:
           return 'sign-up'
       }
+    },
+    theme () {
+      return this.$vuetify.theme.dark ? 'dark' : 'light'
     },
     ...mapState({
       token: (state) => state.Account.token,

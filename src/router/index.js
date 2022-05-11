@@ -9,6 +9,7 @@ const AnimeFilter = () => import(/* webpackChunkName: "AnimeFilter" */ '../compo
 const MangaFilter = () => import(/* webpackChunkName: "MangaFilter" */ '../components/manga/MangaFilter.vue')
 const Home = () => import(/* webpackChunkName: "Home" */ '../pages/Home.vue')
 const Suggestion = () => import(/* webpackChunkName: "Suggestion" */ '../pages/Suggestion.vue')
+const Objective = () => import(/* webpackChunkName: "Objective" */ '../pages/Objective.vue')
 const Login = () => import(/* webpackChunkName: "Login" */ '../pages/Login.vue')
 const Library = () => import(/* webpackChunkName: "Library" */ '../pages/Library.vue')
 const PageNotFound = () => import(/* webpackChunkName: "PageNotFound" */ '../pages/PageNotFound.vue')
@@ -36,6 +37,11 @@ const routes =
   path: '/suggestion',
   name: 'suggestion',
   component: Suggestion
+},
+{
+  path: '/objective',
+  name: 'objective',
+  component: Objective
 },
 {
   path: '/detail-manga/:id',
