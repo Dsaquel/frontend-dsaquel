@@ -1,12 +1,9 @@
 <template>
   <v-card
-    width="210"
+    height="100%"
     :to="{ name: to, params: { id: item.mal_id } }"
   >
     <v-img
-      :aspect-ratio="1 / 1"
-      class="mx-auto"
-      width="100%"
       :src="item.images.webp.image_url"
     >
     </v-img>
