@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 import AccountService from '@/services/extends/accountService'
 import {
   SET_LOGOUT,
+  SET_STEP_AUTH,
   SET_USER_TOKEN,
   SET_USER_STUFF,
   SET_USER_INFORMATION
@@ -14,13 +15,16 @@ import {
   RESEND_LINK,
   CHECK_COOKIE,
   RESET_PASSWORD,
+  DELETE_ACCOUNT,
   GET_USER_STUFF,
   GET_USER_PROFILE,
   EDIT_USER_PROFILE,
   DELETE_USER_STUFF,
   EMAIL_CONFIRMATION,
   STAY_USER_CONNECTED,
-  LINK_PASSWORD_RESET
+  LINK_PASSWORD_RESET,
+  RECUP_ACCOUNT_BY_BTN,
+  RECUP_ACCOUNT_BY_PASSWORD
 } from '@/store/types/action-types'
 
 const Account = new AccountService()
@@ -29,7 +33,9 @@ const state = {
   stuff: [],
   token: null,
   email: null,
-  pseudo: null
+  pseudo: null,
+  newStep: null,
+  emailRecupAccount: null
 }
 
 const getters = {
@@ -58,6 +64,12 @@ const getters = {
 const mutations = {
   [SET_LOGOUT] (state) {
     state.token = null
+    state.email = null
+    state.pseudo = null
+  },
+  [SET_STEP_AUTH] (state, payload) {
+    state.newStep = payload.step
+    state.emailRecupAccount = payload.email
   },
   [SET_USER_TOKEN] (state, data) {
     state.token = data
@@ -76,8 +88,14 @@ const actions = {
     commit, dispatch
   }, payload) {
     const token = await Account.login(payload)
-    if (token.error) {
+    if (token.error && token.password) {
+      const payload = { step: 'recupAccountPassword', email: token.email }
+      commit(SET_STEP_AUTH, payload)
+    } else if (token.error) {
       this.commit('setErrorSnackbar', token.error)
+    } else if (token.valid) {
+      const payload = { step: 'recupAccountBtn', email: token.email }
+      commit(SET_STEP_AUTH, payload)
     } else {
       dispatch(CHECK_COOKIE, token)
       const stuffOffline = JSON.parse(localStorage.getItem('userStuff'))
@@ -95,18 +113,25 @@ const actions = {
       }
     }
   },
-  [LOGOUT] ({ commit }) {
+  [LOGOUT] ({ commit }, message) {
     Cookies.remove('user', { path: '' })
     commit(SET_LOGOUT)
-    this.commit('setErrorSnackbar', 'Disconnected')
+    this.commit('setErrorSnackbar', message)
   },
   async [SIGN_UP] ({
     commit
   }, newUser) {
     const res = await Account.signUp(newUser)
-    if (res.error) {
+    if (res.error && res.password) {
+      const payload = { step: 'recupAccountPassword', email: res.email }
+      commit(SET_STEP_AUTH, 'recupAccountPassword', payload)
+    } else if (res.error) {
       this.commit('setErrorSnackbar', res.error)
+    } else if (res.valid) {
+      const payload = { step: 'recupAccountBtn', email: res.email }
+      commit(SET_STEP_AUTH, payload)
     } else {
+      commit(SET_STEP_AUTH, 'emailSend')
       this.commit('setSuccessSnackbar', res)
     }
   },
@@ -133,12 +158,28 @@ const actions = {
     commit
   }, payload) {
     const res = await Account.resetPassword(payload)
-    console.log(res)
     if (res.error) {
       this.commit('setErrorSnackbar', res.error)
       router.push('/')
     } else {
       this.commit('setSuccessSnackbar', res)
+      router.push('/')
+    }
+  },
+  async [DELETE_ACCOUNT] ({ commit, state, dispatch }, email) {
+    const payload = {
+      email,
+      token: state.token
+    }
+    const res = await Account.deleteAccount(payload)
+    if (res.err) {
+      this.commit('setErrorSnackbar', res.error)
+    } else {
+      const step = {
+        step: null, email: null
+      }
+      commit(SET_STEP_AUTH, step)
+      dispatch(LOGOUT, res)
       router.push('/')
     }
   },
@@ -199,6 +240,34 @@ const actions = {
       this.commit('setErrorSnackbar', res.error)
     } else {
       this.commit('setSuccessSnackbar', res)
+    }
+  },
+  async [RECUP_ACCOUNT_BY_BTN] ({ commit, dispatch }, email) {
+    const payload = { email }
+    console.log(payload)
+    const res = await Account.recupAccountByBtn(payload)
+    if (res.error) {
+      console.log(res.error)
+    } else {
+      const step = {
+        step: null, email: null
+      }
+      commit(SET_STEP_AUTH, step)
+      dispatch(CHECK_COOKIE, res)
+      this.commit('setSuccessSnackbar', 'Account recovered')
+    }
+  },
+  async [RECUP_ACCOUNT_BY_PASSWORD] ({ commit, dispatch }, payload) {
+    const res = await Account.recupAccountByPassword(payload)
+    if (res.error) {
+      this.commit('setErrorSnackbar', res.error)
+    } else {
+      const step = {
+        step: null, email: null
+      }
+      commit(SET_STEP_AUTH, step)
+      dispatch(CHECK_COOKIE, res)
+      this.commit('setSuccessSnackbar', 'Account recovered')
     }
   }
 }

@@ -99,4 +99,31 @@ export default class Account extends ServiceApi {
       return err.data
     }
   }
+
+  async deleteAccount (payload) {
+    try {
+      const res = await this.put('/auth/deleteAccount', payload)
+      return res.data?.message
+    } catch (err) {
+      return err.data
+    }
+  }
+
+  async recupAccountByPassword (payload) {
+    try {
+      const res = await this.put('/auth/recupAccountByPassword', payload)
+      return res.data?.token
+    } catch (err) {
+      return err.data
+    }
+  }
+
+  async recupAccountByBtn (payload) {
+    try {
+      const res = await this.put('/auth/recupAccountByBtn', payload)
+      return res.data?.token
+    } catch (err) {
+      return err.data
+    }
+  }
 }

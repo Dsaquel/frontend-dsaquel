@@ -13,9 +13,9 @@ const Mail = new MailService()
 
 export default new Vuex.Store({
   state: {
+    message: null,
     successSnackbar: false,
-    errorSnackbar: false,
-    message: null
+    errorSnackbar: false
   },
   getters: {},
   mutations: {

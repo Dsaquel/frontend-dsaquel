@@ -36,6 +36,7 @@
         <v-snackbar v-model="hasSend" :timeout="2000" absolute bottom left>
         Mail envoyé pour reset votre mdp
       </v-snackbar>
+      <v-btn @click="deleteAccount" color="error" plain>delete account</v-btn>
         <v-spacer></v-spacer>
         <v-btn :disabled="!isEditing" color="success" @click="save">
           Save
@@ -77,6 +78,9 @@ export default {
     resetPassword () {
       this.hasSend = true
       this.$store.dispatch('Account/LINK_PASSWORD_RESET', this.emailState)
+    },
+    deleteAccount () {
+      this.$store.dispatch('Account/DELETE_ACCOUNT', this.emailState)
     }
   },
   computed: {

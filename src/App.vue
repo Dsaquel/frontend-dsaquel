@@ -136,7 +136,7 @@
             {{ etatStep }}
             <v-spacer></v-spacer>
             <v-btn
-              @click="dialog = false"
+              @click="clearDialog"
               icon
             >
               <v-icon>mdi-close</v-icon>
@@ -284,6 +284,20 @@
                   <h2>Email envoyé à {{ emailRegister }}</h2>
                   <v-btn @click="resendLink">resend email</v-btn>
                 </v-window-item>
+                <v-window-item value="recupAccountPassword">
+                  <h2>Recup your account if you send the correct password</h2>
+                  <v-form lazy-validation ref="checkPasswordValid" v-model="checkPasswordValid">
+                    <v-text-field disabled :value="emailRecupAccount"></v-text-field>
+                    <v-text-field v-model="passwordRecupAccount" :rules="passwordRules" required label="password"></v-text-field>
+                  </v-form>
+                  <v-btn @click="sendPasswordRecupAccount" :disabled="!checkPasswordValid" color="success">send</v-btn>
+                </v-window-item>
+                <v-window-item value="recupAccountBtn">
+                  <h2>Do you want recup this account ?</h2>
+                  <v-text-field disabled :value="emailRecupAccount"></v-text-field>
+                  <v-btn @click="sendChoiceRecupAccount" color="success">yes</v-btn>
+                  <v-btn @click="clearDialog" color="error">No</v-btn>
+                </v-window-item>
               </v-window>
             </v-container>
           </v-card-text>
@@ -354,6 +368,8 @@ export default {
       isOpened: false,
       register: true,
       userLogin: true,
+      checkPasswordValid: true,
+      passwordRecupAccount: '',
       toggleShowPassword: false,
       emailLogin: '',
       emailResetPassword: '',
@@ -394,7 +410,26 @@ export default {
   beforeMount () {
     this.checkCookie('user')
   },
+  // mounted () {
+  //   const payload = {
+  //     step: null, email: null
+  //   }
+  //   this.$store.commit('Account/SET_STEP_AUTH', payload)
+  //   this.dialog = false
+  //   this.emailLogin = ''
+  //   this.passwordLogin = ''
+  // },
   methods: {
+    clearDialog () {
+      this.dialog = false
+      this.step = 'index'
+      this.emailLogin = ''
+      this.emailRegister = ''
+      this.emailResetPassword = ''
+      this.passwordLogin = ''
+      this.passwordRegister = ''
+      this.pseudo = ''
+    },
     login () {
       if (this.$refs.login.validate()) {
         const payload = {
@@ -406,7 +441,6 @@ export default {
     },
     signup () {
       if (this.$refs.register.validate()) {
-        this.step = 'emailSend'
         const newUser = {
           email: this.emailRegister,
           password: this.passwordRegister,
@@ -430,7 +464,7 @@ export default {
       )
     },
     logout () {
-      this.$store.dispatch('Account/LOGOUT')
+      this.$store.dispatch('Account/LOGOUT', 'Disconnected')
       this.dialog = false
     },
     checkResetPassword () {
@@ -447,6 +481,22 @@ export default {
     switchTheme () {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark
       this.$vuetify.theme.light = !this.$vuetify.theme.light
+    },
+    sendPasswordRecupAccount () {
+      if (this.$refs.checkPasswordValid.validate()) {
+        this.$store.dispatch('Account/RECUP_ACCOUNT_BY_PASSWORD', { email: this.emailRecupAccount, password: this.passwordRecupAccount })
+      }
+    },
+    sendChoiceRecupAccount () {
+      this.$store.dispatch('Account/RECUP_ACCOUNT_BY_BTN', this.emailRecupAccount)
+    }
+  },
+  watch: {
+    newStep: {
+      handler (newvalue) {
+        this.step = newvalue
+      },
+      deep: true
     }
   },
   computed: {
@@ -485,6 +535,8 @@ export default {
           return 'Create account'
         case 'resetPassword':
           return 'Reset password'
+        case 'recupAccountPassword' || 'recupAccountBtn':
+          return 'Recup account'
         default:
           return 'sign-up'
       }
@@ -493,11 +545,21 @@ export default {
       return this.$vuetify.theme.dark ? 'dark' : 'light'
     },
     ...mapState({
+      message: (state) => state.message,
       token: (state) => state.Account.token,
+      newStepStore: (state) => state.Account.newStep,
       successSnackbarStore: (state) => state.successSnackbar,
-      errorSnackbarStore: (state) => state.errorSnackbar,
-      message: (state) => state.message
+      emailRecupAccount: (state) => state.Account.emailRecupAccount,
+      errorSnackbarStore: (state) => state.errorSnackbar
     }),
+    newStep: {
+      get () {
+        return this.newStepStore
+      },
+      set (newStep) {
+        return newStep
+      }
+    },
     successSnackbar: {
       get () {
         return this.successSnackbarStore
