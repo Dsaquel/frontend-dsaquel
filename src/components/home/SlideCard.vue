@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-slide-group class="my-2">
+    <v-slide-group v-if="animeUpcoming" class="my-2">
       <v-slide-item
         v-for="(anime, i) in animeUpcoming"
         :key="i"
@@ -37,8 +37,8 @@
         </HoverComponent>
       </v-slide-item>
     </v-slide-group>
-
-    <v-slide-group class="my-2">
+    <SlideCardLoader v-else />
+    <v-slide-group v-if="topManga" class="my-2">
       <v-slide-item
         v-for="(manga, i) in topManga"
         :key="i"
@@ -74,8 +74,8 @@
         </HoverComponent>
       </v-slide-item>
     </v-slide-group>
-
-    <v-slide-group class="my-2">
+    <SlideCardLoader v-else />
+    <v-slide-group v-if="topCharacters" class="my-2">
       <v-slide-item
         v-for="(character, i) in topCharacters"
         :key="i"
@@ -123,17 +123,20 @@
         </HoverComponent>
       </v-slide-item>
     </v-slide-group>
+    <SlideCardLoader v-else />
   </v-container>
 </template>
 
 <script>
 import HoverComponent from '../utilities/HoverComponent'
+import SlideCardLoader from '../utilities/SlideCardLoader'
 import { mapGetters } from 'vuex'
 export default {
   props: {},
   name: 'SlideCard',
   components: {
-    HoverComponent
+    HoverComponent,
+    SlideCardLoader
   },
   computed: {
     ...mapGetters({

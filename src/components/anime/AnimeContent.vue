@@ -10,8 +10,7 @@
       cols="12"
       lg="8"
     >
-      <v-container>
-        <v-carousel
+        <v-carousel v-if="animeUpcoming"
           cycle
           height="450"
           show-arrows-on-hover
@@ -49,14 +48,14 @@
             </v-row>
           </v-carousel-item>
         </v-carousel>
-      </v-container>
+        <SlideCardLoader v-else />
 
       <v-sheet
         class="mx-auto"
         elevation="5"
       >
         <div class="ml-5 text-h4">Current anime aired</div>
-        <v-slide-group
+        <v-slide-group v-if="animeSeasonNow"
           class="ma-2 pa-2"
           center-active
         >
@@ -68,6 +67,7 @@
             <CardComponentAnime :item="item" />
           </v-slide-item>
         </v-slide-group>
+        <SlideCardLoader v-else />
       </v-sheet>
     </v-col>
 
@@ -76,10 +76,12 @@
       lg="4"
     >
       <Reviews
+      v-if="topReviewsAnime"
         :item.sync="topReviewsAnime[page]"
         @sendPagination="sendPagination"
         :topReviewsAnime="topReviewsAnime.length"
       />
+      <v-skeleton-loader v-else loading type="card-avatar, article, actions" elevation="10"></v-skeleton-loader>
     </v-col>
   </v-row>
 </template>
@@ -89,12 +91,15 @@ import { mapState } from 'vuex'
 import Reviews from '../utilities/Reviews'
 import CardComponentAnime from '../utilities/CardComponentAnime'
 import CardFilterAnime from '../utilities/CardFilterAnime'
+import SlideCardLoader from '../utilities/SlideCardLoader'
+
 export default {
   name: 'AnimeContent',
   components: {
     Reviews,
     CardComponentAnime,
-    CardFilterAnime
+    CardFilterAnime,
+    SlideCardLoader
   },
   data: () => ({
     page: 1,
@@ -107,17 +112,17 @@ export default {
     animeUpcoming: {
       immediate: true,
       handler (newVal, oldVal) {
-        const size =
-          this.$vuetify.breakpoint.width >= 1200
-            ? 4
-            : this.$vuetify.breakpoint.width >= 800
-              ? 3
-              : 2
-        const arrayOfArrays = []
-        for (let i = 0; i < newVal.length; i += size) {
-          arrayOfArrays.push(newVal.slice(i, i + size))
+        if (newVal !== null) {
+          const size =
+            this.$vuetify.breakpoint.width >= 1200
+              ? 4
+              : this.$vuetify.breakpoint.width >= 800
+                ? 3
+                : 2
+          for (let i = 0; i < newVal.length; i += size) {
+            this.carousel.push(newVal.slice(i, i + size))
+          }
         }
-        this.carousel = arrayOfArrays
       }
     }
   },

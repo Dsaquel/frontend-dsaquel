@@ -1,7 +1,5 @@
 <template>
-
-      <SlideCard />
-
+  <SlideCard />
 </template>
 
 <script>

@@ -32,6 +32,7 @@ const getters = {
       }
       return array
     }
+    return null
   },
   animeUpcoming (state) {
     const array = state.animeUpcoming
@@ -52,6 +53,7 @@ const getters = {
       }
       return array
     }
+    return null
   }
 }
 

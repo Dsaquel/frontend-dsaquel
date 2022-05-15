@@ -6,19 +6,21 @@
     <v-col cols="12" lg="8">
       <v-sheet class="mx-auto" elevation="5">
         <div class="text-h4">Top manga</div>
-        <v-slide-group>
+        <v-slide-group v-if="topManga">
           <v-slide-item v-for="(item, i) in topManga" :key="i">
             <CardComponentManga :item="item" />
           </v-slide-item>
         </v-slide-group>
+        <SlideCardLoader v-else />
       </v-sheet>
       <v-sheet class="mx-auto" elevation="5">
         <div class="text-h4">Most favorites manga</div>
-        <v-slide-group>
+        <v-slide-group v-if="mostMangaFavorites">
           <v-slide-item v-for="(item, i) in mostMangaFavorites" :key="i">
             <CardComponentManga :item="item" />
           </v-slide-item>
         </v-slide-group>
+        <SlideCardLoader v-else />
       </v-sheet>
     </v-col>
     <v-col cols="12" lg="4">
@@ -44,29 +46,21 @@ import PickManga from '../utilities/PickManga'
 import CardComponentManga from '../utilities/CardComponentManga'
 import Recommendation from '../utilities/Recommendation'
 import CardFilterManga from '../utilities/CardFilterManga'
+import SlideCardLoader from '../utilities/SlideCardLoader'
+
 export default {
   name: 'MangaContent',
   components: {
     PickManga,
     CardComponentManga,
     Recommendation,
-    CardFilterManga
+    CardFilterManga,
+    SlideCardLoader
   },
   data: () => ({
     page: 1,
     selected: ''
   }),
-  watch: {
-    topManga: {
-      immediate: true,
-      handler (newVal, oldVal) {
-        newVal
-          .map(value => ({ value, sort: Math.random() }))
-          .sort((a, b) => a.sort - b.sort)
-          .map(({ value }) => value)
-      }
-    }
-  },
   methods: {
     affectTag (tag) {
       this.selected = tag
