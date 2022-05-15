@@ -410,15 +410,6 @@ export default {
   beforeMount () {
     this.checkCookie('user')
   },
-  // mounted () {
-  //   const payload = {
-  //     step: null, email: null
-  //   }
-  //   this.$store.commit('Account/SET_STEP_AUTH', payload)
-  //   this.dialog = false
-  //   this.emailLogin = ''
-  //   this.passwordLogin = ''
-  // },
   methods: {
     clearDialog () {
       this.dialog = false
@@ -497,6 +488,13 @@ export default {
         this.step = newvalue
       },
       deep: true
+    },
+    '$route' (to, from) {
+      if (this.$route.query.account === 'deleted') {
+        this.dialog = false
+        this.emailLogin = ''
+        this.passwordLogin = ''
+      }
     }
   },
   computed: {
@@ -530,7 +528,7 @@ export default {
     etatStep () {
       switch (this.step) {
         case 'index':
-          return 'Sign-up'
+          return 'Sign-in'
         case 'createAccount':
           return 'Create account'
         case 'resetPassword':
@@ -538,7 +536,7 @@ export default {
         case 'recupAccountPassword' || 'recupAccountBtn':
           return 'Recup account'
         default:
-          return 'sign-up'
+          return 'sign-in'
       }
     },
     theme () {

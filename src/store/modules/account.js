@@ -180,7 +180,7 @@ const actions = {
       }
       commit(SET_STEP_AUTH, step)
       dispatch(LOGOUT, res)
-      router.push('/')
+      router.push('/?account=deleted')
     }
   },
   async [GET_USER_STUFF] ({ commit, state }) {
@@ -244,7 +244,6 @@ const actions = {
   },
   async [RECUP_ACCOUNT_BY_BTN] ({ commit, dispatch }, email) {
     const payload = { email }
-    console.log(payload)
     const res = await Account.recupAccountByBtn(payload)
     if (res.error) {
       console.log(res.error)
