@@ -3,10 +3,10 @@ import Cookies from 'js-cookie'
 import AccountService from '@/services/extends/accountService'
 import {
   SET_LOGOUT,
+  SET_LOADER,
   SET_STEP_AUTH,
   SET_USER_TOKEN,
   SET_USER_STUFF,
-  SET_FORM_LOADING,
   SET_USER_INFORMATION
 } from '@/store/types/mutation-types'
 import {
@@ -79,6 +79,9 @@ const mutations = {
     state.email = null
     state.pseudo = null
   },
+  [SET_LOADER] (state, data) {
+    state.loader[Object.keys(data).toString()] = data[Object.keys(data)[0]]
+  },
   [SET_STEP_AUTH] (state, payload) {
     state.newStep = payload.step
     state.emailRecupAccount = payload.email
@@ -88,9 +91,6 @@ const mutations = {
   },
   [SET_USER_STUFF] (state, data) {
     state.stuff = data
-  },
-  [SET_FORM_LOADING] (state, data) {
-    state.loader[Object.keys(data).toString()] = data[Object.keys(data)[0]]
   },
   [SET_USER_INFORMATION] (state, data) {
     state.email = data.email
@@ -102,7 +102,7 @@ const actions = {
   async [LOGIN] ({
     commit, dispatch
   }, payload) {
-    commit(SET_FORM_LOADING, { loginLoad: true })
+    commit(SET_LOADER, { loginLoad: true })
     const token = await Account.login(payload)
     if (token.error && token.password) {
       const payload = { step: 'recupAccountPassword', email: token.email }
@@ -128,7 +128,7 @@ const actions = {
         }
       }
     }
-    commit(SET_FORM_LOADING, { loginLoad: false })
+    commit(SET_LOADER, { loginLoad: false })
   },
   [LOGOUT] ({ commit }, message) {
     Cookies.remove('user', { path: '' })
@@ -138,7 +138,7 @@ const actions = {
   async [SIGN_UP] ({
     commit
   }, newUser) {
-    commit(SET_FORM_LOADING, { registerLoad: true })
+    commit(SET_LOADER, { registerLoad: true })
     const res = await Account.signUp(newUser)
     if (res.error && res.password) {
       const payload = { step: 'recupAccountPassword', email: res.email }
@@ -152,19 +152,19 @@ const actions = {
       commit(SET_STEP_AUTH, { step: 'emailSend' })
       this.commit('setSuccessSnackbar', res)
     }
-    commit(SET_FORM_LOADING, { registerLoad: false })
+    commit(SET_LOADER, { registerLoad: false })
   },
   async [RESEND_LINK] ({
     commit
   }, newUser) {
-    commit(SET_FORM_LOADING, { resendLinkLoad: true })
+    commit(SET_LOADER, { resendLinkLoad: true })
     const res = await Account.resendLink(newUser)
     if (res.error) {
       this.commit('setErrorSnackbar', res.error)
     } else {
       this.commit('setSuccessSnackbar', res)
     }
-    commit(SET_FORM_LOADING, { resendLinkLoad: false })
+    commit(SET_LOADER, { resendLinkLoad: false })
   },
   [CHECK_COOKIE] ({ commit }, payload) {
     const user = Cookies.get('user')
@@ -178,7 +178,7 @@ const actions = {
   async [RESET_PASSWORD] ({
     commit
   }, payload) {
-    commit(SET_FORM_LOADING, { resetPasswordLoad: true })
+    commit(SET_LOADER, { resetPasswordLoad: true })
     const res = await Account.resetPassword(payload)
     if (res.error) {
       this.commit('setErrorSnackbar', res.error)
@@ -187,14 +187,14 @@ const actions = {
       this.commit('setSuccessSnackbar', res)
       router.push('/')
     }
-    commit(SET_FORM_LOADING, { resetPasswordLoad: false })
+    commit(SET_LOADER, { resetPasswordLoad: false })
   },
   async [DELETE_ACCOUNT] ({ commit, state, dispatch }, email) {
     const payload = {
       email,
       token: state.token
     }
-    commit(SET_FORM_LOADING, { deleteAccountLoad: true })
+    commit(SET_LOADER, { deleteAccountLoad: true })
     const res = await Account.deleteAccount(payload)
     if (res.err) {
       this.commit('setErrorSnackbar', res.error)
@@ -206,7 +206,7 @@ const actions = {
       dispatch(LOGOUT, res)
       router.push('/?account=deleted')
     }
-    commit(SET_FORM_LOADING, { deleteAccountLoad: false })
+    commit(SET_LOADER, { deleteAccountLoad: false })
   },
   async [GET_USER_STUFF] ({ commit, state }) {
     const res = await Account.getUserStuff(state.token)
@@ -225,7 +225,7 @@ const actions = {
     }
   },
   async [EDIT_USER_PROFILE] ({ commit, state }, payload) {
-    commit(SET_FORM_LOADING, { editUserProfile: true })
+    commit(SET_LOADER, { editUserProfile: true })
     payload.token = state.token
     const res = await Account.editUserProfile(payload)
     if (res.error) {
@@ -233,7 +233,7 @@ const actions = {
     } else {
       this.commit('setSuccessSnackbar', res)
     }
-    commit(SET_FORM_LOADING, { editUserProfile: false })
+    commit(SET_LOADER, { editUserProfile: false })
   },
   async [DELETE_USER_STUFF] ({ commit, state }, _id) {
     const payload = { token: state.token, _id }
@@ -262,17 +262,17 @@ const actions = {
   async [LINK_PASSWORD_RESET] ({
     commit
   }, email) {
-    commit(SET_FORM_LOADING, { linkPasswordResetLoad: true })
+    commit(SET_LOADER, { linkPasswordResetLoad: true })
     const res = await Account.linkPasswordReset({ email })
     if (res.error) {
       this.commit('setErrorSnackbar', res.error)
     } else {
       this.commit('setSuccessSnackbar', res)
     }
-    commit(SET_FORM_LOADING, { linkPasswordResetLoad: false })
+    commit(SET_LOADER, { linkPasswordResetLoad: false })
   },
   async [RECUP_ACCOUNT_BY_BTN] ({ commit, dispatch }, email) {
-    commit(SET_FORM_LOADING, { recupAccountByBtnLoad: true })
+    commit(SET_LOADER, { recupAccountByBtnLoad: true })
     const payload = { email }
     const res = await Account.recupAccountByBtn(payload)
     if (res.error) {
@@ -285,10 +285,10 @@ const actions = {
       dispatch(CHECK_COOKIE, res)
       this.commit('setSuccessSnackbar', 'Account recovered')
     }
-    commit(SET_FORM_LOADING, { recupAccountByBtnLoad: false })
+    commit(SET_LOADER, { recupAccountByBtnLoad: false })
   },
   async [RECUP_ACCOUNT_BY_PASSWORD] ({ commit, dispatch }, payload) {
-    commit(SET_FORM_LOADING, { recupAccountByPasswordLoad: true })
+    commit(SET_LOADER, { recupAccountByPasswordLoad: true })
     const res = await Account.recupAccountByPassword(payload)
     if (res.error) {
       this.commit('setErrorSnackbar', res.error)
@@ -300,7 +300,7 @@ const actions = {
       dispatch(CHECK_COOKIE, res)
       this.commit('setSuccessSnackbar', 'Account recovered')
     }
-    commit(SET_FORM_LOADING, { recupAccountByPasswordLoad: false })
+    commit(SET_LOADER, { recupAccountByPasswordLoad: false })
   }
 }
 

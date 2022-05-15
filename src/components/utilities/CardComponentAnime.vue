@@ -1,7 +1,11 @@
 <template>
   <v-hover v-slot="{ hover }">
-    <v-card width="200" class="ma-2" :elevation="hover ? 12 : 2" @click="reveal = !reveal">
-      <v-img :src="item.image.jpg.medium" />
+    <v-card :loading="loading[i]" width="200" class="ma-2" :elevation="hover ? 12 : 2" @click="reveal = !reveal">
+      <template slot="progress">
+         <v-progress-linear color="orange" indeterminate></v-progress-linear>
+      </template>
+      <v-img v-if="item.image.jpg.medium" :src="item.image.jpg.medium" />
+      <v-skeleton-loader v-else type="image" width="100%" loading></v-skeleton-loader>
       <v-card v-if="reveal" class="v-card--reveal" style="height: 100%">
         <v-card-text class="pb-0">
           <p class="text-h4 text--primary">Informations</p>
@@ -30,7 +34,10 @@
             {{ item.airInfo.status }}
           </p>
         </v-card-text>
-          <v-btn :to="{ name: 'detailAnime', params: { id: item.id } }">More details</v-btn>
+          <v-btn
+          @click="loading[i] = true"
+          :to="{ name: 'detailAnime', params: { id: item.id } }"
+          >More details</v-btn>
           <slot name="delete-stuff"></slot>
       </v-card>
     </v-card>
@@ -44,11 +51,21 @@ export default {
     item: {
       type: Object,
       required: true
+    },
+    i: {
+      type: Number,
+      required: false
     }
   },
   data: () => ({
-    reveal: false
-  })
+    reveal: false,
+    loading: {}
+  }),
+  watch: {
+    $route (to, from) {
+      this.loading = {}
+    }
+  }
 }
 </script>
 

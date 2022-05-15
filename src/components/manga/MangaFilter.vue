@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <CardFilterManga />
-    <v-row>
+    <v-row v-if="mangaFiltered">
       <v-col
         cols="10"
         lg="2"
@@ -13,10 +13,24 @@
         <DefaultItem :to="'detailManga'" :item="item" />
       </v-col>
     </v-row>
+    <v-row v-else>
+      <v-col
+        cols="12"
+        lg="2"
+        md="3"
+        sm="3"
+        v-for="n in 10"
+        :key="n"
+      >
+        <v-skeleton-loader type="card" loading width="200"></v-skeleton-loader>
+      </v-col>
+    </v-row>
     <Pagination
+      v-if="lastPageVisible"
       :lastPageVisible="lastPageVisible"
       @getPagination="getPagination"
     />
+    <v-skeleton-loader v-else width="200" loading type="actions" />
   </v-container>
 </template>
 

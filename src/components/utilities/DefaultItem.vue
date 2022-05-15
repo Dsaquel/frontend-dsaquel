@@ -17,7 +17,7 @@
     <v-rating length="5" size="5" :value="item.score / 2" readonly x-small />
       <div class="ml-2">
         <v-icon disabled class="mr-1"> mdi-account-group </v-icon>
-        <span class="subheading ml-1">{{ item.popularity }}</span>
+        <span class="subheading ml-1">{{ item.members }}</span>
       </div>
 
   </v-card>

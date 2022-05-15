@@ -5,7 +5,7 @@
         v-for="(anime, i) in animeUpcoming"
         :key="i"
       >
-        <HoverComponent :item="anime">
+        <HoverComponent :item="anime" :loading="loading" :i="i">
           <template v-slot:subTitle></template>
           <template v-slot:secondTitle> some informations </template>
           <template v-slot:textContent>
@@ -29,10 +29,11 @@
             <p v-if="anime.year">announced for: {{ anime.year }}</p>
           </template>
           <template v-slot:btnTo>
-            <v-btn :to="{
+            <v-btn @click="loading[i] = true" :to="{
                   name: 'detailAnime',
                   params: { id: anime.id },
-                }">Detail</v-btn>
+                }">Detail
+            </v-btn>
           </template>
         </HoverComponent>
       </v-slide-item>
@@ -43,7 +44,7 @@
         v-for="(manga, i) in topManga"
         :key="i"
       >
-        <HoverComponent :item="manga">
+        <HoverComponent :item="manga" :loading="loading" :i="i">
           <template v-slot:secondTitle>Some informations</template>
           <template v-slot:textContent>
             <p class="font-weight-black body-1">
@@ -66,7 +67,7 @@
           </template>
           <p v-if="manga.scored">{{ manga.scored }}/10 </p>
           <template v-slot:btnTo>
-            <v-btn :to="{
+            <v-btn @click="loading[i] = true" :to="{
                   name: 'detailManga',
                   params: { id: manga.id },
                 }">Detail</v-btn>
@@ -80,7 +81,7 @@
         v-for="(character, i) in topCharacters"
         :key="i"
       >
-        <HoverComponent :item="character">
+        <HoverComponent :item="character" :loading="loading" :i="i">
           <template v-slot:text> </template>
           <template v-slot:subTitle>
           </template>
@@ -115,7 +116,7 @@
             </p>
           </template>
           <template v-slot:btnTo>
-            <v-btn :to="{
+            <v-btn @click="loading[i] = true" :to="{
                   name: 'detailCharacter',
                   params: { id: character.id },
                 }"> more detail</v-btn>
@@ -132,11 +133,18 @@ import HoverComponent from '../utilities/HoverComponent'
 import SlideCardLoader from '../utilities/SlideCardLoader'
 import { mapGetters } from 'vuex'
 export default {
-  props: {},
   name: 'SlideCard',
+  data: () => ({
+    loading: {}
+  }),
   components: {
     HoverComponent,
     SlideCardLoader
+  },
+  watch: {
+    $route (to, from) {
+      this.loading = {}
+    }
   },
   computed: {
     ...mapGetters({

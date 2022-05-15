@@ -4,8 +4,8 @@
       Pick a manga
     </div>
   <v-row v-if="pickMangas" align="center">
-    <v-col v-for="manga in pickMangas" :key="manga.id" lg="4" md="3">
-      <v-card class="d-flex align-center">
+    <v-col v-for="manga in pickMangas" :key="manga.id" md="3" cols="6" lg="4">
+      <v-card height="100%" class="d-flex align-center">
           <v-tooltip left>
             <template v-slot:activator="{ on, attrs }">
               <v-img
@@ -13,7 +13,7 @@
                 class="blur"
                 v-bind="attrs"
                 :src="manga.image.jpg.medium"
-                @click="sendPicking(manga.id, manga.title.default)"
+                @dblclick="sendPicking(manga.id, manga.title.default)"
                 style="cursor: pointer"
               />
             </template>
@@ -64,6 +64,7 @@ export default {
   }),
   methods: {
     sendPicking (idManga, title) {
+      this.$store.commit('Manga/SET_MANGA_RECOMMENDATIONS', { data: null })
       this.$store.state.Manga.currentRecommendationTitle = title
       this.$emit('sendPicking', idManga)
     }

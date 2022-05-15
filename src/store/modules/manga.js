@@ -3,6 +3,7 @@ import AccountService from '@/services/extends/accountService'
 
 import {
   SET_MANGA,
+  SET_LOADER,
   SET_PICK_MANGA,
   SET_MANGA_FILTERED,
   SET_MOST_FAVORITES_MANGA,
@@ -86,6 +87,9 @@ const state = {
     id: 25
   }
   ],
+  loader: {
+    insertMangaLoad: false
+  },
   manga: null,
   filters: {
     type: [],
@@ -128,6 +132,9 @@ const mutations = {
   [SET_MANGA] (state, manga) {
     state.manga = manga
   },
+  [SET_LOADER] (state, data) {
+    state.loader[Object.keys(data).toString()] = data[Object.keys(data)[0]]
+  },
   [SET_PICK_MANGA] (state, data) {
     state.pickMangas = data
   },
@@ -153,6 +160,7 @@ const actions = {
   async [INSERT_MANGA] ({
     commit
   }, stuff) {
+    commit(SET_LOADER, { insertMangaLoad: true })
     const data = {
       stuff,
       id: stuff.id,
@@ -170,6 +178,7 @@ const actions = {
     } else {
       this.commit('setSuccessSnackbar', res)
     }
+    commit(SET_LOADER, { insertMangaLoad: false })
   },
   async [GET_PICK_MANGA] ({ commit, state }) {
     if (state.pickMangas !== null) return

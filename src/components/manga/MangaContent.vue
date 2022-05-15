@@ -8,7 +8,7 @@
         <div class="text-h4">Top manga</div>
         <v-slide-group v-if="topManga">
           <v-slide-item v-for="(item, i) in topManga" :key="i">
-            <CardComponentManga :item="item" />
+            <CardComponentManga :item="item" :i="i" />
           </v-slide-item>
         </v-slide-group>
         <SlideCardLoader v-else />
@@ -17,7 +17,7 @@
         <div class="text-h4">Most favorites manga</div>
         <v-slide-group v-if="mostMangaFavorites">
           <v-slide-item v-for="(item, i) in mostMangaFavorites" :key="i">
-            <CardComponentManga :item="item" />
+            <CardComponentManga :item="item" :i="i" />
           </v-slide-item>
         </v-slide-group>
         <SlideCardLoader v-else />
@@ -31,6 +31,7 @@
         <v-btn @click="resetPick">reset your pick ?</v-btn>
         <h2>concerning recommendation of {{ currentRecommendationTitle }}</h2>
         <Recommendation
+          v-if="mangaRecommendations"
           @sendPagination="sendPagination"
           :item="mangaRecommendations[page]"
           :recommendation="mangaRecommendations.length"
@@ -59,7 +60,8 @@ export default {
   },
   data: () => ({
     page: 1,
-    selected: ''
+    selected: '',
+    progressBar: false
   }),
   methods: {
     affectTag (tag) {
@@ -69,9 +71,11 @@ export default {
       this.page = page
     },
     sendPicking (idManga) {
+      this.progressBar = true
       this.$store.dispatch('Manga/GET_MANGA_RECOMMENDATIONS', idManga)
     },
     resetPick () {
+      this.$store.commit('Manga/SET_MANGA_RECOMMENDATIONS', { data: null })
       this.$store.state.Manga.mangaRecommendations = null
     }
   },

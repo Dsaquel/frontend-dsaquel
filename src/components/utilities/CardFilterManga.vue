@@ -159,6 +159,7 @@ export default {
   }),
   methods: {
     sendRequest () {
+      this.$store.commit('Manga/SET_MANGA_FILTERED', { data: null, pagination: { last_visible_page: null } })
       const status = (this.statusStore && this.statusStore.length) ? 'status=' + this.statusStore : null
       const type = (this.typeStore && this.typeStore.length) ? 'type=' + this.typeStore : null
       const genres = (this.genresStore && this.genresStore.length) ? 'genres=' + this.genresStore : null

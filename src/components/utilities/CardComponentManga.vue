@@ -1,7 +1,11 @@
 <template>
   <v-hover v-slot="{ hover }">
-    <v-card :elevation="hover ? 12 : 2" width="200" class="ma-2" @click="reveal = !reveal">
-      <v-img min-width="100%" :src="item.image.jpg.medium" />
+    <v-card :loading="loading[i]" :elevation="hover ? 12 : 2" width="200" class="ma-2" @click="reveal = !reveal">
+      <template slot="progress">
+         <v-progress-linear color="orange" indeterminate></v-progress-linear>
+      </template>
+      <v-img v-if="item.image.jpg.medium" min-width="100%" :src="item.image.jpg.medium" />
+      <v-skeleton-loader v-else type="image" width="100%" loading></v-skeleton-loader>
       <v-expand-transition>
         <v-card
           v-if="reveal"
@@ -47,7 +51,7 @@
             </p>
           </v-card-text>
 
-          <v-btn :to="{ name: 'detailManga', params: { id: item.id } }">
+          <v-btn @click="loading[i] = true" :to="{ name: 'detailManga', params: { id: item.id } }">
             More details
           </v-btn>
           <slot name="delete-stuff"></slot>
@@ -65,11 +69,20 @@ export default {
     item: {
       type: Object,
       required: true
+    },
+    i: {
+      type: Number
     }
   },
   data: () => ({
-    reveal: false
-  })
+    reveal: false,
+    loading: {}
+  }),
+  watch: {
+    $route (to, from) {
+      this.loading = {}
+    }
+  }
 }
 </script>
 

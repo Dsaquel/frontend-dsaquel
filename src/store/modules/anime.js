@@ -2,6 +2,7 @@ import AnimeService from '@/services/extends/animeService'
 import AccountService from '@/services/extends/accountService'
 import {
   SET_ANIME,
+  SET_LOADER,
   SET_SEASON_NOW,
   SET_ANIME_FILTERED,
   SET_TOP_REVIEWS_ANIME
@@ -36,6 +37,9 @@ const state = {
     { name: 'suspense', id: 41 },
     { name: 'shoujo', id: 25 }
   ],
+  loader: {
+    insertAnimeLoad: false
+  },
   anime: null,
   filters: {
     type: [],
@@ -53,6 +57,9 @@ const getters = {}
 const mutations = {
   [SET_ANIME] (state, anime) {
     state.anime = anime
+  },
+  [SET_LOADER] (state, data) {
+    state.loader[Object.keys(data).toString()] = data[Object.keys(data)[0]]
   },
   [SET_SEASON_NOW] (state, data) {
     state.animeSeasonNow = data
@@ -78,6 +85,7 @@ const actions = {
     }
   },
   async [INSERT_ANIME] ({ commit }, stuff) {
+    commit(SET_LOADER, { insertAnimeLoad: true })
     const data = {
       stuff,
       id: stuff.id,
@@ -95,6 +103,7 @@ const actions = {
     } else {
       this.commit('setSuccessSnackbar', res)
     }
+    commit(SET_LOADER, { insertAnimeLoad: false })
   },
   async [GET_REVIEWS_ANIME] ({
     commit, state

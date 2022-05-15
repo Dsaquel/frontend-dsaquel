@@ -3,14 +3,13 @@ export const SET_LOGOUT = 'SET_LOGOUT'
 export const SET_STEP_AUTH = 'SET_STEP_AUTH'
 export const SET_USER_TOKEN = 'SET_USER_TOKEN'
 export const SET_USER_STUFF = 'SET_USER_STUFF'
-export const SET_FORM_LOADING = 'SET_FORM_LOADING'
 export const SET_USER_INFORMATION = 'SET_USER_INFORMATION'
 
 // anime mutations
 export const SET_ANIME = 'SET_ANIME'
+export const SET_SEASON_NOW = 'SET_SEASON_NOW'
 export const SET_ANIME_FILTERED = 'SET_ANIME_FILTERED'
 export const SET_TOP_REVIEWS_ANIME = 'SET_TOP_REVIEWS_ANIME'
-export const SET_SEASON_NOW = 'SET_SEASON_NOW'
 
 // character mutations
 export const SET_CHARACTER = 'SET_CHARACTER'
@@ -29,3 +28,6 @@ export const SET_MANGA_RECOMMENDATIONS = 'SET_MANGA_RECOMMENDATIONS'
 
 // index
 export const STATUS_MESSAGE = 'STATUS_MESSAGE'
+
+// universal mutations
+export const SET_LOADER = 'SET_LOADER'

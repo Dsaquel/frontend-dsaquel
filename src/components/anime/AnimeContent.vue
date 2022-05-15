@@ -34,6 +34,7 @@
               >
                 <v-card
                   class="flex-wrap"
+                  max-width="250"
                   height="100%"
                   flat
                 >
@@ -64,7 +65,7 @@
             :value="i"
             :key="i"
           >
-            <CardComponentAnime :item="item" />
+            <CardComponentAnime :item="item" :i="i" />
           </v-slide-item>
         </v-slide-group>
         <SlideCardLoader v-else />

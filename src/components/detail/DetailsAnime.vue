@@ -1,11 +1,11 @@
 <template>
   <v-container>
-    <v-card>
-      <h2>{{ anime.title.default }}</h2>
+    <v-card v-if="anime">
+      <h2 v-if="anime.title.default">{{ anime.title.default }}</h2>
       <v-row justify="center">
         <v-col cols="12" lg="2">
-          <v-img max-width="280" :src="anime.image.jpg.medium"></v-img>
-          <p class="subtitle-1">
+          <v-img v-if="anime.image.jpg.medium" width="100%" :src="anime.image.jpg.medium" />
+          <p class="subtitle-1" v-if="anime.genres.length">
             Genres:<template v-for="genre in anime.genres">
               {{ genre.name }}
               <template v-if="anime.genres.slice(-1)[0] !== genre">
@@ -13,10 +13,11 @@
               </template>
             </template>
           </p>
-          <p class="subtitle-1" v-if="anime.year !== null">
+          <p class="subtitle-1" v-if="anime.year">
+            year
             {{ anime.year }}
           </p>
-          <p class="subtitle-1" v-if="anime.producers !== null">
+          <p class="subtitle-1" v-if="anime.producers">
             Poducers:
             <template v-for="producer in anime.producers">
               {{ producer.name }}
@@ -25,7 +26,7 @@
               </template>
             </template>
           </p>
-          <p class="subtitle-1" v-if="anime.studios !== null">
+          <p class="subtitle-1" v-if="anime.studios.length">
             Studios:
             <template v-for="studio in anime.studios">
               {{ studio.name }}
@@ -34,13 +35,13 @@
               </template>
             </template>
           </p>
-          <p class="subtitle-1" v-if="anime.rating !== null">
+          <p class="subtitle-1" v-if="anime.rating">
             Rating: {{ anime.rating }}
           </p>
-          <p class="subtitle-1" v-if="anime.score !== null">
+          <p class="subtitle-1" v-if="anime.score">
             Score: {{ anime.score }}
           </p>
-          <p class="subtitle-1" v-if="anime.themes !== null">
+          <p class="subtitle-1" v-if="anime.themes.length">
             Themes :
             <template v-for="theme in anime.themes">
               {{ theme.name }}
@@ -49,19 +50,19 @@
               </template>
             </template>
           </p>
-          <p class="subtitle-1" v-if="anime.type !== null">
+          <p class="subtitle-1" v-if="anime.type">
             Type : {{ anime.type }}
           </p>
-          <v-btn @click="insertAnime">Insert anime</v-btn>
+          <v-btn @click="insertAnime" :loading="loader.insertAnimeLoad">Insert anime</v-btn>
         </v-col>
         <v-col cols="12" lg="8">
           <v-card-text>
-            <p class="body-1" v-if="anime.synopsis !== null">
+            <p class="body-1" v-if="anime.synopsis">
               Synopsis: {{ anime.synopsis }}
             </p>
             <div class="containerIframe">
               <iframe
-              v-if="anime.trailer !== null"
+              v-if="anime.trailer"
                 class="iframe"
                 :src="anime.trailer.embedUrl"
               ></iframe>
@@ -70,12 +71,20 @@
         </v-col>
       </v-row>
     </v-card>
+    <v-progress-linear
+      v-else
+      indeterminate
+      color="green"
+    />
   </v-container>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'DetailsAnime',
+  data: () => ({
+  }),
   beforeMount () {
     this.$store.dispatch('Anime/GET_ANIME', this.$route.params.id)
   },
@@ -88,9 +97,10 @@ export default {
     }
   },
   computed: {
-    anime () {
-      return this.$store.state.Anime.anime
-    }
+    ...mapState({
+      anime: (state) => state.Anime.anime,
+      loader: (state) => state.Anime.loader
+    })
   }
 }
 </script>

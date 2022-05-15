@@ -3,7 +3,7 @@
         <v-sheet class="mx-auto" elevation="5" v-if="mangas.length !== 0">
         <v-slide-group show-arrows="always">
           <v-slide-item v-for="(item, i) in mangas" :key="i">
-            <CardComponentManga :item="item">
+            <CardComponentManga :item="item" :i="i">
               <template v-slot:delete-stuff>
                 <v-btn @click="deleteStuff(item._id)">
                   delete this
@@ -17,7 +17,7 @@
       <v-sheet class="mx-auto" elevation="5" v-if="animes.length !== 0">
         <v-slide-group show-arrows="always">
           <v-slide-item v-for="(item, i) in animes" :key="i">
-            <CardComponentAnime :item="item">
+            <CardComponentAnime :item="item" :i="i">
               <template v-slot:delete-stuff>
                 <v-btn @click="deleteStuff(item._id)">
                   delete this
