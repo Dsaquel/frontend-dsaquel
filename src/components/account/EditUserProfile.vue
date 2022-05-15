@@ -36,15 +36,12 @@
         <v-snackbar v-model="hasSend" :timeout="2000" absolute bottom left>
         Mail envoyé pour reset votre mdp
       </v-snackbar>
-      <v-btn @click="deleteAccount" color="error" plain>delete account</v-btn>
+      <v-btn @click="deleteAccount" :loading="loader.deleteAccountLoad" color="error" plain>delete account</v-btn>
         <v-spacer></v-spacer>
-        <v-btn :disabled="!isEditing" color="success" @click="save">
+        <v-btn :disabled="!isEditing" :loading="loader.editUserProfile" color="success" @click="save">
           Save
         </v-btn>
       </v-card-actions>
-      <v-snackbar v-model="hasSaved" :timeout="2000" absolute bottom left>
-        Your profile has been updated
-      </v-snackbar>
     </v-card>
   </v-container>
 </template>
@@ -85,8 +82,9 @@ export default {
   },
   computed: {
     ...mapState({
-      pseudoState: (state) => state.Account.pseudo,
-      emailState: (state) => state.Account.email
+      loader: (state) => state.Account.loader,
+      emailState: (state) => state.Account.email,
+      pseudoState: (state) => state.Account.pseudo
     })
   }
 }

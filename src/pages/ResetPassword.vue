@@ -7,7 +7,7 @@
         label="password"
         required
       ></v-text-field>
-      <v-btn :disabled="!valid" color="success" class="mr-4" @click="validate">
+      <v-btn :disabled="!valid" :loading="resetPasswordLoad" color="success" class="mr-4" @click="validate">
         Envoyer
       </v-btn>
     </v-form>
@@ -15,6 +15,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'ResetPassword',
   data () {
@@ -23,7 +24,7 @@ export default {
       password: '',
       passwordRules: [
         (v) => !!v || 'Mot de passe requis',
-        (v) => v.length >= 8 || 'Mot de passe supérieur à 8 caractères'
+        (v) => v.length >= 4 || 'Mot de passe supérieur à 4 caractères'
       ]
     }
   },
@@ -34,6 +35,11 @@ export default {
         this.$store.dispatch('Account/RESET_PASSWORD', this.$route.params)
       }
     }
+  },
+  computed: {
+    ...mapState({
+      resetPasswordLoad: (state) => state.Account.loader.resetPasswordLoad
+    })
   }
 }
 </script>

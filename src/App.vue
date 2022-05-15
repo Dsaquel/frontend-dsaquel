@@ -197,6 +197,7 @@
                       </div>
                       <v-btn
                         :disabled="!userLogin"
+                        :loading="loader.loginLoad"
                         color="success"
                         class="mr-4"
                         @click="login"
@@ -250,6 +251,7 @@
                         color="warning"
                         class="mr-4"
                         :disabled="!register"
+                        :loading="loader.registerLoad"
                         @click="signup"
                       >Register</v-btn>
                     </v-card-actions>
@@ -271,6 +273,7 @@
                       <v-btn @click="step = 'index'">back off</v-btn>
                       <v-btn
                         :disabled="!resetPassword"
+                        :loading="loader.linkPasswordResetLoad"
                         color="success"
                         class="mr-4"
                         @click="linkPasswordReset"
@@ -282,7 +285,7 @@
                 </v-window-item>
                 <v-window-item value="emailSend">
                   <h2>Email envoyé à {{ emailRegister }}</h2>
-                  <v-btn @click="resendLink">resend email</v-btn>
+                  <v-btn @click="resendLink" :loading="loader.resendLinkLoad">resend email</v-btn>
                 </v-window-item>
                 <v-window-item value="recupAccountPassword">
                   <h2>Recup your account if you send the correct password</h2>
@@ -290,12 +293,12 @@
                     <v-text-field disabled :value="emailRecupAccount"></v-text-field>
                     <v-text-field v-model="passwordRecupAccount" :rules="passwordRules" required label="password"></v-text-field>
                   </v-form>
-                  <v-btn @click="sendPasswordRecupAccount" :disabled="!checkPasswordValid" color="success">send</v-btn>
+                  <v-btn @click="sendPasswordRecupAccount" :disabled="!checkPasswordValid" :loading="loader.recupAccountByPasswordLoad" color="success">send</v-btn>
                 </v-window-item>
                 <v-window-item value="recupAccountBtn">
                   <h2>Do you want recup this account ?</h2>
                   <v-text-field disabled :value="emailRecupAccount"></v-text-field>
-                  <v-btn @click="sendChoiceRecupAccount" color="success">yes</v-btn>
+                  <v-btn @click="sendChoiceRecupAccount" :loading="loader.recupAccountByBtnLoad" color="success">yes</v-btn>
                   <v-btn @click="clearDialog" color="error">No</v-btn>
                 </v-window-item>
               </v-window>
@@ -458,11 +461,6 @@ export default {
       this.$store.dispatch('Account/LOGOUT', 'Disconnected')
       this.dialog = false
     },
-    checkResetPassword () {
-      if (this.$refs.resetPassword.validate()) {
-        this.$refs.resetPassword.validate()
-      }
-    },
     checkCookie () {
       const user = Cookies.get('user')
       if (user !== undefined) {
@@ -485,6 +483,7 @@ export default {
   watch: {
     newStep: {
       handler (newvalue) {
+        console.log(newvalue)
         this.step = newvalue
       },
       deep: true
@@ -546,6 +545,7 @@ export default {
       message: (state) => state.message,
       token: (state) => state.Account.token,
       newStepStore: (state) => state.Account.newStep,
+      loader: (state) => state.Account.loader,
       successSnackbarStore: (state) => state.successSnackbar,
       emailRecupAccount: (state) => state.Account.emailRecupAccount,
       errorSnackbarStore: (state) => state.errorSnackbar
