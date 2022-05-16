@@ -59,24 +59,6 @@
 
           <v-list-item>
             <v-list-item-action>
-              <v-list-item-title>order By</v-list-item-title>
-              <v-chip-group
-                v-model="orderBy"
-                active-class="primary--text"
-              >
-                <v-chip
-                  v-for="order in orders"
-                  :value="order"
-                  outlined
-                  :key="order"
-                  >{{ order }}</v-chip
-                >
-              </v-chip-group>
-            </v-list-item-action>
-          </v-list-item>
-          <v-divider></v-divider>
-          <v-list-item>
-            <v-list-item-action>
               <v-list-item-title>status</v-list-item-title>
               <v-chip-group v-model="status" active-class="primary--text">
                 <v-chip
@@ -88,22 +70,6 @@
                 >
               </v-chip-group>
             </v-list-item-action>
-          </v-list-item>
-
-          <v-divider></v-divider>
-
-          <v-list-item>
-            <v-list-item-action>
-              <v-switch disabled v-model="sfw" color="purple"></v-switch>
-            </v-list-item-action>
-            <v-list-item-title>filter out adult manga</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-action>
-              <v-switch v-model="score" color="purple"></v-switch>
-            </v-list-item-action>
-            <v-list-item-title>score</v-list-item-title>
           </v-list-item>
         </v-list>
 
@@ -125,7 +91,6 @@ export default {
   data: () => ({
     sfw: true,
     menu: false,
-    score: true,
     query: null,
     searchManga: '',
     types: [
@@ -136,18 +101,6 @@ export default {
       'doujin',
       'manhwa',
       'manhua'
-    ],
-    orders: [
-      'title',
-      'start_date',
-      'end_date',
-      'volumes',
-      'scored_by',
-      'rank',
-      'popularity',
-      'members',
-      'favorites',
-      'chapters'
     ],
     mangasStatus: [
       'upcoming',
@@ -160,10 +113,12 @@ export default {
   methods: {
     sendRequest () {
       this.$store.commit('Manga/SET_MANGA_FILTERED', { data: null, pagination: { last_visible_page: null } })
+      const filters = this.$route.query.filter
+      const isQueryExist = new URLSearchParams(filters).get('order_by')
       const status = (this.statusStore && this.statusStore) ? 'status=' + this.statusStore : null
       const type = (this.typeStore && this.typeStore) ? 'type=' + this.typeStore : null
       const genres = (this.genresStore) ? 'genres=' + this.genresStore : null
-      const orderBy = (this.orderByStore && this.orderByStore) ? 'order_by=' + this.orderByStore : null
+      const orderBy = (isQueryExist) ? 'order_by=' + isQueryExist.toString() : 'order_by=members'
       const title = (this.searchManga && this.searchManga.length) ? 'q=' + this.searchManga : null
       const sfw = 'sfw'
       const sort = 'sort=desc'
@@ -178,8 +133,7 @@ export default {
       tags: (state) => state.Manga.tags,
       typeStore: (state) => state.Manga.filters.type,
       genresStore: (state) => state.Manga.filters.genres,
-      statusStore: (state) => state.Manga.filters.status,
-      orderByStore: (state) => state.Manga.filters.orderBy
+      statusStore: (state) => state.Manga.filters.status
     }),
     type: {
       get () {
@@ -203,14 +157,6 @@ export default {
       },
       set (newStatus) {
         this.$store.state.Manga.filters.status = newStatus
-      }
-    },
-    orderBy: {
-      get () {
-        return this.orderByStore
-      },
-      set (newOrderBy) {
-        this.$store.state.Manga.filters.orderBy = newOrderBy
       }
     }
   }

@@ -61,25 +61,6 @@
 
           <v-list-item>
             <v-list-item-action>
-              <v-list-item-title>order By</v-list-item-title>
-              <v-chip-group
-                v-model="orderBy"
-                column
-                active-class="primary--text"
-              >
-                <v-chip
-                  v-for="order in orders"
-                  :value="order"
-                  outlined
-                  :key="order"
-                  >{{ order }}</v-chip
-                >
-              </v-chip-group>
-            </v-list-item-action>
-          </v-list-item>
-          <v-divider></v-divider>
-          <v-list-item>
-            <v-list-item-action>
               <v-list-item-title>status</v-list-item-title>
               <v-chip-group
                 v-model="status"
@@ -97,21 +78,6 @@
             </v-list-item-action>
           </v-list-item>
 
-          <v-divider></v-divider>
-
-          <v-list-item>
-            <v-list-item-action>
-              <v-switch disabled v-model="sfw" color="purple"></v-switch>
-            </v-list-item-action>
-            <v-list-item-title>filter out adult anime</v-list-item-title>
-          </v-list-item>
-
-          <v-list-item>
-            <v-list-item-action>
-              <v-switch v-model="score" color="purple"></v-switch>
-            </v-list-item-action>
-            <v-list-item-title>score</v-list-item-title>
-          </v-list-item>
         </v-list>
 
         <v-card-actions>
@@ -132,23 +98,8 @@ export default {
   data: () => ({
     sfw: true,
     menu: false,
-    score: true,
     query: null,
     types: ['tv', 'movie', 'ova', 'special', 'ona', 'music'],
-    orders: [
-      'title',
-      'type',
-      'rating',
-      'start_date',
-      'end_date',
-      'episodes',
-      'score',
-      'scored_by',
-      'rank',
-      'popularity',
-      'members',
-      'favorites'
-    ],
     searchAnime: '',
     animesStatus: ['upcoming', 'airing', 'complete']
   }),
@@ -156,10 +107,12 @@ export default {
   methods: {
     sendRequest () {
       this.$store.commit('Anime/SET_ANIME_FILTERED', { data: null, pagination: { last_visible_page: null } })
+      const filters = this.$route.query.filter
+      const isQueryExist = new URLSearchParams(filters).get('order_by')
       const status = (this.statusStore && this.statusStore) ? 'status=' + this.statusStore : null
       const type = (this.typeStore && this.typeStore) ? 'type=' + this.typeStore : null
       const genres = (this.genresStore && this.genresStore) ? 'genres=' + this.genresStore : null
-      const orderBy = (this.orderByStore && this.orderByStore) ? 'order_by=' + this.orderByStore : null
+      const orderBy = (isQueryExist) ? 'order_by=' + isQueryExist.toString() : 'order_by=members'
       const title = (this.searchAnime && this.searchAnime.length) ? 'q=' + this.searchAnime : null
       const sfw = 'sfw'
       const sort = 'sort=desc'
@@ -175,8 +128,7 @@ export default {
       tags: (state) => state.Anime.tags,
       typeStore: (state) => state.Anime.filters.type,
       genresStore: (state) => state.Anime.filters.genres,
-      statusStore: (state) => state.Anime.filters.status,
-      orderByStore: (state) => state.Anime.filters.orderBy
+      statusStore: (state) => state.Anime.filters.status
     }),
     type: {
       get () {
@@ -200,14 +152,6 @@ export default {
       },
       set (newStatus) {
         this.$store.state.Anime.filters.status = newStatus
-      }
-    },
-    orderBy: {
-      get () {
-        return this.orderByStore
-      },
-      set (newOrderBy) {
-        this.$store.state.Anime.filters.orderBy = newOrderBy
       }
     }
   }

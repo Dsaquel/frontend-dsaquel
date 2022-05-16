@@ -1,6 +1,18 @@
 <template>
   <v-container>
     <CardFilterAnime />
+    <v-btn @click="show = !show">sort
+      <v-icon v-text="show ? 'mdi-chevron-up' : 'mdi-chevron-down'"></v-icon>
+    </v-btn>
+    <v-radio-group  v-show="show" v-model="radioGroup">
+      <v-radio
+        v-for="order in orders"
+        @change="getSort(order)"
+        :key="order"
+        :label="order"
+        :value="order"
+      />
+    </v-radio-group>
     <v-row v-if="animeFiltered">
       <v-col
         cols="12"
@@ -47,13 +59,41 @@ export default {
     CardFilterAnime
   },
   data: () => ({
-    selected: ''
+    show: false,
+    orders: [
+      'title',
+      'type',
+      'rating',
+      'start_date',
+      'end_date',
+      'episodes',
+      'score',
+      'scored_by',
+      'rank',
+      'popularity',
+      'members',
+      'favorites'
+    ],
+    selected: '',
+    radioGroup: ''
   }),
   beforeCreate () {
     const query = this.$route.query.filter
     this.$store.dispatch('Anime/GET_ANIME_FILTERED', query)
   },
+  mounted () {
+    const query = this.$route.query.filter
+    const params = new URLSearchParams(query)
+    this.radioGroup = params.get('order_by').toString()
+  },
   methods: {
+    getSort (selected) {
+      const query = this.$route.query.filter
+      const params = new URLSearchParams(query)
+      params.set('order_by', selected)
+      const newQuery = params.toString()
+      this.$router.push({ query: { filter: newQuery } })
+    },
     getPagination (page) {
       const query = this.$route.query.filter
       const params = new URLSearchParams(query)
