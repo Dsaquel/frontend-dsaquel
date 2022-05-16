@@ -57,8 +57,9 @@
       >
         <div class="ml-5 text-h4">Current anime aired</div>
         <v-slide-group v-if="animeSeasonNow"
-          class="ma-2 pa-2"
+          class="my-2"
           center-active
+          show-arrows="always"
         >
           <v-slide-item
             v-for="(item, i) in animeSeasonNow"

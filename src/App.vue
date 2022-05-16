@@ -12,26 +12,9 @@
       <v-toolbar-title>Dsaquel</v-toolbar-title>
 
       <v-spacer></v-spacer>
-      <div @mouseleave="hoverThemeBtn = false">
-        <v-btn
-          :disabled="hoverThemeBtn"
-          @mouseover="hoverThemeBtn = true"
-          icon
-        >
+        <v-btn @click="switchTheme" icon>
           <v-icon>mdi-theme-light-dark</v-icon>
         </v-btn>
-        <v-slide-x-transition>
-
-          <v-btn
-            v-show="hoverThemeBtn"
-            @click="switchTheme"
-            icon
-          >
-            <v-icon v-text="this.$vuetify.theme.dark ? 'mdi-weather-night' : 'mdi-white-balance-sunny'"></v-icon>
-          </v-btn>
-
-        </v-slide-x-transition>
-      </div>
       <v-menu
         v-if="token !== null"
         bottom
@@ -74,7 +57,8 @@
       <template v-slot:extension>
         <v-tabs
           v-model="tab"
-          align-with-title
+          centered
+          center-active
         >
           <v-tabs-slider color="green"></v-tabs-slider>
           <v-tab
@@ -358,7 +342,6 @@ export default {
   data () {
     return {
       isDark: true,
-      hoverThemeBtn: false,
       footersContent: [
         { icon: 'mdi-home', to: '/' },
         { icon: 'mdi-bullseye-arrow', to: '/objective' },

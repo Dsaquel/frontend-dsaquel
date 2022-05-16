@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-slide-group v-if="animeUpcoming" class="my-2">
+    <v-slide-group v-if="animeUpcoming" class="my-2" show-arrows="always">
       <v-slide-item
         v-for="(anime, i) in animeUpcoming"
         :key="i"
@@ -39,7 +39,7 @@
       </v-slide-item>
     </v-slide-group>
     <SlideCardLoader v-else />
-    <v-slide-group v-if="topManga" class="my-2">
+    <v-slide-group v-if="topManga" class="my-2" show-arrows="always">
       <v-slide-item
         v-for="(manga, i) in topManga"
         :key="i"
@@ -76,7 +76,7 @@
       </v-slide-item>
     </v-slide-group>
     <SlideCardLoader v-else />
-    <v-slide-group v-if="topCharacters" class="my-2">
+    <v-slide-group v-if="topCharacters" class="my-2" show-arrows="always">
       <v-slide-item
         v-for="(character, i) in topCharacters"
         :key="i"

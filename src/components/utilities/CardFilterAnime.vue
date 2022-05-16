@@ -1,11 +1,11 @@
 <template>
-  <div class="d-flex flex-wrap align-center">
+  <v-form @submit="sendRequest" class="d-flex flex-wrap align-center">
     <v-text-field
       class="mr-4"
       v-model="searchAnime"
       label="One piece"
     ></v-text-field>
-    <v-btn class="mr-6" @click="sendRequest" color="success">search</v-btn>
+    <v-btn class="mr-6" @click="sendRequest" color="success" type="submit" hidden>search</v-btn>
     <v-menu :close-on-content-click="menu" max-width="max-content">
       <template v-slot:activator="{ on, attrs }">
         <v-btn icon color="primary" dark v-bind="attrs" v-on="on">
@@ -121,7 +121,7 @@
         </v-card-actions>
       </v-card>
     </v-menu>
-  </div>
+  </v-form>
 </template>
 
 <script>

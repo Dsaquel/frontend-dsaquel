@@ -1,22 +1,22 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import detailsStuff from './modules/detailsStuff'
 import stuff from './modules/stuff'
-import filterStuff from './modules/filterStuff'
-import pageNotFound from './modules/pageNotFound'
 import account from './modules/account'
 import gloabal from './modules/global'
+import filterStuff from './modules/filterStuff'
+import detailsStuff from './modules/detailsStuff'
+import pageNotFound from './modules/pageNotFound'
 
 Vue.use(VueRouter)
 
 const routes =
 [
-  ...detailsStuff,
   ...stuff,
-  ...filterStuff,
-  ...pageNotFound,
   ...account,
-  ...gloabal
+  ...gloabal,
+  ...filterStuff,
+  ...detailsStuff,
+  ...pageNotFound
 ]
 
 const router = new VueRouter({
