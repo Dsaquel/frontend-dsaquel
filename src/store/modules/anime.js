@@ -42,10 +42,10 @@ const state = {
   },
   anime: null,
   filters: {
-    type: [],
-    genres: [],
-    status: [],
-    orderBy: []
+    type: null,
+    genres: null,
+    status: null,
+    orderBy: null
   },
   animeFiltered: null,
   animeSeasonNow: null,

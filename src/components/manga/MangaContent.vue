@@ -63,6 +63,11 @@ export default {
     selected: '',
     progressBar: false
   }),
+  beforeCreate () {
+    if (this.$route.query.filter) {
+      this.$router.replace({ name: 'mangaFilter', query: { filter: this.$route.query.filter } })
+    }
+  },
   methods: {
     affectTag (tag) {
       this.selected = tag

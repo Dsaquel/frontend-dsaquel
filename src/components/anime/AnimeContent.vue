@@ -102,6 +102,11 @@ export default {
     CardFilterAnime,
     SlideCardLoader
   },
+  beforeCreate () {
+    if (this.$route.query.filter) {
+      this.$router.replace({ name: 'animeFilter', query: { filter: this.$route.query.filter } })
+    }
+  },
   data: () => ({
     page: 1,
     model: [],

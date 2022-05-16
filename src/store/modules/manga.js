@@ -92,10 +92,10 @@ const state = {
   },
   manga: null,
   filters: {
-    type: [],
-    genres: [],
-    status: [],
-    orderBy: []
+    type: null,
+    genres: null,
+    status: null,
+    orderBy: null
   },
   pickMangas: null,
   mangaPicking: null,

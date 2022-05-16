@@ -156,17 +156,17 @@ export default {
   methods: {
     sendRequest () {
       this.$store.commit('Anime/SET_ANIME_FILTERED', { data: null, pagination: { last_visible_page: null } })
-      const status = (this.statusStore && this.statusStore.length) ? 'status=' + this.statusStore : null
-      const type = (this.typeStore && this.typeStore.length) ? 'type=' + this.typeStore : null
-      const genres = (this.genresStore && this.genresStore.length) ? 'genres=' + this.genresStore : null
-      const orderBy = (this.orderByStore && this.orderByStore.length) ? 'order_by=' + this.orderByStore : null
+      const status = (this.statusStore && this.statusStore) ? 'status=' + this.statusStore : null
+      const type = (this.typeStore && this.typeStore) ? 'type=' + this.typeStore : null
+      const genres = (this.genresStore && this.genresStore) ? 'genres=' + this.genresStore : null
+      const orderBy = (this.orderByStore && this.orderByStore) ? 'order_by=' + this.orderByStore : null
       const title = (this.searchAnime && this.searchAnime.length) ? 'q=' + this.searchAnime : null
       const sfw = 'sfw'
       const sort = 'sort=desc'
       const group = [{ title }, { type }, { sfw }, { genres }, { orderBy }, { status }, { sort }]
       group.forEach(element => Object.keys(element).forEach((k) => element[k] === null && delete element[k]))
       const query = group.filter(value => Object.keys(value).length !== 0).map(value => Object.values(value)[0]).join('&')
-      this.$router.push({ path: '/anime/filters', query: { filter: query } })
+      this.$router.push({ path: '/anime', query: { filter: query } })
     }
   },
   watch: {},
