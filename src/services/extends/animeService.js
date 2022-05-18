@@ -10,6 +10,15 @@ export default class Anime extends ServiceApi {
     }
   }
 
+  // async getEpisode (payload) {
+  //   try {
+  //     const res = await this.get(`/public/episode/${payload.title}/${payload.type}`)
+  //     return res.data?.link[0]
+  //   } catch (err) {
+  //     return err.data
+  //   }
+  // }
+
   async getAnimeFiltered (query) {
     try {
       const res = await this.get(`/public/animeFiltered?${query}`)

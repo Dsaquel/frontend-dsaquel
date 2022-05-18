@@ -65,7 +65,7 @@
               v-if="anime.trailer"
                 class="iframe"
                 :src="anime.trailer.embedUrl"
-              ></iframe>
+              />
             </div>
           </v-card-text>
         </v-col>
@@ -88,18 +88,26 @@ export default {
   beforeMount () {
     this.$store.dispatch('Anime/GET_ANIME', this.$route.params.id)
   },
+  mounted () {
+    // console.log('toto')
+    // this.$store.dispatch('Anime/GET_EPISODE', 'One piece')
+  },
   beforeDestroy () {
     this.$store.commit('Anime/SET_ANIME', null)
   },
   methods: {
     insertAnime () {
       this.$store.dispatch('Anime/INSERT_ANIME', this.anime)
+      // TODO: delete ?
+      // const type = (this.anime.type) ? this.anime.type : 'tv'
+      // this.$store.dispatch('Anime/GET_EPISODE', { title: this.anime.title.default, type })
     }
   },
   computed: {
     ...mapState({
       anime: (state) => state.Anime.anime,
-      loader: (state) => state.Anime.loader
+      loader: (state) => state.Anime.loader,
+      iframe: (state) => state.Anime.iframe
     })
   }
 }

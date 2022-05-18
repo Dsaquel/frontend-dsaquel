@@ -1,30 +1,20 @@
 <template>
   <v-app
     id="app"
-    :style="{background: $vuetify.theme.themes[theme].background}"
+    :style="{ background: $vuetify.theme.themes[theme].background }"
   >
-    <v-app-bar
-      clipped-left
-      app
-    >
+    <v-app-bar clipped-left app>
       <v-app-bar-nav-icon @click="isOpened = !isOpened" />
 
       <v-toolbar-title>Dsaquel</v-toolbar-title>
 
       <v-spacer></v-spacer>
-        <v-btn @click="switchTheme" icon>
-          <v-icon>mdi-theme-light-dark</v-icon>
-        </v-btn>
-      <v-menu
-        v-if="token !== null"
-        bottom
-      >
+      <v-btn @click="switchTheme" icon>
+        <v-icon>mdi-theme-light-dark</v-icon>
+      </v-btn>
+      <v-menu v-if="token !== null" bottom>
         <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            icon
-            v-bind="attrs"
-            v-on="on"
-          >
+          <v-btn icon v-bind="attrs" v-on="on">
             <v-icon>mdi-dots-vertical</v-icon>
           </v-btn>
         </template>
@@ -46,44 +36,24 @@
         </v-list>
       </v-menu>
 
-      <v-btn
-        v-else
-        @click="dialog = true"
-      >
+      <v-btn v-else @click="dialog = true">
         <v-icon class="mr-2">mdi-account-circle</v-icon>
         login
       </v-btn>
 
       <template v-slot:extension>
-        <v-tabs
-          v-model="tab"
-          centered
-          center-active
-        >
+        <v-tabs v-model="tab" centered center-active>
           <v-tabs-slider color="green"></v-tabs-slider>
-          <v-tab
-            v-for="tab in tabs"
-            :key="tab.name"
-            :to="tab.to"
-          >
+          <v-tab v-for="tab in tabs" :key="tab.name" :to="tab.to">
             {{ tab.name }}
           </v-tab>
         </v-tabs>
       </template>
     </v-app-bar>
 
-    <v-navigation-drawer
-      v-model="isOpened"
-      clipped
-      app
-    >
+    <v-navigation-drawer v-model="isOpened" clipped app>
       <v-list>
-        <v-list-item
-          v-for="item in menus"
-          :key="item.title"
-          link
-          :to="item.to"
-        >
+        <v-list-item v-for="item in menus" :key="item.title" link :to="item.to">
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -95,14 +65,8 @@
       </v-list>
 
       <template v-slot:append>
-        <div
-          v-if="token"
-          class="pa-2"
-        >
-          <v-btn
-            block
-            @click="logout"
-          > Logout </v-btn>
+        <div v-if="token" class="pa-2">
+          <v-btn block @click="logout"> Logout </v-btn>
         </div>
       </template>
     </v-navigation-drawer>
@@ -119,10 +83,7 @@
           <v-card-title class="flex-nowrap align-start">
             {{ etatStep }}
             <v-spacer></v-spacer>
-            <v-btn
-              @click="clearDialog"
-              icon
-            >
+            <v-btn @click="clearDialog" icon>
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </v-card-title>
@@ -138,11 +99,7 @@
                   <p class="mb-5 font-weight-medium grey--text text--darken-1">
                     Login
                   </p>
-                  <v-form
-                    v-model="userLogin"
-                    ref="login"
-                    lazy-validation
-                  >
+                  <v-form v-model="userLogin" ref="login" lazy-validation>
                     <v-text-field
                       v-model="emailLogin"
                       :rules="emailRules"
@@ -168,13 +125,7 @@
                       <div
                         @click="step = 'resetPassword'"
                         style="cursor: pointer"
-                        class="
-                          app-link
-                          text-decoration-none
-                          primary--text
-                          font-weight-medium
-                          d-inline-block
-                        "
+                        class="app-link text-decoration-none primary--text font-weight-medium d-inline-block"
                         replace
                       >
                         forgot password ?
@@ -185,24 +136,20 @@
                         color="success"
                         class="mr-4"
                         @click="login"
-                      >login</v-btn>
+                        >login</v-btn
+                      >
                     </v-card-actions>
                   </v-form>
                   <v-divider></v-divider>
                   <div class="d-flex flex-column text-center body-2">
                     <span class="my-5">No account ?</span>
-                    <v-btn
-                      @click="step = 'createAccount'"
-                      color="warning"
-                    >create account</v-btn>
+                    <v-btn @click="step = 'createAccount'" color="warning"
+                      >create account</v-btn
+                    >
                   </div>
                 </v-window-item>
                 <v-window-item value="createAccount">
-                  <v-form
-                    lazy-validation
-                    ref="register"
-                    v-model="register"
-                  >
+                  <v-form lazy-validation ref="register" v-model="register">
                     <v-text-field
                       v-model="emailRegister"
                       :rules="emailRules"
@@ -237,7 +184,8 @@
                         :disabled="!register"
                         :loading="loader.registerLoad"
                         @click="signup"
-                      >Register</v-btn>
+                        >Register</v-btn
+                      >
                     </v-card-actions>
                   </v-form>
                 </v-window-item>
@@ -269,20 +217,48 @@
                 </v-window-item>
                 <v-window-item value="emailSend">
                   <h2>Email envoyé à {{ emailRegister }}</h2>
-                  <v-btn @click="resendLink" :loading="loader.resendLinkLoad">resend email</v-btn>
+                  <v-btn @click="resendLink" :loading="loader.resendLinkLoad"
+                    >resend email</v-btn
+                  >
                 </v-window-item>
                 <v-window-item value="recupAccountPassword">
                   <h2>Recup your account if you send the correct password</h2>
-                  <v-form lazy-validation ref="checkPasswordValid" v-model="checkPasswordValid">
-                    <v-text-field disabled :value="emailRecupAccount"></v-text-field>
-                    <v-text-field v-model="passwordRecupAccount" :rules="passwordRules" required label="password"></v-text-field>
+                  <v-form
+                    lazy-validation
+                    ref="checkPasswordValid"
+                    v-model="checkPasswordValid"
+                  >
+                    <v-text-field
+                      disabled
+                      :value="emailRecupAccount"
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="passwordRecupAccount"
+                      :rules="passwordRules"
+                      required
+                      label="password"
+                    ></v-text-field>
                   </v-form>
-                  <v-btn @click="sendPasswordRecupAccount" :disabled="!checkPasswordValid" :loading="loader.recupAccountByPasswordLoad" color="success">send</v-btn>
+                  <v-btn
+                    @click="sendPasswordRecupAccount"
+                    :disabled="!checkPasswordValid"
+                    :loading="loader.recupAccountByPasswordLoad"
+                    color="success"
+                    >send</v-btn
+                  >
                 </v-window-item>
                 <v-window-item value="recupAccountBtn">
                   <h2>Do you want recup this account ?</h2>
-                  <v-text-field disabled :value="emailRecupAccount"></v-text-field>
-                  <v-btn @click="sendChoiceRecupAccount" :loading="loader.recupAccountByBtnLoad" color="success">yes</v-btn>
+                  <v-text-field
+                    disabled
+                    :value="emailRecupAccount"
+                  ></v-text-field>
+                  <v-btn
+                    @click="sendChoiceRecupAccount"
+                    :loading="loader.recupAccountByBtnLoad"
+                    color="success"
+                    >yes</v-btn
+                  >
                   <v-btn @click="clearDialog" color="error">No</v-btn>
                 </v-window-item>
               </v-window>
@@ -290,31 +266,23 @@
           </v-card-text>
         </v-card>
       </v-dialog>
-      <v-snackbar
-        v-model="successSnackbar"
-        :timeout="2000"
-        color="success"
-      >{{
+      <v-snackbar v-model="successSnackbar" :timeout="2000" color="success">{{
         message
       }}</v-snackbar>
       <v-snackbar
         v-model="errorSnackbar"
         :timeout="2000"
         color="red accent-2"
-      >{{ message }}</v-snackbar>
+        >{{ message }}</v-snackbar
+      >
       <router-view :key="$route.fullPath" />
     </v-main>
     <v-card>
       <v-footer padless>
-        <v-card
-          flat
-          tile
-          width="100%"
-          class="lighten-1 text-center"
-        >
+        <v-card flat tile width="100%" class="lighten-1 text-center">
           <v-card-text>
             <v-btn
-              v-for="content, i in footersContent"
+              v-for="(content, i) in footersContent"
               :key="i"
               class="mx-4"
               icon
@@ -456,11 +424,17 @@ export default {
     },
     sendPasswordRecupAccount () {
       if (this.$refs.checkPasswordValid.validate()) {
-        this.$store.dispatch('Account/RECUP_ACCOUNT_BY_PASSWORD', { email: this.emailRecupAccount, password: this.passwordRecupAccount })
+        this.$store.dispatch('Account/RECUP_ACCOUNT_BY_PASSWORD', {
+          email: this.emailRecupAccount,
+          password: this.passwordRecupAccount
+        })
       }
     },
     sendChoiceRecupAccount () {
-      this.$store.dispatch('Account/RECUP_ACCOUNT_BY_BTN', this.emailRecupAccount)
+      this.$store.dispatch(
+        'Account/RECUP_ACCOUNT_BY_BTN',
+        this.emailRecupAccount
+      )
     }
   },
   watch: {
@@ -471,7 +445,7 @@ export default {
       },
       deep: true
     },
-    '$route' (to, from) {
+    $route (to, from) {
       if (this.$route.query.account === 'deleted') {
         this.dialog = false
         this.emailLogin = ''

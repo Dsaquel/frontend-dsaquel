@@ -39,7 +39,9 @@ export default class Account extends ServiceApi {
 
   async emailConfirmation (payload) {
     try {
-      const res = await this.get(`/auth/confirmation/${payload.email}/${payload.token}`)
+      const res = await this.get(
+        `/auth/confirmation/${payload.email}/${payload.token}`
+      )
       return res.data?.message
     } catch (err) {
       return err.data
