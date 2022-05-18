@@ -4,15 +4,11 @@ import {
   SET_ANIME,
   SET_LOADER,
   SET_SEASON_NOW,
-  // TODO:delete ?
-  // SET_IFRAME_TEST,
   SET_ANIME_FILTERED,
   SET_TOP_REVIEWS_ANIME
 } from '@/store/types/mutation-types'
 import {
   GET_ANIME,
-  // TODO:delete ?
-  // GET_EPISODE,
   INSERT_ANIME,
   GET_REVIEWS_ANIME,
   GET_ANIME_FILTERED,
@@ -45,8 +41,6 @@ const state = {
     insertAnimeLoad: false
   },
   anime: null,
-  // TODO:delete ?
-  // iframe: null,
   filters: {
     type: null,
     genres: null,
@@ -87,20 +81,13 @@ const actions = {
   async [GET_ANIME] ({
     commit
   }, id) {
-    console.log(id)
     const res = await Anime.getAnime(id)
     if (res.error) {
-      console.log(res)
+      console.log(res.error)
     } else {
-      console.log(res)
       commit(SET_ANIME, res)
     }
   },
-  // TODO:delete ?
-  // async [GET_EPISODE] ({ commit }, payload) {
-  //   const res = await Anime.getEpisode(payload)
-  //   commit(SET_IFRAME_TEST, res)
-  // },
   async [INSERT_ANIME] ({ commit }, stuff) {
     commit(SET_LOADER, { insertAnimeLoad: true })
     const data = {

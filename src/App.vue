@@ -350,7 +350,7 @@ export default {
           title: 'Account',
           to: '/account/personnal-informations'
         },
-        { title: 'Library', icon: 'mdi-view-dashboard', to: 'library' },
+        { title: 'Library', icon: 'mdi-view-dashboard', to: '/library' },
         { title: 'Suggestion', icon: 'mdi-mail', to: '/suggestion' }
       ]
     }
@@ -440,7 +440,6 @@ export default {
   watch: {
     newStep: {
       handler (newvalue) {
-        console.log(newvalue)
         this.step = newvalue
       },
       deep: true

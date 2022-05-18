@@ -18,7 +18,6 @@ export const RECUP_ACCOUNT_BY_PASSWORD = 'RECUP_ACCOUNT_BY_PASSWORD'
 
 // anime action
 export const GET_ANIME = 'GET_ANIME'
-export const GET_EPISODE = 'GET_EPISODE'
 export const INSERT_ANIME = 'INSERT_ANIME'
 export const GET_REVIEWS_ANIME = 'GET_REVIEWS_ANIME'
 export const GET_ANIME_FILTERED = 'GET_ANIME_FILTERED'

@@ -27,7 +27,6 @@ export default {
 
   methods: {
     getPagination () {
-      console.log(this.pageWanted)
       this.$emit('getPagination', this.pageWanted)
     }
   },

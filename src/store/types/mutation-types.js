@@ -8,7 +8,6 @@ export const SET_USER_INFORMATION = 'SET_USER_INFORMATION'
 // anime mutations
 export const SET_ANIME = 'SET_ANIME'
 export const SET_SEASON_NOW = 'SET_SEASON_NOW'
-export const SET_IFRAME_TEST = 'SET_IFRAME_TEST'
 export const SET_ANIME_FILTERED = 'SET_ANIME_FILTERED'
 export const SET_TOP_REVIEWS_ANIME = 'SET_TOP_REVIEWS_ANIME'
 
