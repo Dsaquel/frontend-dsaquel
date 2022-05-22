@@ -82,14 +82,11 @@ const actions = {
     commit
   }, id) => {
     const res = await Anime.getAnime(id)
-    if (res.error) {
-      console.log(res.error)
-    } else {
-      commit(SET_ANIME, res)
-    }
+    res.error
+      ? console.log(res.error)
+      : commit(SET_ANIME, res)
   },
   [INSERT_ANIME]: async ({ commit }, stuff) => {
-    console.log(store.state.Account.token)
     commit(SET_LOADER, { insertAnimeLoad: true })
     const data = {
       stuff,

@@ -498,13 +498,13 @@ export default {
       return this.$vuetify.theme.dark ? 'dark' : 'light'
     },
     ...mapState({
-      message: (state) => state.message,
+      message: (state) => state.Snackbar.message,
       token: (state) => state.Account.token,
       newStepStore: (state) => state.Account.newStep,
       loader: (state) => state.Account.loader,
-      successSnackbarStore: (state) => state.successSnackbar,
+      successSnackbarStore: (state) => state.Snackbar.successSnackbar,
       emailRecupAccount: (state) => state.Account.emailRecupAccount,
-      errorSnackbarStore: (state) => state.errorSnackbar
+      errorSnackbarStore: (state) => state.Snackbar.errorSnackbar
     }),
     newStep: {
       get () {

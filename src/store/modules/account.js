@@ -106,12 +106,10 @@ const actions = {
       } else {
         stuffOffline.token = token
         const res = await Account.insertStuff(stuffOffline)
-        if (res.error) {
-          console.log(res.error)
-        } else {
-          SnackBar.success(res)
-          localStorage.removeItem('userStuff')
-        }
+        res.error
+          ? console.log(res.error)
+          : SnackBar.success(res)
+        localStorage.removeItem('userStuff')
       }
     }
     commit(SET_LOADER, { loginLoad: false })
@@ -154,11 +152,11 @@ const actions = {
   },
   [CHECK_COOKIE]: ({ commit }, payload) => {
     const user = Cookies.get('user')
-    if (user === undefined) {
+    if (user) {
+      commit(SET_USER_TOKEN, user)
+    } else {
       Cookies.set('user', payload, { expires: 365 })
       commit(SET_USER_TOKEN, payload)
-    } else {
-      commit(SET_USER_TOKEN, user)
     }
   },
   [RESET_PASSWORD]: async ({
@@ -166,13 +164,10 @@ const actions = {
   }, payload) => {
     commit(SET_LOADER, { resetPasswordLoad: true })
     const res = await Account.resetPassword(payload)
-    if (res.error) {
-      SnackBar.error(res.error)
-      router.push('/')
-    } else {
-      SnackBar.success(res)
-      router.push('/')
-    }
+    res.error
+      ? SnackBar.error(res.error)
+      : SnackBar.success(res)
+    router.push('/')
     commit(SET_LOADER, { resetPasswordLoad: false })
   },
   [DELETE_ACCOUNT]: async ({ commit, state, dispatch }, email) => {
@@ -196,39 +191,31 @@ const actions = {
   },
   [GET_USER_STUFF]: async ({ commit, state }) => {
     const res = await Account.getUserStuff(state.token)
-    if (res.error) {
-      SnackBar.error(res.error)
-    } else {
-      commit(SET_USER_STUFF, res)
-    }
+    res.error
+      ? SnackBar.error(res.error)
+      : commit(SET_USER_STUFF, res)
   },
   [GET_USER_PROFILE]: async ({ commit, state }) => {
     const res = await Account.getUserProfile(state.token)
-    if (res.error) {
-      SnackBar.error(res.error)
-    } else {
-      commit(SET_USER_INFORMATION, res)
-    }
+    res.error
+      ? SnackBar.error(res.error)
+      : commit(SET_USER_INFORMATION, res)
   },
   [EDIT_USER_PROFILE]: async ({ commit, state }, payload) => {
     commit(SET_LOADER, { editUserProfile: true })
     payload.token = state.token
     const res = await Account.editUserProfile(payload)
-    if (res.error) {
-      SnackBar.error(res.error)
-    } else {
-      SnackBar.success(res)
-    }
+    res.error
+      ? SnackBar.error(res.error)
+      : SnackBar.success(res)
     commit(SET_LOADER, { editUserProfile: false })
   },
   async [DELETE_USER_STUFF] ({ commit, state }, _id) {
     const payload = { token: state.token, _id }
     const res = await Account.deleteUserStuff(payload)
-    if (res.error) {
-      SnackBar.error(res.error)
-    } else {
-      commit(SET_USER_STUFF, res)
-    }
+    res.error
+      ? SnackBar.error(res.error)
+      : commit(SET_USER_STUFF, res)
   },
   [EMAIL_CONFIRMATION]: async ({
     commit
@@ -250,11 +237,9 @@ const actions = {
   }, email) => {
     commit(SET_LOADER, { linkPasswordResetLoad: true })
     const res = await Account.linkPasswordReset({ email })
-    if (res.error) {
-      SnackBar.error(res.error)
-    } else {
-      SnackBar.success(res)
-    }
+    res.error
+      ? SnackBar.error(res.error)
+      : SnackBar.success(res)
     commit(SET_LOADER, { linkPasswordResetLoad: false })
   },
   [RECUP_ACCOUNT_BY_BTN]: async ({ commit, dispatch }, email) => {

@@ -2,7 +2,7 @@ import ArrayService from '@/services/serviceArray'
 import SnackBarService from '@/services/serviceSnackBar'
 import MangaService from '@/services/extends/mangaService'
 import AccountService from '@/services/extends/accountService'
-
+import store from '@/store'
 import {
   SET_MANGA,
   SET_LOADER,
@@ -159,7 +159,7 @@ const actions = {
     const data = {
       stuff,
       id: stuff.id,
-      token: this.state.Account.token,
+      token: store.state.Account.token,
       type: 'manga'
     }
     const res = await Account.insertStuff(data)
