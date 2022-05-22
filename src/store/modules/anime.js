@@ -1,5 +1,8 @@
+import store from '@/store'
+import SnackBarService from '@/services/serviceSnackBar'
 import AnimeService from '@/services/extends/animeService'
 import AccountService from '@/services/extends/accountService'
+
 import {
   SET_ANIME,
   SET_LOADER,
@@ -17,6 +20,7 @@ import {
 
 const Anime = new AnimeService()
 const Account = new AccountService()
+const SnackBar = new SnackBarService()
 
 const state = {
   tags: [
@@ -55,32 +59,28 @@ const state = {
 const getters = {}
 
 const mutations = {
-  [SET_ANIME] (state, anime) {
+  [SET_ANIME]: (state, anime) => {
     state.anime = anime
   },
-  [SET_LOADER] (state, data) {
+  [SET_LOADER]: (state, data) => {
     state.loader[Object.keys(data).toString()] = data[Object.keys(data)[0]]
   },
-  [SET_SEASON_NOW] (state, data) {
+  [SET_SEASON_NOW]: (state, data) => {
     state.animeSeasonNow = data
   },
-  // TODO:delete ?
-  // [SET_IFRAME_TEST] (state, link) {
-  //   state.iframe = link
-  // },
-  [SET_ANIME_FILTERED] (state, animes) {
+  [SET_ANIME_FILTERED]: (state, animes) => {
     state.animeFiltered = animes.data
     state.lastPageVisible = animes.pagination.last_visible_page
   },
-  [SET_TOP_REVIEWS_ANIME] (state, data) {
+  [SET_TOP_REVIEWS_ANIME]: (state, data) => {
     state.topReviewsAnime = data
   }
 }
 
 const actions = {
-  async [GET_ANIME] ({
+  [GET_ANIME]: async ({
     commit
-  }, id) {
+  }, id) => {
     const res = await Anime.getAnime(id)
     if (res.error) {
       console.log(res.error)
@@ -88,12 +88,13 @@ const actions = {
       commit(SET_ANIME, res)
     }
   },
-  async [INSERT_ANIME] ({ commit }, stuff) {
+  [INSERT_ANIME]: async ({ commit }, stuff) => {
+    console.log(store.state.Account.token)
     commit(SET_LOADER, { insertAnimeLoad: true })
     const data = {
       stuff,
       id: stuff.id,
-      token: this.state.Account.token,
+      token: store.state.Account.token,
       type: 'anime'
     }
     const res = await Account.insertStuff(data)
@@ -105,28 +106,28 @@ const actions = {
         }
       }))
     } else {
-      this.commit('setSuccessSnackbar', res)
+      SnackBar.success(res)
     }
     commit(SET_LOADER, { insertAnimeLoad: false })
   },
-  async [GET_REVIEWS_ANIME] ({
+  [GET_REVIEWS_ANIME]: async ({
     commit, state
-  }) {
-    if (state.topReviewsAnime !== null) return
+  }) => {
+    if (state.topReviewsAnime) return
     const res = await Anime.getReviewsAnime()
     commit(SET_TOP_REVIEWS_ANIME, res)
   },
-  async [GET_ANIME_FILTERED] ({
+  [GET_ANIME_FILTERED]: async ({
     commit
-  }, query) {
+  }, query) => {
     const res = await Anime.getAnimeFiltered(query)
     commit(SET_ANIME_FILTERED, res)
   },
-  async [GET_ANIME_SEASON_NOW] ({
+  [GET_ANIME_SEASON_NOW]: async ({
     commit,
     state
-  }) {
-    if (state.animeSeasonNow !== null) return
+  }) => {
+    if (state.animeSeasonNow) return
     const res = await Anime.getAnimeSeasonNow()
     commit(SET_SEASON_NOW, res)
   }

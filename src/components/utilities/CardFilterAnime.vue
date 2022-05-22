@@ -18,8 +18,8 @@
             <v-list-item-content>
               <v-list-item-title>Genres</v-list-item-title>
               <v-chip-group
-                column
                 v-model="genres"
+                column
                 active-class="primary--text"
               >
                 <v-chip

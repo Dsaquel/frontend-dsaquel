@@ -1,3 +1,5 @@
+import ArrayService from '@/services/serviceArray'
+import SnackBarService from '@/services/serviceSnackBar'
 import MangaService from '@/services/extends/mangaService'
 import AccountService from '@/services/extends/accountService'
 
@@ -18,8 +20,10 @@ import {
   GET_MANGA_RECOMMENDATIONS
 } from '@/store/types/action-types'
 
+const Array = new ArrayService()
 const Manga = new MangaService()
 const Account = new AccountService()
+const SnackBar = new SnackBarService()
 
 const state = {
   tags: [{
@@ -107,16 +111,7 @@ const state = {
 }
 
 const getters = {
-  mostMangaFavorites (state) {
-    const array = state.mostMangaFavorites
-    if (array !== null) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]]
-      }
-      return array
-    }
-  },
+  mostMangaFavorites: (state) => Array.suffle(state.mostMangaFavorites),
   pickMangas (state) {
     const pickMangas = state.pickMangas
     if (pickMangas !== null) {
@@ -176,7 +171,7 @@ const actions = {
         }
       }))
     } else {
-      this.commit('setSuccessSnackbar', res)
+      SnackBar.success(res)
     }
     commit(SET_LOADER, { insertMangaLoad: false })
   },

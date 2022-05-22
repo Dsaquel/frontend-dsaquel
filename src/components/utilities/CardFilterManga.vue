@@ -19,6 +19,7 @@
               <v-list-item-title>Genres</v-list-item-title>
               <v-chip-group
                 v-model="genres"
+                column
                 active-class="primary--text"
               >
                 <v-chip
@@ -42,6 +43,7 @@
               <v-list-item-title>type manga</v-list-item-title>
               <v-chip-group
                 v-model="type"
+                column
                 active-class="primary--text"
               >
                 <v-chip
@@ -60,7 +62,7 @@
           <v-list-item>
             <v-list-item-action>
               <v-list-item-title>status</v-list-item-title>
-              <v-chip-group v-model="status" active-class="primary--text">
+              <v-chip-group v-model="status" column active-class="primary--text">
                 <v-chip
                   v-for="mangaStatus in mangasStatus"
                   :value="mangaStatus"

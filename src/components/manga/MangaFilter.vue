@@ -75,7 +75,7 @@ export default {
     selected: '',
     radioGroup: ''
   }),
-  beforeCreate () {
+  beforeCreate: function () {
     const query = this.$route.query.filter
     this.$store.dispatch('Manga/GET_MANGA_FILTERED', query)
   },

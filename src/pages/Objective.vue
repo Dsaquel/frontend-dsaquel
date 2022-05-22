@@ -2,7 +2,7 @@
   <v-container>
     <v-card class="pa-3">
 
-      Ce site est un comme un "jeu" pour moi, j'y fais ce que je veux, ce qu'il me plait tout en apprenant de nouvelle
+      Ce site est comme un "jeu" pour moi, j'y fais ce que je veux, ce qu'il me plait tout en apprenant de nouvelle
       chose. <br>
       L'objectif premier de ce site est toujours d'apprendre de nouvelle chose et pas de rester sur ses acquis, cela
       va de soi que je pratique quotidiennement. <br>
@@ -28,7 +28,7 @@
 export default {
   name: 'objective',
   data: () => ({
-    tasks: ['refact le router', 'Pouvoir supprimé son compte (désactiver)', 'Faire load les data tant qu\'ils ne sont pas dispo', 'Pouvoir récupérer son compte s\'il a été supprimé', 'Rajouter du content dans les détails (anime/manga)']
+    tasks: ['cleaner son code']
   })
 }
 </script>

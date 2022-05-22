@@ -12,13 +12,13 @@ const state = {
 const getters = {}
 
 const mutations = {
-  [SET_CHARACTER] (state, character) {
+  [SET_CHARACTER]: (state, character) => {
     state.character = character
   }
 }
 
 const actions = {
-  async [GET_CHARACTER] ({ commit }, id) {
+  [GET_CHARACTER]: async ({ commit }, id) => {
     const res = await Character.getCharacter(id)
     commit(SET_CHARACTER, res)
   }
