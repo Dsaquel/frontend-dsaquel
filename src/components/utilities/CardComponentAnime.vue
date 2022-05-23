@@ -48,13 +48,13 @@
 export default {
   name: 'CardComponentAnime',
   props: {
-    item: {
-      type: Object,
-      required: true
-    },
     i: {
       type: Number,
       required: false
+    },
+    item: {
+      type: Object,
+      required: true
     }
   },
   data: () => ({

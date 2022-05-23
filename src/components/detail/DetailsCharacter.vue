@@ -36,14 +36,14 @@
 <script>
 export default {
   name: 'DetailsCharacter',
-  beforeMount () {
+  beforeMount: function () {
     this.$store.dispatch('Character/GET_CHARACTER', this.$route.params.id)
   },
-  beforeDestroy () {
+  beforeDestroy: function () {
     this.$store.commit('Character/SET_CHARACTER', null)
   },
   computed: {
-    character () {
+    character: function () {
       return this.$store.state.Character.character
     }
   }

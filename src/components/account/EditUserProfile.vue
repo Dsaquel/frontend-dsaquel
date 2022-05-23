@@ -50,21 +50,19 @@
 import { mapState } from 'vuex'
 export default {
   name: 'EditUserProfile',
-  data () {
-    return {
-      model: null,
-      email: '',
-      pseudo: '',
-      hasSaved: false,
-      hasSend: false,
-      isEditing: null
-    }
-  },
-  beforeMount () {
+  data: () => ({
+    model: null,
+    email: '',
+    pseudo: '',
+    hasSaved: false,
+    hasSend: false,
+    isEditing: null
+  }),
+  beforeMount: function () {
     this.$store.dispatch('Account/GET_USER_PROFILE')
   },
   methods: {
-    save () {
+    save: function () {
       this.isEditing = !this.isEditing
       this.hasSaved = true
       const pseudo = document.getElementById('pseudo').value
@@ -72,11 +70,11 @@ export default {
       payload.pseudo = pseudo
       this.$store.dispatch('Account/EDIT_USER_PROFILE', payload)
     },
-    resetPassword () {
+    resetPassword: function () {
       this.hasSend = true
       this.$store.dispatch('Account/LINK_PASSWORD_RESET', this.emailState)
     },
-    deleteAccount () {
+    deleteAccount: function () {
       this.$store.dispatch('Account/DELETE_ACCOUNT', this.emailState)
     }
   },

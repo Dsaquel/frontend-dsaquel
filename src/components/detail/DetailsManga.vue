@@ -146,14 +146,14 @@
 import { mapState } from 'vuex'
 export default {
   name: 'DetailsManga',
-  beforeMount () {
+  beforeMount: function () {
     this.$store.dispatch('Manga/GET_MANGA', this.$route.params.id)
   },
-  beforeDestroy () {
+  beforeDestroy: function () {
     this.$store.commit('Manga/SET_MANGA', null)
   },
   methods: {
-    insertManga () {
+    insertManga: function () {
       this.$store.dispatch('Manga/INSERT_MANGA', this.manga)
     }
   },

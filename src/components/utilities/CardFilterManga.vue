@@ -113,7 +113,7 @@ export default {
     ]
   }),
   methods: {
-    sendRequest () {
+    sendRequest: function () {
       this.$store.commit('Manga/SET_MANGA_FILTERED', { data: null, pagination: { last_visible_page: null } })
       const filters = this.$route.query.filter
       const isQueryExist = new URLSearchParams(filters).get('order_by')
@@ -138,28 +138,17 @@ export default {
       statusStore: (state) => state.Manga.filters.status
     }),
     type: {
-      get () {
-        return this.typeStore
-      },
-      set (newType) {
-        this.$store.state.Manga.filters.type = newType
-      }
+      get: function () { return this.typeStore },
+      set: function (newType) { this.$store.state.Manga.filters.type = newType }
     },
     genres: {
-      get () {
-        return this.genresStore
-      },
-      set (newGenres) {
-        this.$store.state.Manga.filters.genres = newGenres
-      }
+      get: function () { return this.genresStore },
+      set: function (newGenres) { this.$store.state.Manga.filters.genres = newGenres }
     },
     status: {
-      get () {
-        return this.statusStore
-      },
-      set (newStatus) {
-        this.$store.state.Manga.filters.status = newStatus
-      }
+      get: function () { return this.statusStore },
+
+      set: function (newStatus) { this.$store.state.Manga.filters.status = newStatus }
     }
   }
 }

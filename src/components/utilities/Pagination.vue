@@ -19,26 +19,24 @@ export default {
       required: true
     }
   },
-  data () {
-    return {
-      pageWanted: 1
-    }
-  },
+  data: () => ({
+    pageWanted: 1
+  }),
 
   methods: {
-    getPagination () {
+    getPagination: function () {
       this.$emit('getPagination', this.pageWanted)
     }
   },
   computed: {
     page: {
-      get () {
+      get: function () {
         const query = this.$route.query.filter
         const params = new URLSearchParams(query)
         const page = (params.get('page')) ? parseInt(params.get('page'), 10) : 1
         return page
       },
-      set (newValue) {
+      set: function (newValue) {
         this.pageWanted = newValue
       }
     }

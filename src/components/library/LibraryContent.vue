@@ -42,11 +42,11 @@ export default {
     CardComponentAnime
   },
 
-  beforeCreate () {
+  beforeCreate: function () {
     this.$store.dispatch('Account/GET_USER_STUFF')
   },
   methods: {
-    deleteStuff (_id) {
+    deleteStuff: function (_id) {
       this.$store.dispatch('Account/DELETE_USER_STUFF', _id)
     }
   },

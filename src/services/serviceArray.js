@@ -1,5 +1,5 @@
 export default class serviceArray {
-  suffle (array) {
+  suffle = (array) => {
     if (array) {
       for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -10,7 +10,7 @@ export default class serviceArray {
     return null
   }
 
-  filter (array, filter) {
+  filter = (array, filter) => {
     const animes = array.filter(element => element.type === filter)
     const result = []
     animes.forEach(element => {

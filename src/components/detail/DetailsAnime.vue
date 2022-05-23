@@ -85,14 +85,14 @@ export default {
   name: 'DetailsAnime',
   data: () => ({
   }),
-  beforeMount () {
+  beforeMount: function () {
     this.$store.dispatch('Anime/GET_ANIME', this.$route.params.id)
   },
-  beforeDestroy () {
+  beforeDestroy: function () {
     this.$store.commit('Anime/SET_ANIME', null)
   },
   methods: {
-    insertAnime () {
+    insertAnime: function () {
       this.$store.dispatch('Anime/INSERT_ANIME', this.anime)
     }
   },

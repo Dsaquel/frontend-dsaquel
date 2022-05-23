@@ -93,11 +93,15 @@ const actions = {
     if (token.error && token.password) {
       const payload = { step: 'recupAccountPassword', email: token.email }
       commit(SET_STEP_AUTH, payload)
-    } else if (token.error) {
-      SnackBar.error(token.error)
     } else if (token.valid) {
       const payload = { step: 'recupAccountBtn', email: token.email }
       commit(SET_STEP_AUTH, payload)
+    } else if (token.resendEmail && token.error) {
+      const payload = { step: 'emailSend', email: null }
+      commit(SET_STEP_AUTH, payload)
+      SnackBar.error(token.error)
+    } else if (token.error) {
+      SnackBar.error(token.error)
     } else {
       dispatch(CHECK_COOKIE, token)
       const stuffOffline = JSON.parse(localStorage.getItem('userStuff'))
@@ -127,11 +131,15 @@ const actions = {
     if (res.error && res.password) {
       const payload = { step: 'recupAccountPassword', email: res.email }
       commit(SET_STEP_AUTH, 'recupAccountPassword', payload)
-    } else if (res.error) {
-      SnackBar.error(res.error)
     } else if (res.valid) {
       const payload = { step: 'recupAccountBtn', email: res.email }
       commit(SET_STEP_AUTH, payload)
+    } else if (res.resendEmail && res.error) {
+      const payload = { step: 'emailSend', email: null }
+      SnackBar.error(res.error)
+      commit(SET_STEP_AUTH, payload)
+    } else if (res.error) {
+      SnackBar.error(res.error)
     } else {
       commit(SET_STEP_AUTH, { step: 'emailSend' })
       SnackBar.success(res)
@@ -221,12 +229,10 @@ const actions = {
     commit
   }, newUser) => {
     const res = await Account.emailConfirmation(newUser)
-    if (res.error) {
-      SnackBar.error(res.error)
-    } else {
-      SnackBar.success(res)
-      router.push('/')
-    }
+    res.error
+      ? SnackBar.error(res.error)
+      : SnackBar.success(res)
+    router.push('/')
   },
   [STAY_USER_CONNECTED]: async ({ commit }, userToken) => {
     commit(SET_USER_TOKEN, userToken)

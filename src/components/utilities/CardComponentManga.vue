@@ -66,12 +66,12 @@
 export default {
   name: 'CardComponentManga',
   props: {
+    i: {
+      type: Number
+    },
     item: {
       type: Object,
       required: true
-    },
-    i: {
-      type: Number
     }
   },
   data: () => ({

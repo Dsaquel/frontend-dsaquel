@@ -22,7 +22,7 @@ export default new Vuex.Store({
   mutations: {
   },
   actions: {
-    async [SEND_MESSAGE] ({ commit }, payload) {
+    async [SEND_MESSAGE] (payload) {
       const res = await Mail.sendMessage(payload)
       res.error
         ? SnackBar.error(res.error)

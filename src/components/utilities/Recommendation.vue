@@ -3,8 +3,8 @@
     flat
     dark
     class="d-flex mx-auto"
-    max-width="300"
     elevation="10"
+    max-width="300"
   >
     <v-col
       class="
@@ -18,7 +18,6 @@
             class="elevation-6"
             :aspect-ratio="4 / 5"
             :src="item.entry.images.jpg.image_url"
-            width="100%"
             max-width="212"
           />
           <v-card-title
@@ -73,7 +72,7 @@ export default {
   }),
 
   methods: {
-    sendPagination () {
+    sendPagination: function () {
       this.$emit('sendPagination', this.page)
     }
   }

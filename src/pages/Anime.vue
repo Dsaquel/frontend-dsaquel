@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import AnimeContent from '../components/anime/AnimeContent'
 export default {
   name: 'Anime',
@@ -15,11 +15,19 @@ export default {
     this.$store.dispatch('Home/GET_ANIME_UPCOMING')
     this.$store.dispatch('Anime/GET_REVIEWS_ANIME')
     this.$store.dispatch('Anime/GET_ANIME_SEASON_NOW')
+    // this.reviews()
+    // this.upcoming()
+    // this.seasonNow()
   },
   computed: {
     ...mapState({
-      homeContent: (state) => state.Home.homeContent,
-      animes: (state) => state.Anime.animes
+      animes: (state) => state.Anime.animes,
+      homeContent: (state) => state.Home.homeContent
+    }),
+    ...mapActions({
+      upcoming: 'Home/GET_ANIME_UPCOMING',
+      reviews: 'Anime/GET_REVIEWS_ANIME',
+      seasonNow: 'Anime/GET_ANIME_SEASON_NOW'
     })
   }
 }

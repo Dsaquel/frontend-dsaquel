@@ -35,6 +35,10 @@
 export default {
   name: 'HoverComponent',
   props: {
+    i: {
+      type: Number,
+      required: false
+    },
     item: {
       type: Object,
       required: false
@@ -42,14 +46,10 @@ export default {
     loading: {
       type: Object,
       required: false
-    },
-    i: {
-      type: Number,
-      required: false
     }
   },
   computed: {
-    theme () {
+    theme: function () {
       return this.$vuetify.theme.dark ? 'dark' : 'light'
     }
   },

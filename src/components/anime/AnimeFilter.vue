@@ -77,32 +77,32 @@ export default {
     selected: '',
     radioGroup: ''
   }),
-  beforeCreate () {
+  beforeCreate: function () {
     const query = this.$route.query.filter
     this.$store.dispatch('Anime/GET_ANIME_FILTERED', query)
   },
-  mounted () {
+  mounted: function () {
     const query = this.$route.query.filter
     const params = new URLSearchParams(query)
     this.radioGroup = params.get('order_by').toString()
   },
   methods: {
-    getSort (selected) {
+    getSort: function (selected) {
       const query = this.$route.query.filter
       const params = new URLSearchParams(query)
       params.set('order_by', selected)
       const newQuery = params.toString()
       this.$router.push({ query: { filter: newQuery } })
     },
-    getPagination (page) {
+    affectTag: function (tag) {
+      this.selected = tag
+    },
+    getPagination: function (page) {
       const query = this.$route.query.filter
       const params = new URLSearchParams(query)
       params.set('page', page)
       const newQuery = params.toString()
       this.$router.push({ query: { filter: newQuery } })
-    },
-    affectTag (tag) {
-      this.selected = tag
     }
   },
   computed: {

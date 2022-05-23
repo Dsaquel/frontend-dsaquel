@@ -90,20 +90,21 @@
 
 <script>
 import { mapState } from 'vuex'
+// import
 import Reviews from '../utilities/Reviews'
-import CardComponentAnime from '../utilities/CardComponentAnime'
 import CardFilterAnime from '../utilities/CardFilterAnime'
 import SlideCardLoader from '../utilities/SlideCardLoader'
+import CardComponentAnime from '../utilities/CardComponentAnime'
 
 export default {
   name: 'AnimeContent',
   components: {
     Reviews,
-    CardComponentAnime,
     CardFilterAnime,
-    SlideCardLoader
+    SlideCardLoader,
+    CardComponentAnime
   },
-  beforeCreate () {
+  beforeCreate: function () {
     if (this.$route.query.filter) {
       this.$router.replace({ name: 'animeFilter', query: { filter: this.$route.query.filter } })
     }
@@ -134,10 +135,10 @@ export default {
     }
   },
   methods: {
-    affectTag (tag) {
+    affectTag: (tag) => {
       this.genres = tag
     },
-    sendPagination (page) {
+    sendPagination: (page) => {
       this.page = page
     }
   },

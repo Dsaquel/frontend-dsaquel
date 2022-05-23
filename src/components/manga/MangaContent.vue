@@ -44,42 +44,42 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import PickManga from '../utilities/PickManga'
-import CardComponentManga from '../utilities/CardComponentManga'
 import Recommendation from '../utilities/Recommendation'
 import CardFilterManga from '../utilities/CardFilterManga'
 import SlideCardLoader from '../utilities/SlideCardLoader'
+import CardComponentManga from '../utilities/CardComponentManga'
 
 export default {
   name: 'MangaContent',
   components: {
     PickManga,
-    CardComponentManga,
     Recommendation,
     CardFilterManga,
-    SlideCardLoader
+    SlideCardLoader,
+    CardComponentManga
   },
   data: () => ({
     page: 1,
     selected: '',
     progressBar: false
   }),
-  beforeCreate () {
+  beforeCreate: function () {
     if (this.$route.query.filter) {
       this.$router.replace({ name: 'mangaFilter', query: { filter: this.$route.query.filter } })
     }
   },
   methods: {
-    affectTag (tag) {
+    affectTag: function (tag) {
       this.selected = tag
     },
-    sendPagination (page) {
+    sendPagination: function (page) {
       this.page = page
     },
-    sendPicking (idManga) {
+    sendPicking: function (idManga) {
       this.progressBar = true
       this.$store.dispatch('Manga/GET_MANGA_RECOMMENDATIONS', idManga)
     },
-    resetPick () {
+    resetPick: function () {
       this.$store.commit('Manga/SET_MANGA_RECOMMENDATIONS', { data: null })
       this.$store.state.Manga.mangaRecommendations = null
     }
@@ -92,8 +92,8 @@ export default {
         state.Manga.currentRecommendationTitle
     }),
     ...mapGetters({
-      mostMangaFavorites: 'Manga/mostMangaFavorites',
-      topManga: 'Home/topManga'
+      topManga: 'Home/topManga',
+      mostMangaFavorites: 'Manga/mostMangaFavorites'
     })
   }
 }

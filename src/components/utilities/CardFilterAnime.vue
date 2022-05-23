@@ -99,13 +99,12 @@ export default {
     sfw: true,
     menu: false,
     query: null,
-    types: ['tv', 'movie', 'ova', 'special', 'ona', 'music'],
     searchAnime: '',
-    animesStatus: ['upcoming', 'airing', 'complete']
+    animesStatus: ['upcoming', 'airing', 'complete'],
+    types: ['tv', 'movie', 'ova', 'special', 'ona', 'music']
   }),
-  props: {},
   methods: {
-    sendRequest () {
+    sendRequest: function () {
       this.$store.commit('Anime/SET_ANIME_FILTERED', { data: null, pagination: { last_visible_page: null } })
       const filters = this.$route.query.filter
       const isQueryExist = new URLSearchParams(filters).get('order_by')
@@ -122,7 +121,6 @@ export default {
       this.$router.push({ path: '/anime', query: { filter: query } })
     }
   },
-  watch: {},
   computed: {
     ...mapState({
       tags: (state) => state.Anime.tags,
@@ -131,28 +129,23 @@ export default {
       statusStore: (state) => state.Anime.filters.status
     }),
     type: {
-      get () {
+      get: function () {
         return this.typeStore
       },
-      set (newType) {
-        this.$store.state.Anime.filters.type = newType
-      }
+      set: function (newType) { this.$store.state.Anime.filters.type = newType }
+
     },
     genres: {
       get () {
         return this.genresStore
       },
-      set (newGenres) {
-        this.$store.state.Anime.filters.genres = newGenres
-      }
+      set: function (newGenres) { this.$store.state.Anime.filters.genres = newGenres }
     },
     status: {
-      get () {
+      get: function () {
         return this.statusStore
       },
-      set (newStatus) {
-        this.$store.state.Anime.filters.status = newStatus
-      }
+      set: function (newStatus) { this.$store.state.Anime.filters.status = newStatus }
     }
   }
 }

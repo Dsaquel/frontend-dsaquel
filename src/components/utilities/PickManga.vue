@@ -6,14 +6,15 @@
   <v-row v-if="pickMangas" align="center">
     <v-col v-for="manga in pickMangas" :key="manga.id" md="3" cols="6" lg="4">
       <v-card height="100%" class="d-flex align-center">
-          <v-tooltip left>
+        <v-img v-if="mobile || tablet" :src="manga.image.jpg.medium" @click="sendPicking(manga.id, manga.title.default)" />
+        <v-tooltip v-else left>
             <template v-slot:activator="{ on, attrs }">
               <v-img
                 v-on="on"
                 class="blur"
                 v-bind="attrs"
-                :src="manga.image.jpg.medium"
                 @dblclick="sendPicking(manga.id, manga.title.default)"
+                :src="manga.image.jpg.medium"
                 style="cursor: pointer"
               />
             </template>
@@ -30,7 +31,6 @@
                 </template>
                 </p>
                 <p>score: {{ manga.score }}</p>
-                <br />
               </v-card-text>
               <v-card-text
                 >genres:
@@ -63,13 +63,19 @@ export default {
     isBlur: false
   }),
   methods: {
-    sendPicking (idManga, title) {
+    sendPicking: function (idManga, title) {
       this.$store.commit('Manga/SET_MANGA_RECOMMENDATIONS', { data: null })
       this.$store.state.Manga.currentRecommendationTitle = title
       this.$emit('sendPicking', idManga)
     }
   },
   computed: {
+    mobile: function () {
+      return this.$vuetify.breakpoint.xs
+    },
+    tablet: function () {
+      return this.$vuetify.breakpoint.sm
+    },
     ...mapGetters({
       pickMangas: 'Manga/pickMangas'
     })

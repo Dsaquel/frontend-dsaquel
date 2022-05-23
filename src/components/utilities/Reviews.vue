@@ -19,8 +19,9 @@
           <v-card-title
             class="d-inline-block text-truncate"
             style="max-width: 200px"
-            >{{ item.anime.title }}</v-card-title
-          >
+            >{{ item.anime.title }}
+            </v-card-title>
+          <v-btn :to="{ name: 'detailAnime', params: { id: item.animeId} }">more</v-btn>
           <div class="font-weight-regular">
             Chapters/episode viewed : {{ item.chapters_read }}
             {{ item.episodes_watched }}
@@ -129,7 +130,7 @@ export default {
   }),
 
   methods: {
-    sendPagination () {
+    sendPagination: function () {
       this.$emit('sendPagination', this.page)
     }
   }

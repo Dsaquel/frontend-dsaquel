@@ -216,7 +216,7 @@
                   </v-form>
                 </v-window-item>
                 <v-window-item value="emailSend">
-                  <h2>Email envoyé à {{ emailRegister }}</h2>
+                  <h2>Email envoyé à {{ emailRegister || emailLogin }}</h2>
                   <v-btn @click="resendLink" :loading="loader.resendLinkLoad"
                     >resend email</v-btn
                   >
@@ -396,9 +396,7 @@ export default {
     },
     resendLink () {
       const newUser = {
-        email: this.emailRegister,
-        password: this.passwordRegister,
-        pseudo: this.pseudo
+        email: (this.emailRegister) ? this.emailRegister : this.emailLogin
       }
       this.$store.dispatch('Account/RESEND_LINK', newUser)
     },
