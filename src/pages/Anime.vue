@@ -15,9 +15,6 @@ export default {
     this.$store.dispatch('Home/GET_ANIME_UPCOMING')
     this.$store.dispatch('Anime/GET_REVIEWS_ANIME')
     this.$store.dispatch('Anime/GET_ANIME_SEASON_NOW')
-    // this.reviews()
-    // this.upcoming()
-    // this.seasonNow()
   },
   computed: {
     ...mapState({

@@ -1,19 +1,35 @@
-import axios from 'redaxios'
+import axiosInstance from '@/config/axios'
 
 export default class ServiceApi {
   get = (ressource) => {
-    return axios.get(`${process.env.VUE_APP_API_URL}${ressource}`)
+    try {
+      return axiosInstance.get(ressource)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   post = (ressource, payload) => {
-    return axios.post(`${process.env.VUE_APP_API_URL}${ressource}`, payload)
+    try {
+      return axiosInstance.post(ressource, payload)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   put = (ressource, payload) => {
-    return axios.put(`${process.env.VUE_APP_API_URL}${ressource}`, payload)
+    try {
+      return axiosInstance.put(ressource, payload)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   delete = (ressource, payload) => {
-    return axios.delete(`${process.env.VUE_APP_API_URL}${ressource}`, { data: payload })
+    try {
+      return axiosInstance.delete(ressource, { data: payload })
+    } catch (error) {
+      console.log(error)
+    }
   }
 }

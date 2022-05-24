@@ -38,7 +38,7 @@
       </v-snackbar>
       <v-btn @click="deleteAccount" :loading="loader.deleteAccountLoad" color="error" plain>delete account</v-btn>
         <v-spacer></v-spacer>
-        <v-btn :disabled="!isEditing" :loading="loader.editUserProfile" color="success" @click="save">
+        <v-btn :disabled="!isEditing" :loading="loader.editUserProfile" color="success" @click="editUserAccount">
           Save
         </v-btn>
       </v-card-actions>
@@ -62,13 +62,11 @@ export default {
     this.$store.dispatch('Account/GET_USER_PROFILE')
   },
   methods: {
-    save: function () {
+    editUserAccount: function () {
       this.isEditing = !this.isEditing
       this.hasSaved = true
       const pseudo = document.getElementById('pseudo').value
-      const payload = {}
-      payload.pseudo = pseudo
-      this.$store.dispatch('Account/EDIT_USER_PROFILE', payload)
+      this.$store.dispatch('Account/EDIT_USER_PROFILE', { pseudo })
     },
     resetPassword: function () {
       this.hasSend = true
