@@ -42,8 +42,7 @@ export default {
   methods: {
     sendMessage () {
       if (this.$refs.suggestion.validate()) {
-        const payload = { name: this.name, message: this.message }
-        this.$store.dispatch('SEND_MESSAGE', payload)
+        this.$store.dispatch('SEND_MESSAGE', { name: this.name, message: this.message })
       }
     }
   }

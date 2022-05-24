@@ -16,13 +16,8 @@ Vue.use(Vuex)
 const Mail = new MailService()
 
 export default new Vuex.Store({
-  state: {
-  },
-  getters: {},
-  mutations: {
-  },
   actions: {
-    async [SEND_MESSAGE] (payload) {
+    [SEND_MESSAGE]: async ({ commit }, payload) => {
       const res = await Mail.sendMessage(payload)
       res.error
         ? SnackBar.error(res.error)
