@@ -5,7 +5,7 @@
     </v-col>
     <v-col cols="12" lg="8">
       <v-sheet class="mx-auto" elevation="5">
-        <div class="text-h4">Top manga</div>
+        <div class="text-h5">Top manga</div>
         <v-slide-group v-if="topManga" class="my-2" show-arrows="always">
           <v-slide-item v-for="(item, i) in topManga" :key="i">
             <CardComponentManga :item="item" :i="i" />
@@ -14,7 +14,7 @@
         <SlideCardLoader v-else />
       </v-sheet>
       <v-sheet class="mx-auto" elevation="5">
-        <div class="text-h4">Most favorites manga</div>
+        <div class="text-h5">Most favorites manga</div>
         <v-slide-group v-if="mostMangaFavorites" class="my-2" show-arrows="always">
           <v-slide-item v-for="(item, i) in mostMangaFavorites" :key="i">
             <CardComponentManga :item="item" :i="i" />

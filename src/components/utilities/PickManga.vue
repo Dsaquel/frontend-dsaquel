@@ -1,6 +1,6 @@
 <template>
 <v-container>
-<div class="text-h3">
+<div class="text-h5">
       Pick a manga
     </div>
   <v-row v-if="pickMangas" align="center">

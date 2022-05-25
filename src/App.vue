@@ -166,7 +166,7 @@
                           : 'mdi-eye-off-outline'
                       "
                       @click:append="toggleShowPassword = !toggleShowPassword"
-                      label="Mot de passe"
+                      label="password"
                       required
                     ></v-text-field>
                     <v-text-field
@@ -177,7 +177,7 @@
                       required
                     ></v-text-field>
                     <v-card-actions class="justify-end px-0 pb-0">
-                      <v-btn @click="step = 'index'">back off</v-btn>
+                      <v-btn @click="step = 'index'">back</v-btn>
                       <v-btn
                         color="warning"
                         class="mr-4"
@@ -202,7 +202,7 @@
                       required
                     ></v-text-field>
                     <v-card-actions class="justify-end px-0 pb-0">
-                      <v-btn @click="step = 'index'">back off</v-btn>
+                      <v-btn @click="step = 'index'">back</v-btn>
                       <v-btn
                         :disabled="!resetPassword"
                         :loading="loader.linkPasswordResetLoad"
@@ -216,7 +216,7 @@
                   </v-form>
                 </v-window-item>
                 <v-window-item value="emailSend">
-                  <h2>Email envoyé à {{ emailRegister || emailLogin }}</h2>
+                  <h2>Email send at {{ emailRegister || emailLogin }}</h2>
                   <v-btn @click="resendLink" :loading="loader.resendLinkLoad"
                     >resend email</v-btn
                   >

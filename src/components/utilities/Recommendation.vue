@@ -27,8 +27,8 @@
           >
           <div class="font-weight-regular">
             <v-list-item class="grow">
-              <router-link
-              :to="{name: 'detailManga', params: {id: item.entry.mal_id}}">more</router-link>
+              <v-btn plain
+              :to="{name: 'detailManga', params: {id: item.entry.mal_id}}">more</v-btn>
 
               <v-row align="center" justify="end">
                 <v-icon disabled class="mr-1"> mdi-heart </v-icon>

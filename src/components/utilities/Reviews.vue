@@ -21,10 +21,8 @@
             style="max-width: 200px"
             >{{ item.anime.title }}
             </v-card-title>
-          <v-btn :to="{ name: 'detailAnime', params: { id: item.animeId} }">more</v-btn>
           <div class="font-weight-regular">
-            Chapters/episode viewed : {{ item.chapters_read }}
-            {{ item.episodes_watched }}
+            Chapters or episodes viewed : {{ item.chaptersRead || item.episodesWatched }}
           </div>
 
           <v-dialog v-model="dialog">
@@ -55,6 +53,7 @@
               </v-btn>
             </v-card>
           </v-dialog>
+          <v-btn plain :to="{ name: 'detailAnime', params: { id: item.animeId} }">more</v-btn>
         </v-col>
       </v-col>
       <v-col class="pa-0">

@@ -16,7 +16,7 @@
           show-arrows-on-hover
           hide-delimiters
         >
-          <div class="text-h4">Anime announced</div>
+          <div class="text-h5">Anime announced</div>
           <v-carousel-item
             v-for="(animes, i) in carousel"
             :key="i"
@@ -55,7 +55,7 @@
         class="mx-auto"
         elevation="5"
       >
-        <div class="ml-5 text-h4">Current anime aired</div>
+        <div class="ml-5 text-h5">Current anime aired</div>
         <v-slide-group v-if="animeSeasonNow"
           class="my-2"
           center-active
@@ -135,10 +135,10 @@ export default {
     }
   },
   methods: {
-    affectTag: (tag) => {
+    affectTag: function (tag) {
       this.genres = tag
     },
-    sendPagination: (page) => {
+    sendPagination: function (page) {
       this.page = page
     }
   },

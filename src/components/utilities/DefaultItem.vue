@@ -9,7 +9,7 @@
     </v-img>
 
     <v-card-title
-      style="max-width: 150px"
+      style="max-width: 250px"
       class="d-inline-block text-truncate"
       >{{ item.title }}</v-card-title
     >
